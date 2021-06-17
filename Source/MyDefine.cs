@@ -209,6 +209,32 @@ namespace THHSoftMiddle.Source
 
     }
 
+    public struct Comport
+    {
+        string comport;
+        int baudrate;
+
+        public Comport(string comport, int baudrate)
+        {
+            this.comport = comport;
+            this.baudrate = baudrate;
+        }
+    }
+
+    public class Job_Step
+    {
+
+        //input string from barcode reader
+
+
+        //compare string to next step
+
+
+        //format output
+
+
+        //put to other system by some method as comport virtua or set click control
+    }
     public class MyDefine
     {
 

@@ -30,6 +30,7 @@ namespace THHSoftMiddle
         private void InitializeComponent()
         {
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lbStatus = new System.Windows.Forms.Label();
             this.cbbListWindow = new System.Windows.Forms.ComboBox();
             this.txtHWND = new System.Windows.Forms.TextBox();
             this.txtMouseX = new System.Windows.Forms.TextBox();
@@ -41,7 +42,6 @@ namespace THHSoftMiddle
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnTestClick = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
-            this.lbStatus = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,6 +65,14 @@ namespace THHSoftMiddle
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Position Click";
+            // 
+            // lbStatus
+            // 
+            this.lbStatus.Location = new System.Drawing.Point(4, 180);
+            this.lbStatus.Name = "lbStatus";
+            this.lbStatus.Size = new System.Drawing.Size(258, 20);
+            this.lbStatus.TabIndex = 5;
+            this.lbStatus.Text = "status";
             // 
             // cbbListWindow
             // 
@@ -163,14 +171,6 @@ namespace THHSoftMiddle
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btn_click);
-            // 
-            // lbStatus
-            // 
-            this.lbStatus.Location = new System.Drawing.Point(4, 180);
-            this.lbStatus.Name = "lbStatus";
-            this.lbStatus.Size = new System.Drawing.Size(258, 20);
-            this.lbStatus.TabIndex = 5;
-            this.lbStatus.Text = "status";
             // 
             // ClickWindow
             // 

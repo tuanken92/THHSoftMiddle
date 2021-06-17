@@ -45,6 +45,7 @@ namespace THHSoftMiddle
 
             //list_click
             list_click = new List<Point>();
+
         }
         void Init_UI()
         {
@@ -60,9 +61,6 @@ namespace THHSoftMiddle
             cbbListWindow.DataSource = new BindingSource(dic_programssss, null);
             cbbListWindow.DisplayMember = "Key";
             cbbListWindow.ValueMember = "Key";
-
-
-            
         }
 
         private void btn_click(object sender, EventArgs e)
@@ -155,6 +153,8 @@ namespace THHSoftMiddle
             }
         }
 
-       
+
+        
+
     }
 }

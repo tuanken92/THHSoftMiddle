@@ -14,18 +14,33 @@ namespace THHSoftMiddle
 {
     public partial class THHSoftMiddle : Form
     {
+        public const int MOUSEEVENTF_LEFTDOWN = 0x02;
+        public const int MOUSEEVENTF_LEFTUP = 0x04;
+        private const int BN_CLICKED = 245;
+
+        RS232 rs232;
+        TcpIPClient tcp_client;
+
         public THHSoftMiddle()
         {
             InitializeComponent();
             Initial();
-            test_calculor();
         }
 
         
 
         void Initial()
         {
-            
+            //comport
+            string com_name = txtComName.Text;
+            int com_baud = int.Parse(txtComBaud.Text);
+            rs232 = new RS232(com_name, com_baud);
+
+            //comport
+            string ip = txtTcpIP.Text;
+            int port = int.Parse(txtTcpPort.Text);
+            tcp_client = new TcpIPClient(ip, port);
+
         }
        
         private void timerDateTime_Tick(object sender, EventArgs e)
@@ -34,19 +49,60 @@ namespace THHSoftMiddle
         }
 
 
-        private static IntPtr CreateLParam(int LoWord, int HiWord)
-        {
-            return (IntPtr)((HiWord << 16) | (LoWord & 0xffff));
-        }
 
         IntPtr programHandle = IntPtr.Zero;
-
+        
         private void btn_Click_Event(object sender, EventArgs e)
         {
             var curButton = sender as Button;
             Console.WriteLine($"btn_Click_Event name = {curButton.Name}");
             switch (curButton.Name)
             {
+                #region rs232_button
+                case "btnComConnect":
+                    bool com_state = rs232.Get_State();
+                    if(!com_state)
+                    {
+                        if (rs232.Open())
+                            btnComConnect.Text = "Connected";
+                    }
+                    else
+                    {
+                        if (rs232.Close())
+                            btnComConnect.Text = "Disconnected";
+
+                    }
+                    break;
+                case "btnComClearData":
+                    lbxComDataReceive.Items.Clear();
+                    break;
+                case "btnComSend":
+                    rs232.SendData(txtComDataToSend.Text);
+                    break;
+                #endregion
+
+                #region tcpip_client_button
+                case "btnTcpOpen":
+                    bool tcp_client_state = tcp_client.Get_State();
+                    if (!tcp_client_state)
+                    {
+                        if (tcp_client.Connect())
+                            btnTcpOpen.Text = "Connected";
+                    }
+                    else
+                    {
+                        if (tcp_client.Disconnect())
+                            btnTcpOpen.Text = "Disconnected";
+
+                    }
+                    break;
+                case "btnTcpClearData":
+                    lbxTcpDataReceive.Items.Clear();
+                    break;
+                case "btnTcpSend":
+                    tcp_client.SendData(txtTcpDataToSend.Text);
+                    break;
+                #endregion
                 case "btnCapture":
                     var screen_image = MyDefine.PrintWindow(programHandle);
                     MyDefine.Save_BitMap(screen_image);
@@ -147,97 +203,15 @@ namespace THHSoftMiddle
                     bool y_parse = int.TryParse(txtMouseY.Text,out ypos);
                     if(x_parse && y_parse)
                     {
-                        //IntPtr button_ = MyDefine.FindWindowEx(programHandle, IntPtr.Zero, null, "Serial");
-                        ////MyDefine.SendMessage((int)programHandle, WM_LBUTTONUP, 0x00000000, CreateLParam(xpos, ypos));
-                        //MyDefine.SendMessage((int)button_, 0x00F5, 0, IntPtr.Zero);
-
-
                         ClickOnPointTool.ClickOnPoint(programHandle, new Point(xpos, ypos));
-
                     }
                     break;
             }
         }
 
 
-        //This is a replacement for Cursor.Position in WinForms
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        static extern bool SetCursorPos(int x, int y);
 
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
 
-        public const int MOUSEEVENTF_LEFTDOWN = 0x02;
-        public const int MOUSEEVENTF_LEFTUP = 0x04;
-
-        //This simulates a left mouse click
-        public static void LeftMouseClick(int xpos, int ypos)
-        {
-            SetCursorPos(xpos, ypos);
-            mouse_event(MOUSEEVENTF_LEFTDOWN, xpos, ypos, 0, 0);
-            mouse_event(MOUSEEVENTF_LEFTUP, xpos, ypos, 0, 0);
-        }
-
-        private const int WM_CLOSE = 16;
-        private const int BN_CLICKED = 245;
-        private void test_calculor()
-        {
-            int hwnd = 0;
-            IntPtr hwndChild = IntPtr.Zero;
-
-            //Get a handle for the Calculator Application main window
-            hwnd = (int)MyDefine.FindWindow("ApplicationFrameWindow", "Calculator");
-            if (hwnd == 0)
-            {
-                if (MessageBox.Show("Couldn't find the calculator application. Do you want to start it?", "TestWinAPI", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    System.Diagnostics.Process.Start("Calc");
-                }
-            }
-            else
-            {
-
-                //Get a handle for the "1" button
-                hwndChild = MyDefine.FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "1");
-
-                //send BN_CLICKED message
-                MyDefine.SendMessage((int)hwndChild, BN_CLICKED, 0, IntPtr.Zero);
-
-                //Get a handle for the "+" button
-                hwndChild = MyDefine.FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "+");
-
-                //send BN_CLICKED message
-                MyDefine.SendMessage((int)hwndChild, BN_CLICKED, 0, IntPtr.Zero);
-
-                //Get a handle for the "2" button
-                hwndChild = MyDefine.FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "2");
-
-                //send BN_CLICKED message
-                MyDefine.SendMessage((int)hwndChild, BN_CLICKED, 0, IntPtr.Zero);
-
-                //Get a handle for the "=" button
-                hwndChild = MyDefine.FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "=");
-
-                //send BN_CLICKED message
-                MyDefine.SendMessage((int)hwndChild, BN_CLICKED, 0, IntPtr.Zero);
-
-            }
-
-        }
-
-        private void Checkbox_Click(object sender, EventArgs e)
-        {
-            var curCheckbox = sender as CheckBox;
-            Console.WriteLine($"Checkbox_Click_Event name = {curCheckbox.Name}");
-
-            switch(curCheckbox.Name)
-            {
-                case "chbxEnter":
-                    break;
-                case "chbxTab":
-                    break;
-            }
-        }
 
         private void THHSoftMiddle_Load(object sender, EventArgs e)
         {
@@ -249,9 +223,5 @@ namespace THHSoftMiddle
             timerDateTime.Stop();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
