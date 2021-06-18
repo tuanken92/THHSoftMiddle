@@ -43,7 +43,6 @@ namespace THHSoftMiddle
             this.btnClearMouse = new System.Windows.Forms.Button();
             this.btnClick = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.chbxTab = new System.Windows.Forms.CheckBox();
             this.chbxEnter = new System.Windows.Forms.CheckBox();
             this.txtMessage = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -94,20 +93,29 @@ namespace THHSoftMiddle
             this.label12 = new System.Windows.Forms.Label();
             this.tabPageJob = new System.Windows.Forms.TabPage();
             this.tabPageDataFormat = new System.Windows.Forms.TabPage();
-            this.btnSaveFormat = new System.Windows.Forms.Button();
+            this.btnSaveDataFormat = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.txtInputStringToTest = new System.Windows.Forms.TextBox();
             this.lbOutputData = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.btnTestFormatOutput = new System.Windows.Forms.Button();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.lblCustomOutDemo = new System.Windows.Forms.Label();
+            this.nbUpdownEnd = new System.Windows.Forms.NumericUpDown();
+            this.nbUpdownBegin = new System.Windows.Forms.NumericUpDown();
+            this.chbxCutText = new System.Windows.Forms.CheckBox();
+            this.chbxTrimText = new System.Windows.Forms.CheckBox();
+            this.chbxLowerText = new System.Windows.Forms.CheckBox();
+            this.chbxUpperText = new System.Windows.Forms.CheckBox();
+            this.chbxUseCustomData = new System.Windows.Forms.CheckBox();
+            this.txtDataFormatDemo = new System.Windows.Forms.TextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.chbxTerminatingText = new System.Windows.Forms.CheckBox();
+            this.chbxTab = new System.Windows.Forms.CheckBox();
+            this.chbxCRLF = new System.Windows.Forms.CheckBox();
+            this.txtTerminatingText = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.chbxLeadingText = new System.Windows.Forms.CheckBox();
+            this.txtLeadingText = new System.Windows.Forms.TextBox();
             this.tabPageInput = new System.Windows.Forms.TabPage();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
@@ -137,6 +145,8 @@ namespace THHSoftMiddle
             this.tabPageAuto = new System.Windows.Forms.TabPage();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
+            this.cbxModeTest = new System.Windows.Forms.ComboBox();
+            this.btnLoadDataFormat = new System.Windows.Forms.Button();
             this.tabPageDev.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -149,6 +159,8 @@ namespace THHSoftMiddle
             this.tabPageDataFormat.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nbUpdownEnd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nbUpdownBegin)).BeginInit();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.tabPageInput.SuspendLayout();
@@ -280,7 +292,6 @@ namespace THHSoftMiddle
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.chbxTab);
             this.groupBox2.Controls.Add(this.chbxEnter);
             this.groupBox2.Controls.Add(this.txtMessage);
             this.groupBox2.Controls.Add(this.label3);
@@ -293,16 +304,6 @@ namespace THHSoftMiddle
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Text";
-            // 
-            // chbxTab
-            // 
-            this.chbxTab.AutoSize = true;
-            this.chbxTab.Location = new System.Drawing.Point(14, 71);
-            this.chbxTab.Name = "chbxTab";
-            this.chbxTab.Size = new System.Drawing.Size(45, 17);
-            this.chbxTab.TabIndex = 4;
-            this.chbxTab.Text = "Tab";
-            this.chbxTab.UseVisualStyleBackColor = true;
             // 
             // chbxEnter
             // 
@@ -770,7 +771,8 @@ namespace THHSoftMiddle
             // tabPageDataFormat
             // 
             this.tabPageDataFormat.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageDataFormat.Controls.Add(this.btnSaveFormat);
+            this.tabPageDataFormat.Controls.Add(this.btnLoadDataFormat);
+            this.tabPageDataFormat.Controls.Add(this.btnSaveDataFormat);
             this.tabPageDataFormat.Controls.Add(this.groupBox8);
             this.tabPageDataFormat.Controls.Add(this.groupBox7);
             this.tabPageDataFormat.Controls.Add(this.groupBox6);
@@ -782,21 +784,22 @@ namespace THHSoftMiddle
             this.tabPageDataFormat.TabIndex = 2;
             this.tabPageDataFormat.Text = "Format";
             // 
-            // btnSaveFormat
+            // btnSaveDataFormat
             // 
-            this.btnSaveFormat.Location = new System.Drawing.Point(401, 366);
-            this.btnSaveFormat.Name = "btnSaveFormat";
-            this.btnSaveFormat.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveFormat.TabIndex = 12;
-            this.btnSaveFormat.Text = "Save";
-            this.btnSaveFormat.UseVisualStyleBackColor = true;
+            this.btnSaveDataFormat.Location = new System.Drawing.Point(401, 366);
+            this.btnSaveDataFormat.Name = "btnSaveDataFormat";
+            this.btnSaveDataFormat.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveDataFormat.TabIndex = 12;
+            this.btnSaveDataFormat.Text = "Save";
+            this.btnSaveDataFormat.UseVisualStyleBackColor = true;
+            this.btnSaveDataFormat.Click += new System.EventHandler(this.btn_Click_Event);
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.cbxModeTest);
+            this.groupBox8.Controls.Add(this.txtInputStringToTest);
             this.groupBox8.Controls.Add(this.lbOutputData);
-            this.groupBox8.Controls.Add(this.button1);
-            this.groupBox8.Controls.Add(this.comboBox1);
-            this.groupBox8.Controls.Add(this.label6);
+            this.groupBox8.Controls.Add(this.btnTestFormatOutput);
             this.groupBox8.Location = new System.Drawing.Point(9, 251);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(473, 97);
@@ -804,46 +807,46 @@ namespace THHSoftMiddle
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Output Options";
             // 
+            // txtInputStringToTest
+            // 
+            this.txtInputStringToTest.Location = new System.Drawing.Point(128, 28);
+            this.txtInputStringToTest.Name = "txtInputStringToTest";
+            this.txtInputStringToTest.Size = new System.Drawing.Size(338, 20);
+            this.txtInputStringToTest.TabIndex = 4;
+            this.txtInputStringToTest.Text = "example 1234 Example";
+            this.txtInputStringToTest.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // lbOutputData
             // 
             this.lbOutputData.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lbOutputData.Location = new System.Drawing.Point(99, 57);
+            this.lbOutputData.Location = new System.Drawing.Point(128, 57);
             this.lbOutputData.Name = "lbOutputData";
-            this.lbOutputData.Size = new System.Drawing.Size(368, 23);
+            this.lbOutputData.Size = new System.Drawing.Size(339, 23);
             this.lbOutputData.TabIndex = 3;
             this.lbOutputData.Text = "Output Data";
-            this.lbOutputData.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbOutputData.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // button1
+            // btnTestFormatOutput
             // 
-            this.button1.Location = new System.Drawing.Point(13, 57);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Test";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(102, 19);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 1;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 23);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(47, 13);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Delimiter";
+            this.btnTestFormatOutput.Location = new System.Drawing.Point(13, 57);
+            this.btnTestFormatOutput.Name = "btnTestFormatOutput";
+            this.btnTestFormatOutput.Size = new System.Drawing.Size(106, 23);
+            this.btnTestFormatOutput.TabIndex = 2;
+            this.btnTestFormatOutput.Text = "Test";
+            this.btnTestFormatOutput.UseVisualStyleBackColor = true;
+            this.btnTestFormatOutput.Click += new System.EventHandler(this.btn_Click_Event);
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.checkBox2);
-            this.groupBox7.Controls.Add(this.textBox3);
+            this.groupBox7.Controls.Add(this.lblCustomOutDemo);
+            this.groupBox7.Controls.Add(this.nbUpdownEnd);
+            this.groupBox7.Controls.Add(this.nbUpdownBegin);
+            this.groupBox7.Controls.Add(this.chbxCutText);
+            this.groupBox7.Controls.Add(this.chbxTrimText);
+            this.groupBox7.Controls.Add(this.chbxLowerText);
+            this.groupBox7.Controls.Add(this.chbxUpperText);
+            this.groupBox7.Controls.Add(this.chbxUseCustomData);
+            this.groupBox7.Controls.Add(this.txtDataFormatDemo);
             this.groupBox7.Location = new System.Drawing.Point(9, 71);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(473, 74);
@@ -851,27 +854,110 @@ namespace THHSoftMiddle
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Data";
             // 
-            // checkBox2
+            // lblCustomOutDemo
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(14, 49);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(82, 17);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "Upper Case";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.lblCustomOutDemo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblCustomOutDemo.Location = new System.Drawing.Point(271, 19);
+            this.lblCustomOutDemo.Name = "lblCustomOutDemo";
+            this.lblCustomOutDemo.Size = new System.Drawing.Size(195, 20);
+            this.lblCustomOutDemo.TabIndex = 3;
+            this.lblCustomOutDemo.Text = "output";
+            this.lblCustomOutDemo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox3
+            // nbUpdownEnd
             // 
-            this.textBox3.Location = new System.Drawing.Point(13, 19);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(454, 20);
-            this.textBox3.TabIndex = 0;
+            this.nbUpdownEnd.Enabled = false;
+            this.nbUpdownEnd.Location = new System.Drawing.Point(414, 46);
+            this.nbUpdownEnd.Name = "nbUpdownEnd";
+            this.nbUpdownEnd.Size = new System.Drawing.Size(53, 20);
+            this.nbUpdownEnd.TabIndex = 2;
+            this.nbUpdownEnd.ValueChanged += new System.EventHandler(this.nbUpdown_ValueChanged);
+            // 
+            // nbUpdownBegin
+            // 
+            this.nbUpdownBegin.Enabled = false;
+            this.nbUpdownBegin.Location = new System.Drawing.Point(346, 46);
+            this.nbUpdownBegin.Name = "nbUpdownBegin";
+            this.nbUpdownBegin.Size = new System.Drawing.Size(53, 20);
+            this.nbUpdownBegin.TabIndex = 2;
+            this.nbUpdownBegin.ValueChanged += new System.EventHandler(this.nbUpdown_ValueChanged);
+            // 
+            // chbxCutText
+            // 
+            this.chbxCutText.AutoSize = true;
+            this.chbxCutText.Enabled = false;
+            this.chbxCutText.Location = new System.Drawing.Point(298, 47);
+            this.chbxCutText.Name = "chbxCutText";
+            this.chbxCutText.Size = new System.Drawing.Size(42, 17);
+            this.chbxCutText.TabIndex = 1;
+            this.chbxCutText.Text = "Cut";
+            this.chbxCutText.UseVisualStyleBackColor = true;
+            this.chbxCutText.CheckedChanged += new System.EventHandler(this.Checkbox_CheckedChanged);
+            // 
+            // chbxTrimText
+            // 
+            this.chbxTrimText.AutoSize = true;
+            this.chbxTrimText.Enabled = false;
+            this.chbxTrimText.Location = new System.Drawing.Point(136, 46);
+            this.chbxTrimText.Name = "chbxTrimText";
+            this.chbxTrimText.Size = new System.Drawing.Size(97, 17);
+            this.chbxTrimText.TabIndex = 1;
+            this.chbxTrimText.Text = "RemoveSpace";
+            this.chbxTrimText.UseVisualStyleBackColor = true;
+            this.chbxTrimText.CheckedChanged += new System.EventHandler(this.Checkbox_CheckedChanged);
+            // 
+            // chbxLowerText
+            // 
+            this.chbxLowerText.AutoSize = true;
+            this.chbxLowerText.Enabled = false;
+            this.chbxLowerText.Location = new System.Drawing.Point(75, 46);
+            this.chbxLowerText.Name = "chbxLowerText";
+            this.chbxLowerText.Size = new System.Drawing.Size(55, 17);
+            this.chbxLowerText.TabIndex = 1;
+            this.chbxLowerText.Text = "Lower";
+            this.chbxLowerText.UseVisualStyleBackColor = true;
+            this.chbxLowerText.CheckedChanged += new System.EventHandler(this.Checkbox_CheckedChanged);
+            // 
+            // chbxUpperText
+            // 
+            this.chbxUpperText.AutoSize = true;
+            this.chbxUpperText.Enabled = false;
+            this.chbxUpperText.Location = new System.Drawing.Point(13, 46);
+            this.chbxUpperText.Name = "chbxUpperText";
+            this.chbxUpperText.Size = new System.Drawing.Size(55, 17);
+            this.chbxUpperText.TabIndex = 1;
+            this.chbxUpperText.Text = "Upper";
+            this.chbxUpperText.UseVisualStyleBackColor = true;
+            this.chbxUpperText.CheckedChanged += new System.EventHandler(this.Checkbox_CheckedChanged);
+            // 
+            // chbxUseCustomData
+            // 
+            this.chbxUseCustomData.AutoSize = true;
+            this.chbxUseCustomData.Location = new System.Drawing.Point(13, 19);
+            this.chbxUseCustomData.Name = "chbxUseCustomData";
+            this.chbxUseCustomData.Size = new System.Drawing.Size(45, 17);
+            this.chbxUseCustomData.TabIndex = 1;
+            this.chbxUseCustomData.Text = "Use";
+            this.chbxUseCustomData.UseVisualStyleBackColor = true;
+            this.chbxUseCustomData.CheckedChanged += new System.EventHandler(this.Checkbox_CheckedChanged);
+            // 
+            // txtDataFormatDemo
+            // 
+            this.txtDataFormatDemo.Enabled = false;
+            this.txtDataFormatDemo.Location = new System.Drawing.Point(74, 19);
+            this.txtDataFormatDemo.Name = "txtDataFormatDemo";
+            this.txtDataFormatDemo.Size = new System.Drawing.Size(195, 20);
+            this.txtDataFormatDemo.TabIndex = 0;
+            this.txtDataFormatDemo.Text = "AbcdDefg 1234";
+            this.txtDataFormatDemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtDataFormatDemo.TextChanged += new System.EventHandler(this.textbox_TextChanged);
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.checkBox1);
-            this.groupBox6.Controls.Add(this.textBox2);
+            this.groupBox6.Controls.Add(this.chbxTerminatingText);
+            this.groupBox6.Controls.Add(this.chbxTab);
+            this.groupBox6.Controls.Add(this.chbxCRLF);
+            this.groupBox6.Controls.Add(this.txtTerminatingText);
             this.groupBox6.Location = new System.Drawing.Point(9, 159);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(473, 74);
@@ -879,26 +965,54 @@ namespace THHSoftMiddle
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Terminating Text";
             // 
-            // checkBox1
+            // chbxTerminatingText
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(14, 49);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(58, 17);
-            this.checkBox1.TabIndex = 1;
-            this.checkBox1.Text = "CR/LF";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.chbxTerminatingText.AutoSize = true;
+            this.chbxTerminatingText.Location = new System.Drawing.Point(13, 21);
+            this.chbxTerminatingText.Name = "chbxTerminatingText";
+            this.chbxTerminatingText.Size = new System.Drawing.Size(45, 17);
+            this.chbxTerminatingText.TabIndex = 1;
+            this.chbxTerminatingText.Text = "Use";
+            this.chbxTerminatingText.UseVisualStyleBackColor = true;
+            this.chbxTerminatingText.CheckedChanged += new System.EventHandler(this.Checkbox_CheckedChanged);
             // 
-            // textBox2
+            // chbxTab
             // 
-            this.textBox2.Location = new System.Drawing.Point(13, 19);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(454, 20);
-            this.textBox2.TabIndex = 0;
+            this.chbxTab.AutoSize = true;
+            this.chbxTab.Enabled = false;
+            this.chbxTab.Location = new System.Drawing.Point(74, 49);
+            this.chbxTab.Name = "chbxTab";
+            this.chbxTab.Size = new System.Drawing.Size(45, 17);
+            this.chbxTab.TabIndex = 1;
+            this.chbxTab.Text = "Tab";
+            this.chbxTab.UseVisualStyleBackColor = true;
+            this.chbxTab.CheckedChanged += new System.EventHandler(this.Checkbox_CheckedChanged);
+            // 
+            // chbxCRLF
+            // 
+            this.chbxCRLF.AutoSize = true;
+            this.chbxCRLF.Enabled = false;
+            this.chbxCRLF.Location = new System.Drawing.Point(14, 49);
+            this.chbxCRLF.Name = "chbxCRLF";
+            this.chbxCRLF.Size = new System.Drawing.Size(58, 17);
+            this.chbxCRLF.TabIndex = 1;
+            this.chbxCRLF.Text = "CR/LF";
+            this.chbxCRLF.UseVisualStyleBackColor = true;
+            this.chbxCRLF.CheckedChanged += new System.EventHandler(this.Checkbox_CheckedChanged);
+            // 
+            // txtTerminatingText
+            // 
+            this.txtTerminatingText.Enabled = false;
+            this.txtTerminatingText.Location = new System.Drawing.Point(74, 19);
+            this.txtTerminatingText.Name = "txtTerminatingText";
+            this.txtTerminatingText.Size = new System.Drawing.Size(393, 20);
+            this.txtTerminatingText.TabIndex = 0;
+            this.txtTerminatingText.TextChanged += new System.EventHandler(this.textbox_TextChanged);
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.textBox1);
+            this.groupBox5.Controls.Add(this.chbxLeadingText);
+            this.groupBox5.Controls.Add(this.txtLeadingText);
             this.groupBox5.Location = new System.Drawing.Point(9, 10);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(473, 55);
@@ -906,12 +1020,25 @@ namespace THHSoftMiddle
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Leading Text";
             // 
-            // textBox1
+            // chbxLeadingText
             // 
-            this.textBox1.Location = new System.Drawing.Point(13, 19);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(454, 20);
-            this.textBox1.TabIndex = 0;
+            this.chbxLeadingText.AutoSize = true;
+            this.chbxLeadingText.Location = new System.Drawing.Point(13, 22);
+            this.chbxLeadingText.Name = "chbxLeadingText";
+            this.chbxLeadingText.Size = new System.Drawing.Size(45, 17);
+            this.chbxLeadingText.TabIndex = 1;
+            this.chbxLeadingText.Text = "Use";
+            this.chbxLeadingText.UseVisualStyleBackColor = true;
+            this.chbxLeadingText.CheckedChanged += new System.EventHandler(this.Checkbox_CheckedChanged);
+            // 
+            // txtLeadingText
+            // 
+            this.txtLeadingText.Enabled = false;
+            this.txtLeadingText.Location = new System.Drawing.Point(74, 21);
+            this.txtLeadingText.Name = "txtLeadingText";
+            this.txtLeadingText.Size = new System.Drawing.Size(393, 20);
+            this.txtLeadingText.TabIndex = 0;
+            this.txtLeadingText.TextChanged += new System.EventHandler(this.textbox_TextChanged);
             // 
             // tabPageInput
             // 
@@ -1197,6 +1324,30 @@ namespace THHSoftMiddle
             this.pictureBoxLogo.TabIndex = 8;
             this.pictureBoxLogo.TabStop = false;
             // 
+            // cbxModeTest
+            // 
+            this.cbxModeTest.FormattingEnabled = true;
+            this.cbxModeTest.Items.AddRange(new object[] {
+            "Leading",
+            "Data",
+            "Terminating",
+            "All"});
+            this.cbxModeTest.Location = new System.Drawing.Point(13, 27);
+            this.cbxModeTest.Name = "cbxModeTest";
+            this.cbxModeTest.Size = new System.Drawing.Size(106, 21);
+            this.cbxModeTest.TabIndex = 5;
+            this.cbxModeTest.Text = "Leading";
+            // 
+            // btnLoadDataFormat
+            // 
+            this.btnLoadDataFormat.Location = new System.Drawing.Point(307, 366);
+            this.btnLoadDataFormat.Name = "btnLoadDataFormat";
+            this.btnLoadDataFormat.Size = new System.Drawing.Size(75, 23);
+            this.btnLoadDataFormat.TabIndex = 12;
+            this.btnLoadDataFormat.Text = "Load";
+            this.btnLoadDataFormat.UseVisualStyleBackColor = true;
+            this.btnLoadDataFormat.Click += new System.EventHandler(this.btn_Click_Event);
+            // 
             // THHSoftMiddle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1229,6 +1380,8 @@ namespace THHSoftMiddle
             this.groupBox8.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nbUpdownEnd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nbUpdownBegin)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -1264,7 +1417,6 @@ namespace THHSoftMiddle
         private System.Windows.Forms.Button btnClearMouse;
         private System.Windows.Forms.Button btnClick;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox chbxTab;
         private System.Windows.Forms.CheckBox chbxEnter;
         private System.Windows.Forms.TextBox txtMessage;
         private System.Windows.Forms.Label label3;
@@ -1286,20 +1438,18 @@ namespace THHSoftMiddle
         private System.Windows.Forms.TabPage tabPageSetting;
         private System.Windows.Forms.TabPage tabPageJob;
         private System.Windows.Forms.TabPage tabPageDataFormat;
-        private System.Windows.Forms.Button btnSaveFormat;
+        private System.Windows.Forms.Button btnSaveDataFormat;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.Label lbOutputData;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnTestFormatOutput;
         private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.CheckBox chbxUseCustomData;
+        private System.Windows.Forms.TextBox txtDataFormatDemo;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.CheckBox chbxCRLF;
+        private System.Windows.Forms.TextBox txtTerminatingText;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtLeadingText;
         private System.Windows.Forms.TabPage tabPageInput;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.GroupBox groupBox9;
@@ -1358,6 +1508,19 @@ namespace THHSoftMiddle
         private System.Windows.Forms.PictureBox pictureBoxLogo;
         private System.Windows.Forms.TextBox txtComBaud;
         private System.Windows.Forms.TextBox txtComName;
+        private System.Windows.Forms.CheckBox chbxTerminatingText;
+        private System.Windows.Forms.CheckBox chbxTab;
+        private System.Windows.Forms.CheckBox chbxLeadingText;
+        private System.Windows.Forms.CheckBox chbxLowerText;
+        private System.Windows.Forms.CheckBox chbxCutText;
+        private System.Windows.Forms.NumericUpDown nbUpdownEnd;
+        private System.Windows.Forms.NumericUpDown nbUpdownBegin;
+        private System.Windows.Forms.CheckBox chbxTrimText;
+        private System.Windows.Forms.TextBox txtInputStringToTest;
+        private System.Windows.Forms.Label lblCustomOutDemo;
+        private System.Windows.Forms.CheckBox chbxUpperText;
+        private System.Windows.Forms.ComboBox cbxModeTest;
+        private System.Windows.Forms.Button btnLoadDataFormat;
     }
 }
 

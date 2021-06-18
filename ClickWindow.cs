@@ -146,11 +146,15 @@ namespace THHSoftMiddle
 
         void Run_Click_Trip()
         {
+            //click
             foreach(var click_item in list_click)
             {
                 ClickOnPointTool.ClickOnPoint(programHandle, click_item);
                 Thread.Sleep(1000);
             }
+
+            //puttext
+            SendKeys.SendWait("hello");
         }
 
 
