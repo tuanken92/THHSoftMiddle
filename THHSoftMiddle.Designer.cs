@@ -74,27 +74,27 @@ namespace THHSoftMiddle
             this.label18 = new System.Windows.Forms.Label();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.comboBox9 = new System.Windows.Forms.ComboBox();
             this.label22 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
-            this.comboBox7 = new System.Windows.Forms.ComboBox();
-            this.comboBox8 = new System.Windows.Forms.ComboBox();
-            this.comboBox6 = new System.Windows.Forms.ComboBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.btnSaveCommonParam = new System.Windows.Forms.Button();
+            this.cbxOutputSoft = new System.Windows.Forms.ComboBox();
+            this.cbxConditionForward = new System.Windows.Forms.ComboBox();
+            this.cbxInputSoft = new System.Windows.Forms.ComboBox();
+            this.txtTimeDelay = new System.Windows.Forms.TextBox();
+            this.txtOffsetY = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.txtOffsetX = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.tabPageJob = new System.Windows.Forms.TabPage();
             this.tabPageDataFormat = new System.Windows.Forms.TabPage();
+            this.btnLoadDataFormat = new System.Windows.Forms.Button();
             this.btnSaveDataFormat = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.cbxModeTest = new System.Windows.Forms.ComboBox();
             this.txtInputStringToTest = new System.Windows.Forms.TextBox();
             this.lbOutputData = new System.Windows.Forms.Label();
             this.btnTestFormatOutput = new System.Windows.Forms.Button();
@@ -145,8 +145,10 @@ namespace THHSoftMiddle
             this.tabPageAuto = new System.Windows.Forms.TabPage();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
-            this.cbxModeTest = new System.Windows.Forms.ComboBox();
-            this.btnLoadDataFormat = new System.Windows.Forms.Button();
+            this.nbUpdownNumberCode = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtTargetHwnd = new System.Windows.Forms.TextBox();
+            this.txtTargetWindow = new System.Windows.Forms.TextBox();
             this.tabPageDev.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -172,6 +174,7 @@ namespace THHSoftMiddle
             this.panel1.SuspendLayout();
             this.tabControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nbUpdownNumberCode)).BeginInit();
             this.SuspendLayout();
             // 
             // lbTitle
@@ -500,7 +503,7 @@ namespace THHSoftMiddle
             this.groupBox12.Size = new System.Drawing.Size(480, 163);
             this.groupBox12.TabIndex = 3;
             this.groupBox12.TabStop = false;
-            this.groupBox12.Text = "Setting Code Condition";
+            this.groupBox12.Text = "Setting Condition Forward";
             // 
             // panel5
             // 
@@ -594,20 +597,22 @@ namespace THHSoftMiddle
             // 
             // panel6
             // 
-            this.panel6.Controls.Add(this.comboBox9);
+            this.panel6.Controls.Add(this.nbUpdownNumberCode);
             this.panel6.Controls.Add(this.label22);
-            this.panel6.Controls.Add(this.button4);
-            this.panel6.Controls.Add(this.comboBox7);
-            this.panel6.Controls.Add(this.comboBox8);
-            this.panel6.Controls.Add(this.comboBox6);
-            this.panel6.Controls.Add(this.textBox6);
-            this.panel6.Controls.Add(this.textBox5);
+            this.panel6.Controls.Add(this.btnSaveCommonParam);
+            this.panel6.Controls.Add(this.cbxOutputSoft);
+            this.panel6.Controls.Add(this.cbxConditionForward);
+            this.panel6.Controls.Add(this.cbxInputSoft);
+            this.panel6.Controls.Add(this.txtTimeDelay);
+            this.panel6.Controls.Add(this.txtTargetHwnd);
+            this.panel6.Controls.Add(this.txtOffsetY);
             this.panel6.Controls.Add(this.label20);
-            this.panel6.Controls.Add(this.label21);
-            this.panel6.Controls.Add(this.textBox4);
-            this.panel6.Controls.Add(this.label19);
-            this.panel6.Controls.Add(this.comboBox3);
             this.panel6.Controls.Add(this.label14);
+            this.panel6.Controls.Add(this.label21);
+            this.panel6.Controls.Add(this.txtTargetWindow);
+            this.panel6.Controls.Add(this.txtOffsetX);
+            this.panel6.Controls.Add(this.label19);
+            this.panel6.Controls.Add(this.label6);
             this.panel6.Controls.Add(this.label11);
             this.panel6.Controls.Add(this.label13);
             this.panel6.Controls.Add(this.label12);
@@ -615,14 +620,6 @@ namespace THHSoftMiddle
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(468, 149);
             this.panel6.TabIndex = 2;
-            // 
-            // comboBox9
-            // 
-            this.comboBox9.FormattingEnabled = true;
-            this.comboBox9.Location = new System.Drawing.Point(354, 91);
-            this.comboBox9.Name = "comboBox9";
-            this.comboBox9.Size = new System.Drawing.Size(100, 21);
-            this.comboBox9.TabIndex = 6;
             // 
             // label22
             // 
@@ -633,52 +630,56 @@ namespace THHSoftMiddle
             this.label22.TabIndex = 5;
             this.label22.Text = "Number Code";
             // 
-            // button4
+            // btnSaveCommonParam
             // 
-            this.button4.Location = new System.Drawing.Point(368, 116);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(86, 23);
-            this.button4.TabIndex = 2;
-            this.button4.Text = "Save Infor";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnSaveCommonParam.Location = new System.Drawing.Point(354, 116);
+            this.btnSaveCommonParam.Name = "btnSaveCommonParam";
+            this.btnSaveCommonParam.Size = new System.Drawing.Size(100, 23);
+            this.btnSaveCommonParam.TabIndex = 2;
+            this.btnSaveCommonParam.Text = "Save Infor";
+            this.btnSaveCommonParam.UseVisualStyleBackColor = true;
+            this.btnSaveCommonParam.Click += new System.EventHandler(this.btn_Click_Event);
             // 
-            // comboBox7
+            // cbxOutputSoft
             // 
-            this.comboBox7.FormattingEnabled = true;
-            this.comboBox7.Location = new System.Drawing.Point(94, 118);
-            this.comboBox7.Name = "comboBox7";
-            this.comboBox7.Size = new System.Drawing.Size(100, 21);
-            this.comboBox7.TabIndex = 4;
+            this.cbxOutputSoft.FormattingEnabled = true;
+            this.cbxOutputSoft.Location = new System.Drawing.Point(94, 118);
+            this.cbxOutputSoft.Name = "cbxOutputSoft";
+            this.cbxOutputSoft.Size = new System.Drawing.Size(100, 21);
+            this.cbxOutputSoft.TabIndex = 4;
             // 
-            // comboBox8
+            // cbxConditionForward
             // 
-            this.comboBox8.FormattingEnabled = true;
-            this.comboBox8.Location = new System.Drawing.Point(354, 65);
-            this.comboBox8.Name = "comboBox8";
-            this.comboBox8.Size = new System.Drawing.Size(100, 21);
-            this.comboBox8.TabIndex = 3;
+            this.cbxConditionForward.FormattingEnabled = true;
+            this.cbxConditionForward.Items.AddRange(new object[] {
+            "Direct",
+            "Compare"});
+            this.cbxConditionForward.Location = new System.Drawing.Point(94, 64);
+            this.cbxConditionForward.Name = "cbxConditionForward";
+            this.cbxConditionForward.Size = new System.Drawing.Size(100, 21);
+            this.cbxConditionForward.TabIndex = 3;
             // 
-            // comboBox6
+            // cbxInputSoft
             // 
-            this.comboBox6.FormattingEnabled = true;
-            this.comboBox6.Location = new System.Drawing.Point(94, 91);
-            this.comboBox6.Name = "comboBox6";
-            this.comboBox6.Size = new System.Drawing.Size(100, 21);
-            this.comboBox6.TabIndex = 3;
+            this.cbxInputSoft.FormattingEnabled = true;
+            this.cbxInputSoft.Location = new System.Drawing.Point(94, 91);
+            this.cbxInputSoft.Name = "cbxInputSoft";
+            this.cbxInputSoft.Size = new System.Drawing.Size(100, 21);
+            this.cbxInputSoft.TabIndex = 3;
             // 
-            // textBox6
+            // txtTimeDelay
             // 
-            this.textBox6.Location = new System.Drawing.Point(94, 65);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(100, 20);
-            this.textBox6.TabIndex = 2;
+            this.txtTimeDelay.Location = new System.Drawing.Point(354, 65);
+            this.txtTimeDelay.Name = "txtTimeDelay";
+            this.txtTimeDelay.Size = new System.Drawing.Size(100, 20);
+            this.txtTimeDelay.TabIndex = 2;
             // 
-            // textBox5
+            // txtOffsetY
             // 
-            this.textBox5.Location = new System.Drawing.Point(354, 39);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(100, 20);
-            this.textBox5.TabIndex = 2;
+            this.txtOffsetY.Location = new System.Drawing.Point(354, 39);
+            this.txtOffsetY.Name = "txtOffsetY";
+            this.txtOffsetY.Size = new System.Drawing.Size(100, 20);
+            this.txtOffsetY.TabIndex = 2;
             // 
             // label20
             // 
@@ -692,18 +693,18 @@ namespace THHSoftMiddle
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(265, 69);
+            this.label21.Location = new System.Drawing.Point(5, 68);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(72, 13);
             this.label21.TabIndex = 0;
             this.label21.Text = "Type Forward";
             // 
-            // textBox4
+            // txtOffsetX
             // 
-            this.textBox4.Location = new System.Drawing.Point(94, 39);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 20);
-            this.textBox4.TabIndex = 2;
+            this.txtOffsetX.Location = new System.Drawing.Point(94, 39);
+            this.txtOffsetX.Name = "txtOffsetX";
+            this.txtOffsetX.Size = new System.Drawing.Size(100, 20);
+            this.txtOffsetX.TabIndex = 2;
             // 
             // label19
             // 
@@ -714,18 +715,10 @@ namespace THHSoftMiddle
             this.label19.TabIndex = 0;
             this.label19.Text = "Input Soft";
             // 
-            // comboBox3
-            // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(94, 12);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(360, 21);
-            this.comboBox3.TabIndex = 1;
-            // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(5, 69);
+            this.label14.Location = new System.Drawing.Point(265, 69);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(60, 13);
             this.label14.TabIndex = 0;
@@ -784,6 +777,16 @@ namespace THHSoftMiddle
             this.tabPageDataFormat.TabIndex = 2;
             this.tabPageDataFormat.Text = "Format";
             // 
+            // btnLoadDataFormat
+            // 
+            this.btnLoadDataFormat.Location = new System.Drawing.Point(307, 366);
+            this.btnLoadDataFormat.Name = "btnLoadDataFormat";
+            this.btnLoadDataFormat.Size = new System.Drawing.Size(75, 23);
+            this.btnLoadDataFormat.TabIndex = 12;
+            this.btnLoadDataFormat.Text = "Load";
+            this.btnLoadDataFormat.UseVisualStyleBackColor = true;
+            this.btnLoadDataFormat.Click += new System.EventHandler(this.btn_Click_Event);
+            // 
             // btnSaveDataFormat
             // 
             this.btnSaveDataFormat.Location = new System.Drawing.Point(401, 366);
@@ -806,6 +809,20 @@ namespace THHSoftMiddle
             this.groupBox8.TabIndex = 11;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Output Options";
+            // 
+            // cbxModeTest
+            // 
+            this.cbxModeTest.FormattingEnabled = true;
+            this.cbxModeTest.Items.AddRange(new object[] {
+            "Leading",
+            "Data",
+            "Terminating",
+            "All"});
+            this.cbxModeTest.Location = new System.Drawing.Point(13, 27);
+            this.cbxModeTest.Name = "cbxModeTest";
+            this.cbxModeTest.Size = new System.Drawing.Size(106, 21);
+            this.cbxModeTest.TabIndex = 5;
+            this.cbxModeTest.Text = "All";
             // 
             // txtInputStringToTest
             // 
@@ -871,6 +888,7 @@ namespace THHSoftMiddle
             this.nbUpdownEnd.Name = "nbUpdownEnd";
             this.nbUpdownEnd.Size = new System.Drawing.Size(53, 20);
             this.nbUpdownEnd.TabIndex = 2;
+            this.nbUpdownEnd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nbUpdownEnd.ValueChanged += new System.EventHandler(this.nbUpdown_ValueChanged);
             // 
             // nbUpdownBegin
@@ -880,6 +898,7 @@ namespace THHSoftMiddle
             this.nbUpdownBegin.Name = "nbUpdownBegin";
             this.nbUpdownBegin.Size = new System.Drawing.Size(53, 20);
             this.nbUpdownBegin.TabIndex = 2;
+            this.nbUpdownBegin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nbUpdownBegin.ValueChanged += new System.EventHandler(this.nbUpdown_ValueChanged);
             // 
             // chbxCutText
@@ -1324,29 +1343,46 @@ namespace THHSoftMiddle
             this.pictureBoxLogo.TabIndex = 8;
             this.pictureBoxLogo.TabStop = false;
             // 
-            // cbxModeTest
+            // nbUpdownNumberCode
             // 
-            this.cbxModeTest.FormattingEnabled = true;
-            this.cbxModeTest.Items.AddRange(new object[] {
-            "Leading",
-            "Data",
-            "Terminating",
-            "All"});
-            this.cbxModeTest.Location = new System.Drawing.Point(13, 27);
-            this.cbxModeTest.Name = "cbxModeTest";
-            this.cbxModeTest.Size = new System.Drawing.Size(106, 21);
-            this.cbxModeTest.TabIndex = 5;
-            this.cbxModeTest.Text = "Leading";
+            this.nbUpdownNumberCode.Location = new System.Drawing.Point(354, 91);
+            this.nbUpdownNumberCode.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nbUpdownNumberCode.Name = "nbUpdownNumberCode";
+            this.nbUpdownNumberCode.Size = new System.Drawing.Size(100, 20);
+            this.nbUpdownNumberCode.TabIndex = 6;
+            this.nbUpdownNumberCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nbUpdownNumberCode.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
-            // btnLoadDataFormat
+            // label6
             // 
-            this.btnLoadDataFormat.Location = new System.Drawing.Point(307, 366);
-            this.btnLoadDataFormat.Name = "btnLoadDataFormat";
-            this.btnLoadDataFormat.Size = new System.Drawing.Size(75, 23);
-            this.btnLoadDataFormat.TabIndex = 12;
-            this.btnLoadDataFormat.Text = "Load";
-            this.btnLoadDataFormat.UseVisualStyleBackColor = true;
-            this.btnLoadDataFormat.Click += new System.EventHandler(this.btn_Click_Event);
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(265, 17);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(42, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "HWND";
+            // 
+            // txtTargetHwnd
+            // 
+            this.txtTargetHwnd.Location = new System.Drawing.Point(354, 13);
+            this.txtTargetHwnd.Name = "txtTargetHwnd";
+            this.txtTargetHwnd.Size = new System.Drawing.Size(100, 20);
+            this.txtTargetHwnd.TabIndex = 2;
+            // 
+            // txtTargetWindow
+            // 
+            this.txtTargetWindow.Location = new System.Drawing.Point(94, 13);
+            this.txtTargetWindow.Name = "txtTargetWindow";
+            this.txtTargetWindow.Size = new System.Drawing.Size(165, 20);
+            this.txtTargetWindow.TabIndex = 2;
             // 
             // THHSoftMiddle
             // 
@@ -1358,6 +1394,7 @@ namespace THHSoftMiddle
             this.Controls.Add(this.lbTitle);
             this.Controls.Add(this.tabControl);
             this.Name = "THHSoftMiddle";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "THHSoftMiddle";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.THHSoftMiddle_FormClosing);
             this.Load += new System.EventHandler(this.THHSoftMiddle_Load);
@@ -1399,6 +1436,7 @@ namespace THHSoftMiddle
             this.panel1.PerformLayout();
             this.tabControl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nbUpdownNumberCode)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1488,20 +1526,18 @@ namespace THHSoftMiddle
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.TextBox txtTimeDelay;
+        private System.Windows.Forms.Button btnSaveCommonParam;
+        private System.Windows.Forms.TextBox txtOffsetY;
+        private System.Windows.Forms.TextBox txtOffsetX;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.ComboBox comboBox9;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.ComboBox comboBox7;
-        private System.Windows.Forms.ComboBox comboBox8;
-        private System.Windows.Forms.ComboBox comboBox6;
+        private System.Windows.Forms.ComboBox cbxOutputSoft;
+        private System.Windows.Forms.ComboBox cbxConditionForward;
+        private System.Windows.Forms.ComboBox cbxInputSoft;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label19;
@@ -1521,6 +1557,10 @@ namespace THHSoftMiddle
         private System.Windows.Forms.CheckBox chbxUpperText;
         private System.Windows.Forms.ComboBox cbxModeTest;
         private System.Windows.Forms.Button btnLoadDataFormat;
+        private System.Windows.Forms.NumericUpDown nbUpdownNumberCode;
+        private System.Windows.Forms.TextBox txtTargetHwnd;
+        private System.Windows.Forms.TextBox txtTargetWindow;
+        private System.Windows.Forms.Label label6;
     }
 }
 

@@ -14,6 +14,14 @@ using System.Windows.Forms;
 
 namespace THHSoftMiddle.Source
 {
+    public enum type_of_test_format
+    {
+        test_leading = 0,
+        test_data,
+        test_terminating,
+        test_all,
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT
     {
@@ -423,17 +431,30 @@ namespace THHSoftMiddle.Source
 
     }
 
-    public enum method_write
+    public enum output_soft
     { 
         method_none = 0,
         method_click,
         method_com
     }
 
+    public enum input_soft
+    {
+        method_none = 0,
+        method_com,
+        mothod_tcp
+    }
+
+    public enum check_forward
+    {
+        direct = 0,
+        compare_text
+    }
+
     public class Ouput_Text
     {
         bool is_compare;
-        method_write write_method;
+        output_soft write_method;
         string input_text;
         string compare_text;
         List<Point> list_click;
@@ -442,7 +463,7 @@ namespace THHSoftMiddle.Source
         public Ouput_Text() 
         {
             is_compare = false;
-            write_method = method_write.method_none;
+            write_method = output_soft.method_none;
             input_text = null;
             compare_text = null;
             list_click = new List<Point>();
@@ -450,7 +471,7 @@ namespace THHSoftMiddle.Source
         }
 
         public bool Is_compare { get => is_compare; set => is_compare = value; }
-        public method_write Write_method { get => write_method; set => write_method = value; }
+        public output_soft Write_method { get => write_method; set => write_method = value; }
         public string Input_text { get => input_text; set => input_text = value; }
         public string Compare_text { get => compare_text; set => compare_text = value; }
         public List<Point> List_click { get => list_click; set => list_click = value; }
@@ -518,6 +539,129 @@ namespace THHSoftMiddle.Source
             Console.WriteLine(MyDefine.file_config.ToString());
             return param;
         }
+
+        public static void Save_Parameter(object param, string file_name)
+        {
+            // serialize JSON directly to a file
+            Console.WriteLine(MyDefine.file_config);
+            using (StreamWriter file = File.CreateText(file_name))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(file, param);
+            }
+        }
+
+        public static object Load_Parameter(object param, string file_name)
+        {
+            using (StreamReader file = File.OpenText(file_name))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                param = serializer.Deserialize(file, param.GetType());
+            }
+            Console.WriteLine(MyDefine.file_config.ToString());
+            return param;
+        }
+    }
+
+    public class Param_COM
+    {
+        string comport;
+        int baudrate;
+
+        public Param_COM(string comport, int baudrate=9600)
+        {
+            Comport = comport;
+            Baudrate = baudrate;
+        }
+        public Param_COM()
+        {
+            Comport = null;
+            Baudrate = 9600;
+        }
+
+        public string Comport { get => comport; set => comport = value; }
+        public int Baudrate { get => baudrate; set => baudrate = value; }
+    }
+
+    public class Param_TCP
+    {
+        string ip;
+        int port;
+        public Param_TCP(string ip, int port=8888)
+        {
+            Ip = ip;
+            Port = port;
+        }
+        public Param_TCP()
+        {
+            Ip = "127.0.0.1";
+            Port = 8888;
+        }
+
+        public string Ip { get => ip; set => ip = value; }
+        public int Port { get => port; set => port = value; }
+    }
+    public class Config_Common_Param
+    {
+        string target_name;
+        int target_hwnd;
+        int offset_x;
+        int offset_y;
+        int time_delay;
+        int number_barcode;
+        input_soft in_soft;
+        output_soft out_soft;
+        check_forward check_to_forward;
+
+        Param_COM in_com;
+        Param_TCP in_tcp;
+
+        List<Param_COM> list_out_com;
+        List<Point> list_out_click;
+
+        List<string> list_key_check_fw;
+
+
+        public Config_Common_Param()
+        {
+            Target_name = null;
+            Target_hwnd = 0;
+            Offset_x = 0;
+            Offset_y = 30;
+            Time_delay = 100;
+            Number_barcode = 1;
+            In_soft = input_soft.method_none;
+            Out_soft = output_soft.method_none;
+            Check_to_forward = check_forward.direct;
+            In_com = new Param_COM("COM888");
+            In_tcp = new Param_TCP("192.168.100.111");
+
+            List_out_com = new List<Param_COM>();
+            List_out_click = new List<Point>();
+            List_key_check_fw = new List<string>();
+
+            for(int i = 0; i < 5; i++)
+            {
+                List_out_com.Add(new Param_COM($"COM{i}"));
+                List_out_click.Add(new Point(i,i));
+                List_key_check_fw.Add(string.Format($"@{i}"));
+            }
+        }
+
+        public string Target_name { get => target_name; set => target_name = value; }
+        public int Target_hwnd { get => target_hwnd; set => target_hwnd = value; }
+        public int Offset_x { get => offset_x; set => offset_x = value; }
+        public int Offset_y { get => offset_y; set => offset_y = value; }
+        public int Time_delay { get => time_delay; set => time_delay = value; }
+        public int Number_barcode { get => number_barcode; set => number_barcode = value; }
+        public input_soft In_soft { get => in_soft; set => in_soft = value; }
+        public output_soft Out_soft { get => out_soft; set => out_soft = value; }
+        public check_forward Check_to_forward { get => check_to_forward; set => check_to_forward = value; }
+        public Param_COM In_com { get => in_com; set => in_com = value; }
+        public Param_TCP In_tcp { get => in_tcp; set => in_tcp = value; }
+        public List<Param_COM> List_out_com { get => list_out_com; set => list_out_com = value; }
+        public List<Point> List_out_click { get => list_out_click; set => list_out_click = value; }
+        public List<string> List_key_check_fw { get => list_key_check_fw; set => list_key_check_fw = value; }
     }
     public class Config_Format_String
     {
@@ -601,6 +745,8 @@ namespace THHSoftMiddle.Source
         public static readonly string workspaceDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
 
         public static readonly string file_config = String.Format($"{workspaceDirectory}\\Data\\configs\\config_param.json");
+        public static readonly string file_config_format_data = String.Format($"{workspaceDirectory}\\Data\\configs\\format_data.json");
+        public static readonly string file_config_common_param = String.Format($"{workspaceDirectory}\\Data\\configs\\common_param.json");
         public static readonly string path_load_img_database = @"C:\Program Files\Cognex\VisionPro\Images";
         public static readonly string path_load_vpp_file = @"C:\Users\Admin\Desktop\Vpp_file";
         public static readonly string path_save_images = String.Format("{0}\\Images", projectDirectory);

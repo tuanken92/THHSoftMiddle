@@ -29,6 +29,10 @@ namespace THHSoftMiddle
 
         //format string
         Config_Format_String config_format_string;
+
+        //common param
+        Config_Common_Param config_common_param;
+
         public THHSoftMiddle()
         {
             InitializeComponent();
@@ -55,6 +59,21 @@ namespace THHSoftMiddle
             chbxCutText.Checked = config_format_string.Using_cut;
             nbUpdownBegin.Value = (decimal)config_format_string.Pos_begin;
             nbUpdownEnd.Value = (decimal)config_format_string.Pos_end;
+
+            //common param
+            cbxInputSoft.DataSource = Enum.GetValues(typeof(input_soft));
+            cbxOutputSoft.DataSource = Enum.GetValues(typeof(output_soft));
+            cbxConditionForward.DataSource = Enum.GetValues(typeof(check_forward));
+
+            txtTargetWindow.Text = config_common_param.Target_name;
+            txtTargetHwnd.Text = config_common_param.Target_hwnd.ToString();
+            txtOffsetX.Text = config_common_param.Offset_x.ToString();
+            txtOffsetY.Text = config_common_param.Offset_y.ToString();
+            txtTimeDelay.Text = config_common_param.Time_delay.ToString();
+            nbUpdownNumberCode.Value = config_common_param.Number_barcode;
+            cbxInputSoft.SelectedIndex = (int)config_common_param.In_soft;
+            cbxOutputSoft.SelectedIndex = (int)config_common_param.Out_soft;
+            cbxConditionForward.SelectedIndex = (int)config_common_param.Check_to_forward;
         }
         void Initial()
         {
@@ -78,15 +97,28 @@ namespace THHSoftMiddle
 
             //config format string
             config_format_string = new Config_Format_String();
-            if(MyDefine.File_Is_Exist(MyDefine.file_config))
+            if (MyDefine.File_Is_Exist(MyDefine.file_config_format_data))
             {
-                config_format_string = SaveLoad_Parameter.Load_Parameter(config_format_string) as Config_Format_String;
+                config_format_string = SaveLoad_Parameter.Load_Parameter(config_format_string, MyDefine.file_config_format_data) as Config_Format_String;
             }
             else
             {
-                MessageBox.Show($"Not found {MyDefine.file_config}");
+                MessageBox.Show($"Not found {MyDefine.file_config_format_data}");
             }
-            
+
+
+            //common param
+            config_common_param = new Config_Common_Param();
+            if (MyDefine.File_Is_Exist(MyDefine.file_config_common_param))
+            {
+                config_common_param = SaveLoad_Parameter.Load_Parameter(config_common_param, MyDefine.file_config_common_param) as Config_Common_Param;
+            }
+            else
+            {
+                MessageBox.Show($"Not found {MyDefine.file_config_common_param}");
+            }
+
+
 
         }
 
@@ -95,6 +127,18 @@ namespace THHSoftMiddle
             this.lbDateTime.Text = DateTime.Now.ToString("ddd MM/dd/yyyy\nhh:mm::ss tt");
         }
 
+        void Get_Common_Param()
+        {
+            config_common_param.Target_name = txtTargetWindow.Text;
+            config_common_param.Target_hwnd = int.Parse(txtTargetHwnd.Text);
+            config_common_param.Offset_x = int.Parse(txtOffsetX.Text);
+            config_common_param.Offset_y = int.Parse(txtOffsetY.Text);
+            config_common_param.Time_delay = int.Parse(txtTimeDelay.Text);
+            config_common_param.Number_barcode = (int)nbUpdownNumberCode.Value;
+            config_common_param.In_soft = (input_soft)cbxInputSoft.SelectedIndex;
+            config_common_param.Out_soft = (output_soft)cbxOutputSoft.SelectedIndex;
+            config_common_param.Check_to_forward = (check_forward)cbxConditionForward.SelectedIndex;
+        }
         void Get_Config_Format()
         {
             config_format_string.Using_leading = chbxLeadingText.Checked;
@@ -279,31 +323,31 @@ namespace THHSoftMiddle
                 #region format_data_ouput
                 case "btnSaveDataFormat":
                     Get_Config_Format();
-                    SaveLoad_Parameter.Save_Parameter(config_format_string);
+                    SaveLoad_Parameter.Save_Parameter(config_format_string, MyDefine.file_config_format_data);
                     break;
 
                 case "btnLoadDataFormat":
-                    config_format_string  = SaveLoad_Parameter.Load_Parameter(config_format_string) as Config_Format_String;
+                    config_format_string = SaveLoad_Parameter.Load_Parameter(config_format_string, MyDefine.file_config_format_data) as Config_Format_String;
                     break;
 
                 case "btnTestFormatOutput":
                     switch (cbxModeTest.SelectedIndex)
                     {
-                        case 0:
+                        case (int)type_of_test_format.test_leading:
                             leadingText.Input_text = txtInputStringToTest.Text;
                             leadingText.Leading_text = txtLeadingText.Text;
                             lbOutputData.Text = leadingText.Process();
                             break;
-                        case 1:
+                        case (int)type_of_test_format.test_data:
                             custom_text.Input_text = txtInputStringToTest.Text;
                             lbOutputData.Text = custom_text.Process();
                             break;
-                        case 2:
+                        case (int)type_of_test_format.test_terminating:
                             terminating_text.Input_text = txtInputStringToTest.Text;
                             terminating_text.Terminal_text = txtTerminatingText.Text;
                             lbOutputData.Text = terminating_text.Process();
                             break;
-                        case 3:
+                        case (int)type_of_test_format.test_all:
                             //1.custom
                             custom_text.Input_text = txtInputStringToTest.Text;
                             var custom_out = custom_text.Process();
@@ -322,8 +366,14 @@ namespace THHSoftMiddle
                     }
                     break;
 
-                    #endregion
+                #endregion
 
+                #region setting_common_param
+                case "btnSaveCommonParam":
+                    Get_Common_Param();
+                    SaveLoad_Parameter.Save_Parameter(config_common_param, MyDefine.file_config_common_param);
+                    break;
+                #endregion
             }
         }
 
@@ -364,8 +414,8 @@ namespace THHSoftMiddle
                     }
                     leadingText.Is_using = chbxLeadingText.Checked;
 
-                    config_format_string.Using_leading = chbxLeadingText.Checked;
-                    config_format_string.Leading = txtLeadingText.Text;
+                    /*config_format_string.Using_leading = chbxLeadingText.Checked;
+                    config_format_string.Leading = txtLeadingText.Text;*/
                     break;
                 case "chbxUseCustomData":
                     if (chbxUseCustomData.Checked)
@@ -387,7 +437,7 @@ namespace THHSoftMiddle
                     custom_text.Is_using = chbxUseCustomData.Checked;
                     lblCustomOutDemo.Text = custom_text.Process();
 
-                    config_format_string.Using_data_format = chbxUseCustomData.Checked;
+                    /*config_format_string.Using_data_format = chbxUseCustomData.Checked;*/
                     break;
                 case "chbxUpperText":
                     if (chbxUpperText.Checked)
@@ -401,7 +451,7 @@ namespace THHSoftMiddle
                     custom_text.Is_upper = chbxUpperText.Checked;
                     lblCustomOutDemo.Text = custom_text.Process();
 
-                    config_format_string.Using_upper = chbxUpperText.Checked;
+                    /*config_format_string.Using_upper = chbxUpperText.Checked;*/
                     break;
                 case "chbxLowerText":
                     if (chbxLowerText.Checked)
@@ -416,13 +466,13 @@ namespace THHSoftMiddle
                     custom_text.Is_lower = chbxLowerText.Checked;
                     lblCustomOutDemo.Text = custom_text.Process();
 
-                    config_format_string.Using_lower = chbxLowerText.Checked;
+                    /*config_format_string.Using_lower = chbxLowerText.Checked;*/
                     break;
                 case "chbxTrimText":
                     custom_text.Is_trim = chbxTrimText.Checked;
                     lblCustomOutDemo.Text = custom_text.Process();
 
-                    config_format_string.Using_removespace = chbxTrimText.Checked;
+                    /*config_format_string.Using_removespace = chbxTrimText.Checked;*/
                     break;
                 case "chbxCutText":
                     if (chbxCutText.Checked)
@@ -441,10 +491,9 @@ namespace THHSoftMiddle
                     custom_text.Pos_end = (int)nbUpdownEnd.Value;
                     lblCustomOutDemo.Text = custom_text.Process();
 
-                    config_format_string.Using_cut = chbxCutText.Checked;
+                    /*config_format_string.Using_cut = chbxCutText.Checked;
                     config_format_string.Pos_begin = (int)nbUpdownBegin.Value;
-                    config_format_string.Pos_end = (int)nbUpdownEnd.Value;
-
+                    config_format_string.Pos_end = (int)nbUpdownEnd.Value;*/
                     break;
                 case "chbxTerminatingText":
                     if (chbxTerminatingText.Checked)
@@ -461,8 +510,8 @@ namespace THHSoftMiddle
                     }
                     terminating_text.Is_using = chbxTerminatingText.Checked;
 
-                    config_format_string.Using_terminating = chbxTerminatingText.Checked;
-                    config_format_string.Terminating = txtTerminatingText.Text;
+                    /*config_format_string.Using_terminating = chbxTerminatingText.Checked;
+                    config_format_string.Terminating = txtTerminatingText.Text;*/
                     break;
                 case "chbxCRLF":
                     if (chbxCRLF.Checked)
@@ -474,7 +523,7 @@ namespace THHSoftMiddle
                     {
 
                     }
-                    config_format_string.Using_crlf = chbxCRLF.Checked;
+                    /*config_format_string.Using_crlf = chbxCRLF.Checked;*/
                     break;
                 case "chbxTab":
                     if (chbxTab.Checked)
@@ -486,7 +535,7 @@ namespace THHSoftMiddle
                     {
 
                     }
-                    config_format_string.Using_tab = chbxTab.Checked;
+                    /*config_format_string.Using_tab = chbxTab.Checked;*/
                     break;
                     #endregion
             }
@@ -503,11 +552,11 @@ namespace THHSoftMiddle
                     break;
                 case "txtLeadingText":
                     leadingText.Leading_text = txtLeadingText.Text;
-                    config_format_string.Leading = txtLeadingText.Text;
+                    /*config_format_string.Leading = txtLeadingText.Text;*/
                     break;
                 case "txtTerminatingText":
                     terminating_text.Terminal_text = txtTerminatingText.Text;
-                    config_format_string.Terminating = txtLeadingText.Text;
+                    /*config_format_string.Terminating = txtLeadingText.Text;*/
                     break;
             }
         }
@@ -523,8 +572,8 @@ namespace THHSoftMiddle
                     custom_text.Pos_end = (int)nbUpdownEnd.Value;
                     lblCustomOutDemo.Text = custom_text.Process();
 
-                    config_format_string.Pos_begin = (int)nbUpdownBegin.Value;
-                    config_format_string.Pos_end =  (int)nbUpdownEnd.Value;
+                    /*config_format_string.Pos_begin = (int)nbUpdownBegin.Value;
+                    config_format_string.Pos_end =  (int)nbUpdownEnd.Value;*/
                     break;
             }
         }
