@@ -63,7 +63,7 @@ namespace THHSoftMiddle
             //common param
             cbxInputSoft.DataSource = Enum.GetValues(typeof(input_soft));
             cbxOutputSoft.DataSource = Enum.GetValues(typeof(output_soft));
-            cbxConditionForward.DataSource = Enum.GetValues(typeof(check_forward));
+            
 
             txtTargetWindow.Text = config_common_param.Target_name;
             txtTargetHwnd.Text = config_common_param.Target_hwnd.ToString();
@@ -73,7 +73,6 @@ namespace THHSoftMiddle
             nbUpdownNumberCode.Value = config_common_param.Number_barcode;
             cbxInputSoft.SelectedIndex = (int)config_common_param.In_soft;
             cbxOutputSoft.SelectedIndex = (int)config_common_param.Out_soft;
-            cbxConditionForward.SelectedIndex = (int)config_common_param.Check_to_forward;
         }
         void Initial()
         {
@@ -137,7 +136,6 @@ namespace THHSoftMiddle
             config_common_param.Number_barcode = (int)nbUpdownNumberCode.Value;
             config_common_param.In_soft = (input_soft)cbxInputSoft.SelectedIndex;
             config_common_param.Out_soft = (output_soft)cbxOutputSoft.SelectedIndex;
-            config_common_param.Check_to_forward = (check_forward)cbxConditionForward.SelectedIndex;
         }
         void Get_Config_Format()
         {
@@ -373,6 +371,30 @@ namespace THHSoftMiddle
                     Get_Common_Param();
                     SaveLoad_Parameter.Save_Parameter(config_common_param, MyDefine.file_config_common_param);
                     break;
+
+                case "btnSettingInputSoft":
+                    SettingInputSoftware setting_input_dlg = new SettingInputSoftware(
+                        config_common_param.In_com,
+                        config_common_param.In_tcp
+                        );
+                    if(setting_input_dlg.ShowDialog() == DialogResult.OK)
+                    {
+                        config_common_param.In_com = setting_input_dlg.in_com;
+                        config_common_param.In_tcp = setting_input_dlg.in_tcp;
+                        Console.WriteLine("Update input param");
+
+                    }
+                    setting_input_dlg.Dispose();
+                    break;
+
+                case "btnSettingOutput":
+                    SettingOutputSoftware setting_output_dlg = new SettingOutputSoftware();
+                    if (setting_output_dlg.ShowDialog() == DialogResult.OK)
+                    {
+                        Console.WriteLine("you choose ok");
+                    }
+                    setting_output_dlg.Dispose();
+                    break;
                 #endregion
             }
         }
@@ -577,5 +599,7 @@ namespace THHSoftMiddle
                     break;
             }
         }
+
+      
     }
 }

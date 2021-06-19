@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.IO.Ports;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -442,7 +443,7 @@ namespace THHSoftMiddle.Source
     {
         method_none = 0,
         method_com,
-        mothod_tcp
+        method_tcp
     }
 
     public enum check_forward
@@ -601,6 +602,20 @@ namespace THHSoftMiddle.Source
         public string Ip { get => ip; set => ip = value; }
         public int Port { get => port; set => port = value; }
     }
+
+    public class Config_Out_Param
+    {
+        public List<Param_COM> list_out_com;
+        public List<Point> list_out_click;
+        public List<string> list_key_check_fw;
+
+        public Config_Out_Param()
+        {
+            list_out_com = new List<Param_COM>();
+            list_out_click = new List<Point>();
+            list_key_check_fw = new List<string>();
+        }
+    }
     public class Config_Common_Param
     {
         string target_name;
@@ -621,6 +636,7 @@ namespace THHSoftMiddle.Source
 
         List<string> list_key_check_fw;
 
+        Dictionary<int, Config_Out_Param> dic_barcode;
 
         public Config_Common_Param()
         {
@@ -640,11 +656,14 @@ namespace THHSoftMiddle.Source
             List_out_click = new List<Point>();
             List_key_check_fw = new List<string>();
 
-            for(int i = 0; i < 5; i++)
+            dic_barcode = new Dictionary<int, Config_Out_Param>();
+            for (int i = 0; i < 5; i++)
             {
                 List_out_com.Add(new Param_COM($"COM{i}"));
                 List_out_click.Add(new Point(i,i));
                 List_key_check_fw.Add(string.Format($"@{i}"));
+
+                dic_barcode.Add(i, new Config_Out_Param());
             }
         }
 
@@ -662,6 +681,7 @@ namespace THHSoftMiddle.Source
         public List<Param_COM> List_out_com { get => list_out_com; set => list_out_com = value; }
         public List<Point> List_out_click { get => list_out_click; set => list_out_click = value; }
         public List<string> List_key_check_fw { get => list_key_check_fw; set => list_key_check_fw = value; }
+        public Dictionary<int, Config_Out_Param> Dic_barcode { get => dic_barcode; set => dic_barcode = value; }
     }
     public class Config_Format_String
     {
@@ -751,6 +771,8 @@ namespace THHSoftMiddle.Source
         public static readonly string path_load_vpp_file = @"C:\Users\Admin\Desktop\Vpp_file";
         public static readonly string path_save_images = String.Format("{0}\\Images", projectDirectory);
 
+        public static readonly List<int> list_baudrate = new List<int> { 9600, 14400, 19200, 38400, 57600, 115200, 128000, 256000 };
+
         // Get a handle to an application window.
         [DllImport("USER32.DLL", CharSet = CharSet.Unicode)]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
@@ -833,6 +855,26 @@ namespace THHSoftMiddle.Source
                     Console.WriteLine("Process: {0}, ID: {1}, Window title: {2}", process.ProcessName, process.Id, process.MainWindowTitle);
                 }
             }
+        }
+
+        public static List<string> Scan_Comport()
+        {
+            string[] ArrayComPortsNames = null;
+            int index = -1;
+
+            ArrayComPortsNames = SerialPort.GetPortNames();
+            do
+            {
+                index += 1;
+            }
+            while (!(index == ArrayComPortsNames.GetUpperBound(0)));
+            Array.Sort(ArrayComPortsNames);
+
+
+            /*foreach (var com_name in ArrayComPortsNames)
+                Console.WriteLine(com_name);*/
+
+            return (new List<string>(ArrayComPortsNames));
         }
 
         #region Capture and Save Window's Screen

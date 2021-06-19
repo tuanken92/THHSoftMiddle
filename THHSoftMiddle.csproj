@@ -78,7 +78,18 @@
     <Compile Include="ClickWindow.Designer.cs">
       <DependentUpon>ClickWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\HookKeyboard.cs" />
+    <Compile Include="SettingInputSoftware.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingInputSoftware.Designer.cs">
+      <DependentUpon>SettingInputSoftware.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SettingOutputSoftware.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingOutputSoftware.Designer.cs">
+      <DependentUpon>SettingOutputSoftware.cs</DependentUpon>
+    </Compile>
     <Compile Include="Source\RS232.cs" />
     <Compile Include="Source\TcpIPClient.cs" />
     <Compile Include="THHSoftMiddle.cs">
@@ -92,6 +103,12 @@
     <Compile Include="Source\MyDefine.cs" />
     <EmbeddedResource Include="ClickWindow.resx">
       <DependentUpon>ClickWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingInputSoftware.resx">
+      <DependentUpon>SettingInputSoftware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingOutputSoftware.resx">
+      <DependentUpon>SettingOutputSoftware.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="THHSoftMiddle.resx">
       <DependentUpon>THHSoftMiddle.cs</DependentUpon>
@@ -202,7 +219,6 @@
     <Content Include="Images\Vietnam.png" />
     <Content Include="readme.txt" />
     <Content Include="RunMode.ico" />
-    <Content Include="tth.ico" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\configs\" />

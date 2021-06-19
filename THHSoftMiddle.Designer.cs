@@ -64,28 +64,30 @@ namespace THHSoftMiddle
             this.tabPageSetting = new System.Windows.Forms.TabPage();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.comboBox5 = new System.Windows.Forms.ComboBox();
-            this.label15 = new System.Windows.Forms.Label();
+            this.bsnSelectTargetWindow = new System.Windows.Forms.Button();
+            this.btnFindTargetWindow = new System.Windows.Forms.Button();
+            this.cbxFindTargetWindow = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
+            this.txtFindTargetHwnd = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.nbUpdownNumberCode = new System.Windows.Forms.NumericUpDown();
+            this.btnSettingOutput = new System.Windows.Forms.Button();
+            this.btnSettingInputSoft = new System.Windows.Forms.Button();
             this.label22 = new System.Windows.Forms.Label();
             this.btnSaveCommonParam = new System.Windows.Forms.Button();
             this.cbxOutputSoft = new System.Windows.Forms.ComboBox();
-            this.cbxConditionForward = new System.Windows.Forms.ComboBox();
             this.cbxInputSoft = new System.Windows.Forms.ComboBox();
             this.txtTimeDelay = new System.Windows.Forms.TextBox();
+            this.txtTargetHwnd = new System.Windows.Forms.TextBox();
             this.txtOffsetY = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.txtTargetWindow = new System.Windows.Forms.TextBox();
             this.txtOffsetX = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -145,10 +147,6 @@ namespace THHSoftMiddle
             this.tabPageAuto = new System.Windows.Forms.TabPage();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
-            this.nbUpdownNumberCode = new System.Windows.Forms.NumericUpDown();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtTargetHwnd = new System.Windows.Forms.TextBox();
-            this.txtTargetWindow = new System.Windows.Forms.TextBox();
             this.tabPageDev.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -158,6 +156,7 @@ namespace THHSoftMiddle
             this.panel5.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.panel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nbUpdownNumberCode)).BeginInit();
             this.tabPageDataFormat.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox7.SuspendLayout();
@@ -174,7 +173,6 @@ namespace THHSoftMiddle
             this.panel1.SuspendLayout();
             this.tabControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nbUpdownNumberCode)).BeginInit();
             this.SuspendLayout();
             // 
             // lbTitle
@@ -500,63 +498,51 @@ namespace THHSoftMiddle
             this.groupBox12.Controls.Add(this.panel5);
             this.groupBox12.Location = new System.Drawing.Point(4, 185);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(480, 163);
+            this.groupBox12.Size = new System.Drawing.Size(480, 214);
             this.groupBox12.TabIndex = 3;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Setting Condition Forward";
             // 
             // panel5
             // 
-            this.panel5.Controls.Add(this.textBox7);
-            this.panel5.Controls.Add(this.textBox8);
-            this.panel5.Controls.Add(this.textBox9);
-            this.panel5.Controls.Add(this.comboBox5);
-            this.panel5.Controls.Add(this.label15);
+            this.panel5.Controls.Add(this.bsnSelectTargetWindow);
+            this.panel5.Controls.Add(this.btnFindTargetWindow);
+            this.panel5.Controls.Add(this.cbxFindTargetWindow);
             this.panel5.Controls.Add(this.label16);
-            this.panel5.Controls.Add(this.label17);
-            this.panel5.Controls.Add(this.label18);
+            this.panel5.Controls.Add(this.txtFindTargetHwnd);
+            this.panel5.Controls.Add(this.label23);
             this.panel5.Location = new System.Drawing.Point(6, 19);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(468, 138);
+            this.panel5.Size = new System.Drawing.Size(468, 189);
             this.panel5.TabIndex = 2;
             // 
-            // textBox7
+            // bsnSelectTargetWindow
             // 
-            this.textBox7.Location = new System.Drawing.Point(94, 91);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(100, 20);
-            this.textBox7.TabIndex = 2;
+            this.bsnSelectTargetWindow.Location = new System.Drawing.Point(407, 10);
+            this.bsnSelectTargetWindow.Name = "bsnSelectTargetWindow";
+            this.bsnSelectTargetWindow.Size = new System.Drawing.Size(47, 23);
+            this.bsnSelectTargetWindow.TabIndex = 2;
+            this.bsnSelectTargetWindow.Text = "Select";
+            this.bsnSelectTargetWindow.UseVisualStyleBackColor = true;
+            this.bsnSelectTargetWindow.Click += new System.EventHandler(this.btn_Click_Event);
             // 
-            // textBox8
+            // btnFindTargetWindow
             // 
-            this.textBox8.Location = new System.Drawing.Point(94, 65);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(100, 20);
-            this.textBox8.TabIndex = 2;
+            this.btnFindTargetWindow.Location = new System.Drawing.Point(354, 10);
+            this.btnFindTargetWindow.Name = "btnFindTargetWindow";
+            this.btnFindTargetWindow.Size = new System.Drawing.Size(47, 23);
+            this.btnFindTargetWindow.TabIndex = 2;
+            this.btnFindTargetWindow.Text = "Find";
+            this.btnFindTargetWindow.UseVisualStyleBackColor = true;
+            this.btnFindTargetWindow.Click += new System.EventHandler(this.btn_Click_Event);
             // 
-            // textBox9
+            // cbxFindTargetWindow
             // 
-            this.textBox9.Location = new System.Drawing.Point(94, 39);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(100, 20);
-            this.textBox9.TabIndex = 2;
-            // 
-            // comboBox5
-            // 
-            this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Location = new System.Drawing.Point(94, 12);
-            this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(223, 21);
-            this.comboBox5.TabIndex = 1;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(5, 95);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(60, 13);
-            this.label15.TabIndex = 0;
-            this.label15.Text = "Time Delay";
+            this.cbxFindTargetWindow.FormattingEnabled = true;
+            this.cbxFindTargetWindow.Location = new System.Drawing.Point(94, 12);
+            this.cbxFindTargetWindow.Name = "cbxFindTargetWindow";
+            this.cbxFindTargetWindow.Size = new System.Drawing.Size(243, 21);
+            this.cbxFindTargetWindow.TabIndex = 1;
             // 
             // label16
             // 
@@ -567,23 +553,21 @@ namespace THHSoftMiddle
             this.label16.TabIndex = 0;
             this.label16.Text = "Target Window";
             // 
-            // label17
+            // txtFindTargetHwnd
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(5, 69);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(45, 13);
-            this.label17.TabIndex = 0;
-            this.label17.Text = "Offset Y";
+            this.txtFindTargetHwnd.Location = new System.Drawing.Point(94, 39);
+            this.txtFindTargetHwnd.Name = "txtFindTargetHwnd";
+            this.txtFindTargetHwnd.Size = new System.Drawing.Size(100, 20);
+            this.txtFindTargetHwnd.TabIndex = 2;
             // 
-            // label18
+            // label23
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(5, 43);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(45, 13);
-            this.label18.TabIndex = 0;
-            this.label18.Text = "Offset X";
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(5, 42);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(42, 13);
+            this.label23.TabIndex = 0;
+            this.label23.Text = "HWND";
             // 
             // groupBox11
             // 
@@ -598,17 +582,17 @@ namespace THHSoftMiddle
             // panel6
             // 
             this.panel6.Controls.Add(this.nbUpdownNumberCode);
+            this.panel6.Controls.Add(this.btnSettingOutput);
+            this.panel6.Controls.Add(this.btnSettingInputSoft);
             this.panel6.Controls.Add(this.label22);
             this.panel6.Controls.Add(this.btnSaveCommonParam);
             this.panel6.Controls.Add(this.cbxOutputSoft);
-            this.panel6.Controls.Add(this.cbxConditionForward);
             this.panel6.Controls.Add(this.cbxInputSoft);
             this.panel6.Controls.Add(this.txtTimeDelay);
             this.panel6.Controls.Add(this.txtTargetHwnd);
             this.panel6.Controls.Add(this.txtOffsetY);
             this.panel6.Controls.Add(this.label20);
             this.panel6.Controls.Add(this.label14);
-            this.panel6.Controls.Add(this.label21);
             this.panel6.Controls.Add(this.txtTargetWindow);
             this.panel6.Controls.Add(this.txtOffsetX);
             this.panel6.Controls.Add(this.label19);
@@ -620,6 +604,44 @@ namespace THHSoftMiddle
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(468, 149);
             this.panel6.TabIndex = 2;
+            // 
+            // nbUpdownNumberCode
+            // 
+            this.nbUpdownNumberCode.Location = new System.Drawing.Point(354, 91);
+            this.nbUpdownNumberCode.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nbUpdownNumberCode.Name = "nbUpdownNumberCode";
+            this.nbUpdownNumberCode.Size = new System.Drawing.Size(100, 20);
+            this.nbUpdownNumberCode.TabIndex = 6;
+            this.nbUpdownNumberCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nbUpdownNumberCode.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // btnSettingOutput
+            // 
+            this.btnSettingOutput.Location = new System.Drawing.Point(200, 118);
+            this.btnSettingOutput.Name = "btnSettingOutput";
+            this.btnSettingOutput.Size = new System.Drawing.Size(48, 23);
+            this.btnSettingOutput.TabIndex = 10;
+            this.btnSettingOutput.Text = "Setting";
+            this.btnSettingOutput.UseVisualStyleBackColor = true;
+            this.btnSettingOutput.Click += new System.EventHandler(this.btn_Click_Event);
+            // 
+            // btnSettingInputSoft
+            // 
+            this.btnSettingInputSoft.Location = new System.Drawing.Point(200, 90);
+            this.btnSettingInputSoft.Name = "btnSettingInputSoft";
+            this.btnSettingInputSoft.Size = new System.Drawing.Size(48, 23);
+            this.btnSettingInputSoft.TabIndex = 6;
+            this.btnSettingInputSoft.Text = "Setting";
+            this.btnSettingInputSoft.UseVisualStyleBackColor = true;
+            this.btnSettingInputSoft.Click += new System.EventHandler(this.btn_Click_Event);
             // 
             // label22
             // 
@@ -648,17 +670,6 @@ namespace THHSoftMiddle
             this.cbxOutputSoft.Size = new System.Drawing.Size(100, 21);
             this.cbxOutputSoft.TabIndex = 4;
             // 
-            // cbxConditionForward
-            // 
-            this.cbxConditionForward.FormattingEnabled = true;
-            this.cbxConditionForward.Items.AddRange(new object[] {
-            "Direct",
-            "Compare"});
-            this.cbxConditionForward.Location = new System.Drawing.Point(94, 64);
-            this.cbxConditionForward.Name = "cbxConditionForward";
-            this.cbxConditionForward.Size = new System.Drawing.Size(100, 21);
-            this.cbxConditionForward.TabIndex = 3;
-            // 
             // cbxInputSoft
             // 
             this.cbxInputSoft.FormattingEnabled = true;
@@ -673,6 +684,13 @@ namespace THHSoftMiddle
             this.txtTimeDelay.Name = "txtTimeDelay";
             this.txtTimeDelay.Size = new System.Drawing.Size(100, 20);
             this.txtTimeDelay.TabIndex = 2;
+            // 
+            // txtTargetHwnd
+            // 
+            this.txtTargetHwnd.Location = new System.Drawing.Point(354, 13);
+            this.txtTargetHwnd.Name = "txtTargetHwnd";
+            this.txtTargetHwnd.Size = new System.Drawing.Size(100, 20);
+            this.txtTargetHwnd.TabIndex = 2;
             // 
             // txtOffsetY
             // 
@@ -690,14 +708,21 @@ namespace THHSoftMiddle
             this.label20.TabIndex = 0;
             this.label20.Text = "Output Soft";
             // 
-            // label21
+            // label14
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(5, 68);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(72, 13);
-            this.label21.TabIndex = 0;
-            this.label21.Text = "Type Forward";
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(265, 69);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(60, 13);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "Time Delay";
+            // 
+            // txtTargetWindow
+            // 
+            this.txtTargetWindow.Location = new System.Drawing.Point(94, 13);
+            this.txtTargetWindow.Name = "txtTargetWindow";
+            this.txtTargetWindow.Size = new System.Drawing.Size(165, 20);
+            this.txtTargetWindow.TabIndex = 2;
             // 
             // txtOffsetX
             // 
@@ -715,14 +740,14 @@ namespace THHSoftMiddle
             this.label19.TabIndex = 0;
             this.label19.Text = "Input Soft";
             // 
-            // label14
+            // label6
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(265, 69);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(60, 13);
-            this.label14.TabIndex = 0;
-            this.label14.Text = "Time Delay";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(265, 17);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(42, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "HWND";
             // 
             // label11
             // 
@@ -1343,47 +1368,6 @@ namespace THHSoftMiddle
             this.pictureBoxLogo.TabIndex = 8;
             this.pictureBoxLogo.TabStop = false;
             // 
-            // nbUpdownNumberCode
-            // 
-            this.nbUpdownNumberCode.Location = new System.Drawing.Point(354, 91);
-            this.nbUpdownNumberCode.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nbUpdownNumberCode.Name = "nbUpdownNumberCode";
-            this.nbUpdownNumberCode.Size = new System.Drawing.Size(100, 20);
-            this.nbUpdownNumberCode.TabIndex = 6;
-            this.nbUpdownNumberCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nbUpdownNumberCode.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(265, 17);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(42, 13);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "HWND";
-            // 
-            // txtTargetHwnd
-            // 
-            this.txtTargetHwnd.Location = new System.Drawing.Point(354, 13);
-            this.txtTargetHwnd.Name = "txtTargetHwnd";
-            this.txtTargetHwnd.Size = new System.Drawing.Size(100, 20);
-            this.txtTargetHwnd.TabIndex = 2;
-            // 
-            // txtTargetWindow
-            // 
-            this.txtTargetWindow.Location = new System.Drawing.Point(94, 13);
-            this.txtTargetWindow.Name = "txtTargetWindow";
-            this.txtTargetWindow.Size = new System.Drawing.Size(165, 20);
-            this.txtTargetWindow.TabIndex = 2;
-            // 
             // THHSoftMiddle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1412,6 +1396,7 @@ namespace THHSoftMiddle
             this.groupBox11.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nbUpdownNumberCode)).EndInit();
             this.tabPageDataFormat.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
@@ -1436,7 +1421,6 @@ namespace THHSoftMiddle
             this.panel1.PerformLayout();
             this.tabControl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nbUpdownNumberCode)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1516,14 +1500,8 @@ namespace THHSoftMiddle
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.GroupBox groupBox12;
         private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.ComboBox comboBox5;
-        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ComboBox cbxFindTargetWindow;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.TextBox txtTimeDelay;
@@ -1536,10 +1514,8 @@ namespace THHSoftMiddle
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.ComboBox cbxOutputSoft;
-        private System.Windows.Forms.ComboBox cbxConditionForward;
         private System.Windows.Forms.ComboBox cbxInputSoft;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.PictureBox pictureBoxLogo;
         private System.Windows.Forms.TextBox txtComBaud;
@@ -1561,6 +1537,12 @@ namespace THHSoftMiddle
         private System.Windows.Forms.TextBox txtTargetHwnd;
         private System.Windows.Forms.TextBox txtTargetWindow;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnFindTargetWindow;
+        private System.Windows.Forms.TextBox txtFindTargetHwnd;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Button bsnSelectTargetWindow;
+        private System.Windows.Forms.Button btnSettingInputSoft;
+        private System.Windows.Forms.Button btnSettingOutput;
     }
 }
 

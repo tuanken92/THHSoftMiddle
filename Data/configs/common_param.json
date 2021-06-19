@@ -5,8 +5,8 @@
   "Offset_y": 30,
   "Time_delay": 100,
   "Number_barcode": 1,
-  "In_soft": 0,
-  "Out_soft": 0,
+  "In_soft": 1,
+  "Out_soft": 1,
   "Check_to_forward": 0,
   "In_com": {
     "Comport": "COM888",
@@ -56,8 +56,75 @@
     {
       "Comport": "COM4",
       "Baudrate": 9600
+    },
+    {
+      "Comport": "COM0",
+      "Baudrate": 9600
+    },
+    {
+      "Comport": "COM1",
+      "Baudrate": 9600
+    },
+    {
+      "Comport": "COM2",
+      "Baudrate": 9600
+    },
+    {
+      "Comport": "COM3",
+      "Baudrate": 9600
+    },
+    {
+      "Comport": "COM4",
+      "Baudrate": 9600
+    },
+    {
+      "Comport": "COM0",
+      "Baudrate": 9600
+    },
+    {
+      "Comport": "COM1",
+      "Baudrate": 9600
+    },
+    {
+      "Comport": "COM2",
+      "Baudrate": 9600
+    },
+    {
+      "Comport": "COM3",
+      "Baudrate": 9600
+    },
+    {
+      "Comport": "COM4",
+      "Baudrate": 9600
     }
   ],
-  "List_out_click": [ "0, 0", "1, 1", "2, 2", "3, 3", "4, 4", "0, 0", "1, 1", "2, 2", "3, 3", "4, 4" ],
-  "List_key_check_fw": [ "@0", "@1", "@2", "@3", "@4", "@0", "@1", "@2", "@3", "@4" ]
+  "List_out_click": [ "0, 0", "1, 1", "2, 2", "3, 3", "4, 4", "0, 0", "1, 1", "2, 2", "3, 3", "4, 4", "0, 0", "1, 1", "2, 2", "3, 3", "4, 4", "0, 0", "1, 1", "2, 2", "3, 3", "4, 4" ],
+  "List_key_check_fw": [ "@0", "@1", "@2", "@3", "@4", "@0", "@1", "@2", "@3", "@4", "@0", "@1", "@2", "@3", "@4", "@0", "@1", "@2", "@3", "@4" ],
+  "Dic_barcode": {
+    "0": {
+      "list_out_com": [],
+      "list_out_click": [],
+      "list_key_check_fw": []
+    },
+    "1": {
+      "list_out_com": [],
+      "list_out_click": [],
+      "list_key_check_fw": []
+    },
+    "2": {
+      "list_out_com": [],
+      "list_out_click": [],
+      "list_key_check_fw": []
+    },
+    "3": {
+      "list_out_com": [],
+      "list_out_click": [],
+      "list_key_check_fw": []
+    },
+    "4": {
+      "list_out_com": [],
+      "list_out_click": [],
+      "list_key_check_fw": []
+    }
+  }
 }
