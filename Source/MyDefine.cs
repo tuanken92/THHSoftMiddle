@@ -605,16 +605,32 @@ namespace THHSoftMiddle.Source
 
     public class Config_Out_Param
     {
-        public List<Param_COM> list_out_com;
-        public List<Point> list_out_click;
-        public List<string> list_key_check_fw;
+        Param_COM out_com;
+        List<Point> list_out_click;
+        string key_check_fw;
 
         public Config_Out_Param()
         {
-            list_out_com = new List<Param_COM>();
-            list_out_click = new List<Point>();
-            list_key_check_fw = new List<string>();
+            Out_com = new Param_COM();
+            List_out_click = new List<Point>();
+            Key_check_fw = null;
         }
+
+        public void Print_Infor()
+        {
+            Console.WriteLine("---------------------------");
+            Console.WriteLine($"comport = {out_com.Comport}, baud = {out_com.Baudrate}");
+            Console.WriteLine($"key_check_fw = {key_check_fw}");
+            Console.WriteLine($"list_out_click:");
+            foreach(var p in list_out_click)
+            {
+                Console.WriteLine(p);
+            }
+            Console.WriteLine("---------------------------");
+        }
+        public Param_COM Out_com { get => out_com; set => out_com = value; }
+        public List<Point> List_out_click { get => list_out_click; set => list_out_click = value; }
+        public string Key_check_fw { get => key_check_fw; set => key_check_fw = value; }
     }
     public class Config_Common_Param
     {

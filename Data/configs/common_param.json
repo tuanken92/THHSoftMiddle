@@ -96,35 +96,70 @@
     {
       "Comport": "COM4",
       "Baudrate": 9600
+    },
+    {
+      "Comport": "COM0",
+      "Baudrate": 9600
+    },
+    {
+      "Comport": "COM1",
+      "Baudrate": 9600
+    },
+    {
+      "Comport": "COM2",
+      "Baudrate": 9600
+    },
+    {
+      "Comport": "COM3",
+      "Baudrate": 9600
+    },
+    {
+      "Comport": "COM4",
+      "Baudrate": 9600
     }
   ],
-  "List_out_click": [ "0, 0", "1, 1", "2, 2", "3, 3", "4, 4", "0, 0", "1, 1", "2, 2", "3, 3", "4, 4", "0, 0", "1, 1", "2, 2", "3, 3", "4, 4", "0, 0", "1, 1", "2, 2", "3, 3", "4, 4" ],
-  "List_key_check_fw": [ "@0", "@1", "@2", "@3", "@4", "@0", "@1", "@2", "@3", "@4", "@0", "@1", "@2", "@3", "@4", "@0", "@1", "@2", "@3", "@4" ],
+  "List_out_click": [ "0, 0", "1, 1", "2, 2", "3, 3", "4, 4", "0, 0", "1, 1", "2, 2", "3, 3", "4, 4", "0, 0", "1, 1", "2, 2", "3, 3", "4, 4", "0, 0", "1, 1", "2, 2", "3, 3", "4, 4", "0, 0", "1, 1", "2, 2", "3, 3", "4, 4" ],
+  "List_key_check_fw": [ "@0", "@1", "@2", "@3", "@4", "@0", "@1", "@2", "@3", "@4", "@0", "@1", "@2", "@3", "@4", "@0", "@1", "@2", "@3", "@4", "@0", "@1", "@2", "@3", "@4" ],
   "Dic_barcode": {
     "0": {
-      "list_out_com": [],
+      "out_com": {
+        "Comport": null,
+        "Baudrate": 9600
+      },
       "list_out_click": [],
-      "list_key_check_fw": []
+      "key_check_fw": null
     },
     "1": {
-      "list_out_com": [],
+      "out_com": {
+        "Comport": null,
+        "Baudrate": 9600
+      },
       "list_out_click": [],
-      "list_key_check_fw": []
+      "key_check_fw": null
     },
     "2": {
-      "list_out_com": [],
+      "out_com": {
+        "Comport": null,
+        "Baudrate": 9600
+      },
       "list_out_click": [],
-      "list_key_check_fw": []
+      "key_check_fw": null
     },
     "3": {
-      "list_out_com": [],
+      "out_com": {
+        "Comport": null,
+        "Baudrate": 9600
+      },
       "list_out_click": [],
-      "list_key_check_fw": []
+      "key_check_fw": null
     },
     "4": {
-      "list_out_com": [],
+      "out_com": {
+        "Comport": null,
+        "Baudrate": 9600
+      },
       "list_out_click": [],
-      "list_key_check_fw": []
+      "key_check_fw": null
     }
   }
 }

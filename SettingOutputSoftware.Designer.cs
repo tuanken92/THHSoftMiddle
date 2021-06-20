@@ -41,14 +41,18 @@ namespace THHSoftMiddle
             this.txtComport = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBoxClick = new System.Windows.Forms.GroupBox();
-            this.lbStatusClick = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtHWND = new System.Windows.Forms.TextBox();
+            this.cbbListWindow = new System.Windows.Forms.ComboBox();
+            this.lbStatus = new System.Windows.Forms.Label();
+            this.btnDel = new System.Windows.Forms.Button();
             this.btnTestClick = new System.Windows.Forms.Button();
             this.listBoxClick = new System.Windows.Forms.ListBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnApply = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBoxForward.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nbUpDownBarcode)).BeginInit();
             this.groupBoxCom.SuspendLayout();
@@ -84,6 +88,7 @@ namespace THHSoftMiddle
             this.chbxDirect.TabIndex = 0;
             this.chbxDirect.Text = "chbxDirect";
             this.chbxDirect.UseVisualStyleBackColor = true;
+            this.chbxDirect.CheckedChanged += new System.EventHandler(this.chbxDirect_CheckedChanged);
             // 
             // label5
             // 
@@ -104,6 +109,12 @@ namespace THHSoftMiddle
             this.nbUpDownBarcode.Size = new System.Drawing.Size(115, 20);
             this.nbUpDownBarcode.TabIndex = 1;
             this.nbUpDownBarcode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nbUpDownBarcode.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nbUpDownBarcode.ValueChanged += new System.EventHandler(this.nbUpDownBarcode_ValueChanged);
             // 
             // label1
             // 
@@ -161,7 +172,11 @@ namespace THHSoftMiddle
             // 
             // groupBoxClick
             // 
-            this.groupBoxClick.Controls.Add(this.lbStatusClick);
+            this.groupBoxClick.Controls.Add(this.label2);
+            this.groupBoxClick.Controls.Add(this.txtHWND);
+            this.groupBoxClick.Controls.Add(this.cbbListWindow);
+            this.groupBoxClick.Controls.Add(this.lbStatus);
+            this.groupBoxClick.Controls.Add(this.btnDel);
             this.groupBoxClick.Controls.Add(this.btnTestClick);
             this.groupBoxClick.Controls.Add(this.listBoxClick);
             this.groupBoxClick.Location = new System.Drawing.Point(266, 23);
@@ -171,15 +186,51 @@ namespace THHSoftMiddle
             this.groupBoxClick.TabStop = false;
             this.groupBoxClick.Text = "Click";
             // 
-            // lbStatusClick
+            // label2
             // 
-            this.lbStatusClick.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lbStatusClick.Location = new System.Drawing.Point(10, 124);
-            this.lbStatusClick.Name = "lbStatusClick";
-            this.lbStatusClick.Size = new System.Drawing.Size(175, 20);
-            this.lbStatusClick.TabIndex = 6;
-            this.lbStatusClick.Text = "lbStatusClick";
-            this.lbStatusClick.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(187, 22);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(46, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Window";
+            // 
+            // txtHWND
+            // 
+            this.txtHWND.Location = new System.Drawing.Point(189, 46);
+            this.txtHWND.Name = "txtHWND";
+            this.txtHWND.Size = new System.Drawing.Size(52, 20);
+            this.txtHWND.TabIndex = 9;
+            this.txtHWND.Text = "hwnd";
+            // 
+            // cbbListWindow
+            // 
+            this.cbbListWindow.FormattingEnabled = true;
+            this.cbbListWindow.Location = new System.Drawing.Point(10, 17);
+            this.cbbListWindow.Name = "cbbListWindow";
+            this.cbbListWindow.Size = new System.Drawing.Size(173, 21);
+            this.cbbListWindow.TabIndex = 8;
+            this.cbbListWindow.SelectedIndexChanged += new System.EventHandler(this.cbbListWindow_SelectedIndexChanged);
+            // 
+            // lbStatus
+            // 
+            this.lbStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbStatus.Location = new System.Drawing.Point(10, 124);
+            this.lbStatus.Name = "lbStatus";
+            this.lbStatus.Size = new System.Drawing.Size(175, 20);
+            this.lbStatus.TabIndex = 6;
+            this.lbStatus.Text = "lbStatus";
+            this.lbStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnDel
+            // 
+            this.btnDel.Location = new System.Drawing.Point(189, 94);
+            this.btnDel.Name = "btnDel";
+            this.btnDel.Size = new System.Drawing.Size(52, 21);
+            this.btnDel.TabIndex = 3;
+            this.btnDel.Text = "Del";
+            this.btnDel.UseVisualStyleBackColor = true;
+            this.btnDel.Click += new System.EventHandler(this.btnClick_Event);
             // 
             // btnTestClick
             // 
@@ -194,9 +245,10 @@ namespace THHSoftMiddle
             // listBoxClick
             // 
             this.listBoxClick.FormattingEnabled = true;
-            this.listBoxClick.Location = new System.Drawing.Point(10, 20);
+            this.listBoxClick.HorizontalScrollbar = true;
+            this.listBoxClick.Location = new System.Drawing.Point(10, 46);
             this.listBoxClick.Name = "listBoxClick";
-            this.listBoxClick.Size = new System.Drawing.Size(231, 95);
+            this.listBoxClick.Size = new System.Drawing.Size(173, 69);
             this.listBoxClick.TabIndex = 0;
             // 
             // btnCancel
@@ -229,6 +281,16 @@ namespace THHSoftMiddle
             this.panel1.Size = new System.Drawing.Size(248, 62);
             this.panel1.TabIndex = 11;
             // 
+            // btnApply
+            // 
+            this.btnApply.Location = new System.Drawing.Point(10, 16);
+            this.btnApply.Name = "btnApply";
+            this.btnApply.Size = new System.Drawing.Size(69, 30);
+            this.btnApply.TabIndex = 9;
+            this.btnApply.Text = "Apply";
+            this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.btnClick_Event);
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.nbUpDownBarcode);
@@ -239,16 +301,6 @@ namespace THHSoftMiddle
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Select Barcode";
-            // 
-            // btnApply
-            // 
-            this.btnApply.Location = new System.Drawing.Point(10, 16);
-            this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(69, 30);
-            this.btnApply.TabIndex = 9;
-            this.btnApply.Text = "Apply";
-            this.btnApply.UseVisualStyleBackColor = true;
-            this.btnApply.Click += new System.EventHandler(this.btnClick_Event);
             // 
             // SettingOutputSoftware
             // 
@@ -261,7 +313,6 @@ namespace THHSoftMiddle
             this.Controls.Add(this.groupBoxCom);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBoxForward);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "SettingOutputSoftware";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Setting Output Software";
@@ -271,6 +322,7 @@ namespace THHSoftMiddle
             this.groupBoxCom.ResumeLayout(false);
             this.groupBoxCom.PerformLayout();
             this.groupBoxClick.ResumeLayout(false);
+            this.groupBoxClick.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -294,11 +346,15 @@ namespace THHSoftMiddle
         private System.Windows.Forms.GroupBox groupBoxClick;
         private System.Windows.Forms.ListBox listBoxClick;
         private System.Windows.Forms.Button btnTestClick;
-        private System.Windows.Forms.Label lbStatusClick;
+        private System.Windows.Forms.Label lbStatus;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnDel;
+        private System.Windows.Forms.ComboBox cbbListWindow;
+        private System.Windows.Forms.TextBox txtHWND;
+        private System.Windows.Forms.Label label2;
     }
 }

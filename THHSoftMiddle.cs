@@ -388,10 +388,12 @@ namespace THHSoftMiddle
                     break;
 
                 case "btnSettingOutput":
-                    SettingOutputSoftware setting_output_dlg = new SettingOutputSoftware();
+                    var max_barcode = (int)nbUpdownNumberCode.Value;
+                    Dictionary<int, Config_Out_Param> dic_barcode = new Dictionary<int, Config_Out_Param>();
+                    SettingOutputSoftware setting_output_dlg = new SettingOutputSoftware(dic_barcode, max_barcode);
                     if (setting_output_dlg.ShowDialog() == DialogResult.OK)
                     {
-                        Console.WriteLine("you choose ok");
+                        Console.WriteLine("Update output param");
                     }
                     setting_output_dlg.Dispose();
                     break;
