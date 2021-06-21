@@ -14,6 +14,7 @@ namespace THHSoftMiddle.Source
         string data_receive;
         private SerialPort serialPort;
 
+        public string Data_receive { get => data_receive; set => data_receive = value; }
 
         public RS232(string comport, int baudrate)
         {
@@ -23,6 +24,15 @@ namespace THHSoftMiddle.Source
             serialPort.DataReceived += SerialPort_DataReceived;
         }
 
+        public RS232(Param_COM param_com)
+        {
+            serialPort = new SerialPort();
+            serialPort.PortName = param_com.Comport;
+            serialPort.BaudRate = param_com.Baudrate;
+            serialPort.DataReceived += SerialPort_DataReceived;
+        }
+
+
         public bool Get_State()
         {
             return serialPort.IsOpen;
@@ -30,8 +40,8 @@ namespace THHSoftMiddle.Source
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            data_receive = this.serialPort.ReadExisting();
-            Console.WriteLine($"data rs232 received: {data_receive}");
+            Data_receive = this.serialPort.ReadExisting();
+            Console.WriteLine($"data rs232 received: {Data_receive}");
         }
 
         ~RS232()

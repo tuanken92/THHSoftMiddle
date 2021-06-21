@@ -91,7 +91,6 @@ namespace THHSoftMiddle
             this.label11 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.tabPageJob = new System.Windows.Forms.TabPage();
             this.tabPageDataFormat = new System.Windows.Forms.TabPage();
             this.btnLoadDataFormat = new System.Windows.Forms.Button();
             this.btnSaveDataFormat = new System.Windows.Forms.Button();
@@ -145,6 +144,11 @@ namespace THHSoftMiddle
             this.label7 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.tabPageAuto = new System.Windows.Forms.TabPage();
+            this.listBoxHeartBeat = new System.Windows.Forms.ListBox();
+            this.listBoxBarcodeState = new System.Windows.Forms.ListBox();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
+            this.btnRun = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
             this.tabPageDev.SuspendLayout();
@@ -171,6 +175,7 @@ namespace THHSoftMiddle
             this.groupBox4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.tabPageAuto.SuspendLayout();
             this.tabControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).BeginInit();
             this.SuspendLayout();
@@ -776,16 +781,6 @@ namespace THHSoftMiddle
             this.label12.TabIndex = 0;
             this.label12.Text = "Offset X";
             // 
-            // tabPageJob
-            // 
-            this.tabPageJob.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageJob.Location = new System.Drawing.Point(4, 22);
-            this.tabPageJob.Name = "tabPageJob";
-            this.tabPageJob.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageJob.Size = new System.Drawing.Size(492, 405);
-            this.tabPageJob.TabIndex = 3;
-            this.tabPageJob.Text = "Job";
-            // 
             // tabPageDataFormat
             // 
             this.tabPageDataFormat.BackColor = System.Drawing.SystemColors.Control;
@@ -1335,6 +1330,11 @@ namespace THHSoftMiddle
             // tabPageAuto
             // 
             this.tabPageAuto.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageAuto.Controls.Add(this.listBoxHeartBeat);
+            this.tabPageAuto.Controls.Add(this.listBoxBarcodeState);
+            this.tabPageAuto.Controls.Add(this.btnReset);
+            this.tabPageAuto.Controls.Add(this.btnStop);
+            this.tabPageAuto.Controls.Add(this.btnRun);
             this.tabPageAuto.Location = new System.Drawing.Point(4, 22);
             this.tabPageAuto.Name = "tabPageAuto";
             this.tabPageAuto.Padding = new System.Windows.Forms.Padding(3);
@@ -1342,12 +1342,57 @@ namespace THHSoftMiddle
             this.tabPageAuto.TabIndex = 0;
             this.tabPageAuto.Text = "Auto";
             // 
+            // listBoxHeartBeat
+            // 
+            this.listBoxHeartBeat.FormattingEnabled = true;
+            this.listBoxHeartBeat.Location = new System.Drawing.Point(6, 184);
+            this.listBoxHeartBeat.Name = "listBoxHeartBeat";
+            this.listBoxHeartBeat.Size = new System.Drawing.Size(402, 212);
+            this.listBoxHeartBeat.TabIndex = 1;
+            // 
+            // listBoxBarcodeState
+            // 
+            this.listBoxBarcodeState.FormattingEnabled = true;
+            this.listBoxBarcodeState.Location = new System.Drawing.Point(6, 5);
+            this.listBoxBarcodeState.Name = "listBoxBarcodeState";
+            this.listBoxBarcodeState.Size = new System.Drawing.Size(402, 173);
+            this.listBoxBarcodeState.TabIndex = 1;
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(414, 65);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(75, 23);
+            this.btnReset.TabIndex = 0;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnClick_MainProcess);
+            // 
+            // btnStop
+            // 
+            this.btnStop.Location = new System.Drawing.Point(414, 36);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(75, 23);
+            this.btnStop.TabIndex = 0;
+            this.btnStop.Text = "Stop";
+            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.btnClick_MainProcess);
+            // 
+            // btnRun
+            // 
+            this.btnRun.Location = new System.Drawing.Point(414, 6);
+            this.btnRun.Name = "btnRun";
+            this.btnRun.Size = new System.Drawing.Size(75, 23);
+            this.btnRun.TabIndex = 0;
+            this.btnRun.Text = "Run";
+            this.btnRun.UseVisualStyleBackColor = true;
+            this.btnRun.Click += new System.EventHandler(this.btnClick_MainProcess);
+            // 
             // tabControl
             // 
             this.tabControl.Controls.Add(this.tabPageAuto);
             this.tabControl.Controls.Add(this.tabPageInput);
             this.tabControl.Controls.Add(this.tabPageDataFormat);
-            this.tabControl.Controls.Add(this.tabPageJob);
             this.tabControl.Controls.Add(this.tabPageSetting);
             this.tabControl.Controls.Add(this.tabPageHelp);
             this.tabControl.Controls.Add(this.tabPageDev);
@@ -1419,6 +1464,7 @@ namespace THHSoftMiddle
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.tabPageAuto.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
             this.ResumeLayout(false);
@@ -1458,7 +1504,6 @@ namespace THHSoftMiddle
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.TabPage tabPageHelp;
         private System.Windows.Forms.TabPage tabPageSetting;
-        private System.Windows.Forms.TabPage tabPageJob;
         private System.Windows.Forms.TabPage tabPageDataFormat;
         private System.Windows.Forms.Button btnSaveDataFormat;
         private System.Windows.Forms.GroupBox groupBox8;
@@ -1543,6 +1588,11 @@ namespace THHSoftMiddle
         private System.Windows.Forms.Button bsnSelectTargetWindow;
         private System.Windows.Forms.Button btnSettingInputSoft;
         private System.Windows.Forms.Button btnSettingOutput;
+        private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Button btnRun;
+        private System.Windows.Forms.ListBox listBoxHeartBeat;
+        private System.Windows.Forms.ListBox listBoxBarcodeState;
+        private System.Windows.Forms.Button btnReset;
     }
 }
 

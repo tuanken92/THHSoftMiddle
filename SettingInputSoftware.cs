@@ -55,8 +55,6 @@ namespace THHSoftMiddle
             in_tcp.Port = int.Parse(txtPort.Text);
 
             //comport
-            List<string> list_comport = MyDefine.Scan_Comport();
-            cbxComport.DataSource = list_comport;
             in_com.Comport = cbxComport.Text;
             in_com.Baudrate = int.Parse(cbxBaudrate.Text);
         }

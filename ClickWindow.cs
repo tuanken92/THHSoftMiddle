@@ -23,7 +23,7 @@ namespace THHSoftMiddle
         Point programLocation, thhLocation;
         int xpos;
         int ypos;
-        int offsetX, offsetY;
+        int offsetY;
 
         public ClickWindow()
         {

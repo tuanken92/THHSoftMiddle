@@ -21,42 +21,50 @@ namespace THHSoftMiddle
 
 
         int old_index = 1;
-        Dictionary<int, Config_Out_Param> dic_barcode;
+        public Dictionary<int, Config_Out_Param> dic_barcode;
         Config_Out_Param cur_config;
 
 
         //click
         List<Point> list_click;
-        Dictionary<string, IntPtr> dic_programssss;
+        //Dictionary<string, IntPtr> dic_programssss;
+        List<Windown_Infor> list_program;
         IntPtr thhHwnd = IntPtr.Zero;
-        IntPtr programHandle = IntPtr.Zero;
-        string programName;
+        public IntPtr programHandle = IntPtr.Zero;
+        public string programName;
         Point programLocation;
         Point thhLocation;
+
+        int offsetX = 0;
         int offsetY = 30;
+        int time_delay = 100;
+
 
         public SettingOutputSoftware()
         {
             InitializeComponent();
         }
 
-        public SettingOutputSoftware(Dictionary<int, Config_Out_Param> dic_barcode, int max_barcode)
+        public SettingOutputSoftware(Config_Common_Param config_common_param)
         {
+            this.max_barcode = config_common_param.Number_barcode;
+            this.offsetY = config_common_param.Offset_x;
+            this.offsetY = config_common_param.Offset_y;
+            this.time_delay = config_common_param.Time_delay;
+            
             InitializeComponent();
-            this.max_barcode = max_barcode;
-
 
             Init_Variables();
-            Init_UI();
+            Init_UI(config_common_param.Target_name);
 
-            this.dic_barcode = dic_barcode;
+            this.dic_barcode = config_common_param.Dic_barcode;
             cur_config = new Config_Out_Param();
-            if (dic_barcode.ContainsKey(0))
+            if (dic_barcode.ContainsKey(1))
             {
-                cur_config = this.dic_barcode[0];
+                cur_config = this.dic_barcode[1];
             }
             Init_GUI();
-            Update_GUI(0);
+            Update_GUI(1);
 
 
         }
@@ -76,8 +84,9 @@ namespace THHSoftMiddle
 
         private void cbbListWindow_SelectedIndexChanged(object sender, EventArgs e)
         {
-            programName = ((KeyValuePair<string, IntPtr>)cbbListWindow.SelectedItem).Key;
-            programHandle = dic_programssss[programName];
+            Windown_Infor window_infor = (Windown_Infor)cbbListWindow.SelectedItem;
+            programName = window_infor.Name;
+            programHandle = (IntPtr)window_infor.Hwnd;
             txtHWND.Text = string.Format("#{0:X}", programHandle);
             MyDefine.SetForegroundWindow(programHandle);
 
@@ -86,8 +95,7 @@ namespace THHSoftMiddle
             programLocation = ClickOnPointTool.Get_Position_Hwnd(programHandle);
             Console.WriteLine($"Position of Program: {programLocation.ToString()}");
             lbStatus.Text = programLocation.ToString();
-            //MyDefine.SetForegroundWindow(thhHwnd);
-            //this.Focus();
+            
 
         }
 
@@ -96,9 +104,8 @@ namespace THHSoftMiddle
         {
             if (keyData == (Keys.Control | Keys.X))
             {
-                Point clientPoint = new Point(Math.Abs(Cursor.Position.X - programLocation.X), Math.Abs(Cursor.Position.Y - programLocation.Y - offsetY));
-                /*txtMouseX.Text = clientPoint.X.ToString();
-                txtMouseY.Text = clientPoint.Y.ToString();*/
+                Point clientPoint = new Point(Math.Abs(Cursor.Position.X - programLocation.X - offsetX), 
+                                              Math.Abs(Cursor.Position.Y - programLocation.Y - offsetY));
                 listBoxClick.Items.Add(clientPoint);
                 Console.WriteLine($"CurPos: {Cursor.Position.ToString()}, offset pos: {clientPoint.ToString()}");
 
@@ -114,34 +121,67 @@ namespace THHSoftMiddle
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-
-        void Run_Click_Trip()
+        void Run_Click_Barcode(int barcode_index)
         {
+            //if (cur_config.List_out_click.Count <= 0)
+            //{
+            //    MessageBox.Show($"barcode {barcode_index} click is empty");
+            //    return;
+            //}
             //click
-            foreach (var click_item in list_click)
+            foreach (var click_item in cur_config.List_out_click)
             {
+                Console.WriteLine(click_item);
                 ClickOnPointTool.ClickOnPoint(programHandle, click_item);
-                Thread.Sleep(1000);
+                Thread.Sleep(time_delay);
             }
 
             //puttext
+            SendKeys.SendWait("{END}");
+            SendKeys.SendWait($"hello barcode {barcode_index}");
+            Console.WriteLine("~~~~~~~~~~~~~");
+        }
+        void Run_Click_Trip()
+        {
+            foreach (var click_item in list_click)
+            {
+                ClickOnPointTool.ClickOnPoint(programHandle, click_item);
+                Thread.Sleep(time_delay);
+            }
+
+            //puttext
+            SendKeys.SendWait("{END}");
             SendKeys.SendWait("hello");
         }
 
-        void Init_UI()
+        void Init_UI(string target_name)
         {
 
             //combobox
-            MyDefine.GetDesktopWindowHandlesAndTitles(out dic_programssss);
+            MyDefine.GetDesktopWindowHandlesAndTitles(out list_program);
             Console.WriteLine("------------begin---------------");
-            foreach (KeyValuePair<string, IntPtr> item in dic_programssss)
+            bool is_target_name_exist_in_list = false;
+            foreach (var x in list_program)
             {
-                Console.WriteLine(item.Key + "\t" + item.Value);
+
+                Console.WriteLine(x.Name + "\t" + x.Hwnd);
+                if(x.Name == target_name)
+                {
+                    is_target_name_exist_in_list = true;
+                }
             }
+
             Console.WriteLine("------------end---------------");
-            cbbListWindow.DataSource = new BindingSource(dic_programssss, null);
-            cbbListWindow.DisplayMember = "Key";
-            cbbListWindow.ValueMember = "Key";
+            //cbbListWindow.DataSource = new BindingSource(dic_programssss, null);
+            cbbListWindow.DataSource = new BindingSource(list_program, null);
+            cbbListWindow.DisplayMember = "Name";
+            cbbListWindow.ValueMember = "Name";
+
+            /*if(dic_programssss.ContainsKey(target_name))
+                cbbListWindow.Text = target_name;*/
+
+            if (is_target_name_exist_in_list)
+                cbbListWindow.Text = target_name;
         }
 
         void Init_GUI()
@@ -177,6 +217,12 @@ namespace THHSoftMiddle
                 txtBaudrate.Text = cur_config.Out_com.Baudrate.ToString();
 
 
+                //list click
+                listBoxClick.Items.Clear();
+                foreach (var p in cur_config.List_out_click)
+                {
+                    listBoxClick.Items.Add(p);
+                }
             }
             else
             {
@@ -189,7 +235,6 @@ namespace THHSoftMiddle
                 txtBaudrate.Text = "9600";
 
                 //List click
-                //listBoxClick.ResetText();
                 listBoxClick.Items.Clear();
             }
         }
@@ -225,6 +270,7 @@ namespace THHSoftMiddle
         private void btnClick_Event(object sender, EventArgs e)
         {
             var cur_button = sender as Button;
+            Console.WriteLine(cur_button.Name);
             switch(cur_button.Name)
             {
                 case "btnOk":
@@ -241,6 +287,15 @@ namespace THHSoftMiddle
                     cur_config.List_out_click.RemoveAt(listBoxClick.SelectedIndex);
                     listBoxClick.Items.RemoveAt(listBoxClick.SelectedIndex);
                     break;
+                case "btnTestClick":
+                    Run_Click_Barcode((int)nbUpDownBarcode.Value);
+                    break;
+                case "btnDelAll":
+                    cur_config.List_out_click.Clear();
+                    listBoxClick.Items.Clear();
+                    break;
+
+
 
             }
         }

@@ -53,6 +53,7 @@ namespace THHSoftMiddle
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnApply = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnDelAll = new System.Windows.Forms.Button();
             this.groupBoxForward.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nbUpDownBarcode)).BeginInit();
             this.groupBoxCom.SuspendLayout();
@@ -176,6 +177,7 @@ namespace THHSoftMiddle
             this.groupBoxClick.Controls.Add(this.txtHWND);
             this.groupBoxClick.Controls.Add(this.cbbListWindow);
             this.groupBoxClick.Controls.Add(this.lbStatus);
+            this.groupBoxClick.Controls.Add(this.btnDelAll);
             this.groupBoxClick.Controls.Add(this.btnDel);
             this.groupBoxClick.Controls.Add(this.btnTestClick);
             this.groupBoxClick.Controls.Add(this.listBoxClick);
@@ -224,7 +226,7 @@ namespace THHSoftMiddle
             // 
             // btnDel
             // 
-            this.btnDel.Location = new System.Drawing.Point(189, 94);
+            this.btnDel.Location = new System.Drawing.Point(189, 70);
             this.btnDel.Name = "btnDel";
             this.btnDel.Size = new System.Drawing.Size(52, 21);
             this.btnDel.TabIndex = 3;
@@ -302,6 +304,16 @@ namespace THHSoftMiddle
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Select Barcode";
             // 
+            // btnDelAll
+            // 
+            this.btnDelAll.Location = new System.Drawing.Point(189, 94);
+            this.btnDelAll.Name = "btnDelAll";
+            this.btnDelAll.Size = new System.Drawing.Size(52, 21);
+            this.btnDelAll.TabIndex = 3;
+            this.btnDelAll.Text = "Del All";
+            this.btnDelAll.UseVisualStyleBackColor = true;
+            this.btnDelAll.Click += new System.EventHandler(this.btnClick_Event);
+            // 
             // SettingOutputSoftware
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -356,5 +368,6 @@ namespace THHSoftMiddle
         private System.Windows.Forms.ComboBox cbbListWindow;
         private System.Windows.Forms.TextBox txtHWND;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnDelAll;
     }
 }

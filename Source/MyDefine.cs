@@ -603,8 +603,21 @@ namespace THHSoftMiddle.Source
         public int Port { get => port; set => port = value; }
     }
 
+    public class Thread_Manager 
+    {
+        public string name_thread;
+        public bool enable_thread;
+        public Thread thread;
+
+        public Thread_Manager()
+        {
+            
+        }
+    }
     public class Config_Out_Param
     {
+        bool is_send = false;
+        bool is_transmit_data = false;
         Param_COM out_com;
         List<Point> list_out_click;
         string key_check_fw;
@@ -614,6 +627,9 @@ namespace THHSoftMiddle.Source
             Out_com = new Param_COM();
             List_out_click = new List<Point>();
             Key_check_fw = null;
+            Is_send = false;
+            Is_transmit_data = false;
+
         }
 
         public void Print_Infor()
@@ -622,7 +638,9 @@ namespace THHSoftMiddle.Source
             Console.WriteLine($"comport = {out_com.Comport}, baud = {out_com.Baudrate}");
             Console.WriteLine($"key_check_fw = {key_check_fw}");
             Console.WriteLine($"list_out_click:");
-            foreach(var p in list_out_click)
+            Console.WriteLine($"is_send = {Is_send}");
+            Console.WriteLine($"is_transmit_data = {Is_transmit_data}");
+            foreach (var p in list_out_click)
             {
                 Console.WriteLine(p);
             }
@@ -631,6 +649,8 @@ namespace THHSoftMiddle.Source
         public Param_COM Out_com { get => out_com; set => out_com = value; }
         public List<Point> List_out_click { get => list_out_click; set => list_out_click = value; }
         public string Key_check_fw { get => key_check_fw; set => key_check_fw = value; }
+        public bool Is_send { get => is_send; set => is_send = value; }
+        public bool Is_transmit_data { get => is_transmit_data; set => is_transmit_data = value; }
     }
     public class Config_Common_Param
     {
@@ -646,11 +666,6 @@ namespace THHSoftMiddle.Source
 
         Param_COM in_com;
         Param_TCP in_tcp;
-
-        List<Param_COM> list_out_com;
-        List<Point> list_out_click;
-
-        List<string> list_key_check_fw;
 
         Dictionary<int, Config_Out_Param> dic_barcode;
 
@@ -668,19 +683,8 @@ namespace THHSoftMiddle.Source
             In_com = new Param_COM("COM888");
             In_tcp = new Param_TCP("192.168.100.111");
 
-            List_out_com = new List<Param_COM>();
-            List_out_click = new List<Point>();
-            List_key_check_fw = new List<string>();
-
             dic_barcode = new Dictionary<int, Config_Out_Param>();
-            for (int i = 0; i < 5; i++)
-            {
-                List_out_com.Add(new Param_COM($"COM{i}"));
-                List_out_click.Add(new Point(i,i));
-                List_key_check_fw.Add(string.Format($"@{i}"));
-
-                dic_barcode.Add(i, new Config_Out_Param());
-            }
+            
         }
 
         public string Target_name { get => target_name; set => target_name = value; }
@@ -694,9 +698,6 @@ namespace THHSoftMiddle.Source
         public check_forward Check_to_forward { get => check_to_forward; set => check_to_forward = value; }
         public Param_COM In_com { get => in_com; set => in_com = value; }
         public Param_TCP In_tcp { get => in_tcp; set => in_tcp = value; }
-        public List<Param_COM> List_out_com { get => list_out_com; set => list_out_com = value; }
-        public List<Point> List_out_click { get => list_out_click; set => list_out_click = value; }
-        public List<string> List_key_check_fw { get => list_key_check_fw; set => list_key_check_fw = value; }
         public Dictionary<int, Config_Out_Param> Dic_barcode { get => dic_barcode; set => dic_barcode = value; }
     }
     public class Config_Format_String
@@ -770,6 +771,22 @@ namespace THHSoftMiddle.Source
 
         //put to other system by some method as comport virtua or set click control
     }
+
+    public class Windown_Infor
+    {
+        string name;
+        int hwnd;
+
+        public Windown_Infor(string name, int hwnd)
+        {
+            Name = name;
+            Hwnd = hwnd;
+        }
+
+        public string Name { get => name; set => name = value; }
+        public int Hwnd { get => hwnd; set => hwnd = value; }
+    }
+
     public class MyDefine
     {
 
@@ -783,6 +800,7 @@ namespace THHSoftMiddle.Source
         public static readonly string file_config = String.Format($"{workspaceDirectory}\\Data\\configs\\config_param.json");
         public static readonly string file_config_format_data = String.Format($"{workspaceDirectory}\\Data\\configs\\format_data.json");
         public static readonly string file_config_common_param = String.Format($"{workspaceDirectory}\\Data\\configs\\common_param.json");
+        public static readonly string file_config_filter_window = String.Format($"{workspaceDirectory}\\Data\\configs\\filter_window.json");
         public static readonly string path_load_img_database = @"C:\Program Files\Cognex\VisionPro\Images";
         public static readonly string path_load_vpp_file = @"C:\Users\Admin\Desktop\Vpp_file";
         public static readonly string path_save_images = String.Format("{0}\\Images", projectDirectory);
@@ -823,11 +841,13 @@ namespace THHSoftMiddle.Source
         private delegate bool EnumDelegate(IntPtr hWnd, int lParam);
 
         private static Dictionary<string, IntPtr> dic_programs = null;
+        private static List<Windown_Infor> list_window_active = new List<Windown_Infor>();
 
         // Return a list of the desktop windows' handles and titles.
         public static void GetDesktopWindowHandlesAndTitles(out Dictionary<string, IntPtr> dic)
         {
             dic_programs = new Dictionary<string, IntPtr>();
+            list_window_active = new List<Windown_Infor>();
             if (!EnumDesktopWindows(IntPtr.Zero, FilterCallback, IntPtr.Zero))
             {
                 dic = null;
@@ -838,21 +858,58 @@ namespace THHSoftMiddle.Source
             }
         }
 
+         
+        public static void GetDesktopWindowHandlesAndTitles(out List<Windown_Infor> list_window)
+        {
+            list_window= new List<Windown_Infor>();
+            list_window_active = new List<Windown_Infor>();
+            dic_programs = new Dictionary<string, IntPtr>();
+            if (!EnumDesktopWindows(IntPtr.Zero, FilterCallback, IntPtr.Zero))
+            {
+                list_window = null;
+            }
+            else
+            {
+                list_window = list_window_active;
+            }
+
+
+            
+        }
+
+
         // We use this function to filter windows.
         // This version selects visible windows that have titles.
         private static bool FilterCallback(IntPtr hWnd, int lParam)
         {
+            List<string> list_filter = new List<string> { "THHSoftMiddle", "Window Search", "Internet Security Warning",
+            "e-Manual Viewer Database Service", "Microsoft Store", "e-Manual Viewer Service Server", "Microsoft Text Input Application",
+            "Movies & TV", "Program Manager"};
+
             // Get the window's title.
             StringBuilder sb_title = new StringBuilder(1024);
             int length = GetWindowText(hWnd, sb_title, sb_title.Capacity);
             string title = sb_title.ToString();
-
+            foreach(var str_filter in list_filter)
+            {
+                if (title.Contains(str_filter))
+                    return true;
+            }
             // If the window is visible and has a title, save it.
-            if (IsWindowVisible(hWnd) &&
-                string.IsNullOrEmpty(title) == false)
+            if (IsWindowVisible(hWnd) && string.IsNullOrEmpty(title) == false)
             {
                 if (!dic_programs.ContainsKey(title))
+                {
                     dic_programs.Add(title, hWnd);
+                    Console.WriteLine($"add {title} - windown {hWnd}");
+                }
+                else
+                {
+                    Console.WriteLine($"keep {title} - windown {hWnd}");
+                }
+
+                list_window_active.Add(new Windown_Infor(title, (int)hWnd));
+
             }
 
             // Return true to indicate that we

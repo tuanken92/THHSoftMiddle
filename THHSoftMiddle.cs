@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using THHSoftMiddle.Source;
@@ -33,11 +34,432 @@ namespace THHSoftMiddle
         //common param
         Config_Common_Param config_common_param;
 
+        //operator vairable
+
+        int number_barcode_processed = 0;
+        bool is_start_program = false;
+        string data_barcode_input;
+
+        //thread heartbeat
+        Thread th_heartbeat = null;
+        bool en_th_heartbeat;
+
+
+        //thread comport
+        Thread th_read_input = null;
+        bool en_th_read_input;
+
+        #region main_process
+        void Init_Thread()
+        {
+            if (th_heartbeat == null)
+            {
+                th_heartbeat = new Thread(new ThreadStart(Thread_HeartBeat));
+                th_heartbeat.Name = "Thread heartbeat";
+                th_heartbeat.IsBackground = true;
+                en_th_heartbeat = true;
+
+            }
+
+            if (th_read_input == null)
+            {
+                th_read_input = new Thread(new ThreadStart(Run_Thread_Input));
+                th_read_input.Name = "Thread read input";
+                th_read_input.IsBackground = true;
+                en_th_read_input = true;
+            }
+
+        }
+        private void btnClick_MainProcess(object sender, EventArgs e)
+        {
+            var cur_btn = sender as Button;
+            switch (cur_btn.Name)
+            {
+                case "btnRun":
+                    Start_Program();
+                    break;
+
+                case "btnStop":
+                    Stop_Program();
+                    break;
+
+                case "btnReset":
+                    Reset_Program();
+                    break;
+            }
+        }
+
+        void Start_Program()
+        {
+            if(!is_start_program)
+            {
+                is_start_program = true;
+
+                //handler program 
+                programHandle = (IntPtr)config_common_param.Target_hwnd;
+                var txt = string.Format("program target = #{0:X}", programHandle);
+                Console.WriteLine(txt);
+                MyDefine.SetForegroundWindow(programHandle);
+                //open connect to input
+                if (config_common_param.In_soft == input_soft.method_com)
+                {
+                    rs232 = new RS232(config_common_param.In_com.Comport, config_common_param.In_com.Baudrate);
+                    bool b_rs232 = rs232.Open();                    
+                }
+                else if(config_common_param.In_soft == input_soft.method_tcp)
+                {
+                    tcp_client = new TcpIPClient(config_common_param.In_tcp.Ip, config_common_param.In_tcp.Port);
+                    bool b_tcp = tcp_client.Connect();
+                }
+
+                Init_Thread();
+
+                th_heartbeat.Start();
+                th_read_input.Start();
+
+                //run thread heartbeat
+                en_th_heartbeat = true;
+
+
+                //run thread read input
+                en_th_read_input = true;
+            }
+
+        }
+
+        void Stop_Program()
+        {
+            if (is_start_program)
+            {
+
+                //close connect to input
+                if (config_common_param.In_soft == input_soft.method_com)
+                {
+                    rs232.Close();
+                }
+                else if (config_common_param.In_soft == input_soft.method_tcp)
+                {
+                    tcp_client.Disconnect();
+                }
+
+                en_th_heartbeat = false;
+                en_th_read_input = false;
+
+                th_heartbeat.Abort();
+                th_read_input.Abort();
+                th_heartbeat = null;
+                th_read_input = null;
+
+                is_start_program = false;
+            }
+        }
+
+        void Reset_Program()
+        {
+            is_start_program = false;
+            number_barcode_processed = 0;
+
+            //reset all barcode
+            for (int i = 0; i < config_common_param.Dic_barcode.Count; i++)
+            {
+                config_common_param.Dic_barcode.ElementAt(i).Value.Is_send = false;
+            }
+
+        }
+        /// <summary>
+        /// Input: data from serial port or TCP -> str_data_input
+        /// </summary>
+        void Run_Thread_Input()
+        {
+            //splip dat by \r\n or somthing else
+            while(en_th_read_input)
+            {
+                Thread.Sleep(100);
+
+                if (config_common_param.In_soft == input_soft.method_com)
+                {
+                    if (!string.IsNullOrEmpty(rs232.Data_receive))
+                    {
+                        data_barcode_input = rs232.Data_receive;
+                        Console.WriteLine("comport = {0}", rs232.Data_receive);
+                        rs232.Data_receive = null;
+                    }
+                }
+                else if (config_common_param.In_soft == input_soft.method_tcp)
+                {
+                    if (!string.IsNullOrEmpty(tcp_client.data_receive.ToString()))
+                    {
+                        data_barcode_input = tcp_client.data_receive.ToString();
+                        Console.WriteLine("tcp = {0}", tcp_client.data_receive.ToString());
+                        tcp_client.data_receive.Clear();
+                    }
+                }
+
+                if(!string.IsNullOrEmpty(data_barcode_input))
+                {
+                    Print_BarcodeData(data_barcode_input);
+                    data_barcode_input = Run_Process_Format_Data(data_barcode_input);
+                    var data = data_barcode_input;
+                    data_barcode_input = null;
+                    Thread th = new Thread(() => Run_Process_Ouput_System(data));
+                    th.Start();
+                    Console.WriteLine(data);
+                    
+
+                }
+            }
+        }
+
+        void Read_Data_From_Tcp()
+        {
+            //splip dat by \r\n or somthing else
+        }
+
+        void Read_Data_From_Comport()
+        {
+            //splip dat by \r\n or somthing else
+        }
+
+        /// <summary>
+        /// input: str_data_input -> output with formated
+        /// </summary>
+        string Run_Process_Format_Data(string str_data_input)
+        {
+            //1.custom
+            custom_text.Input_text = str_data_input;
+            var custom_out = custom_text.Process();
+
+            //2.leading
+            leadingText.Input_text = custom_out;
+            leadingText.Leading_text = config_format_string.Leading;
+            var leading_out = leadingText.Process();
+
+            //3.terminating
+            terminating_text.Input_text = leading_out;
+            terminating_text.Terminal_text = config_format_string.Terminating;
+            var output_string = terminating_text.Process();
+            Console.WriteLine($"String output_process = {output_string}");
+
+            return output_string;
+        }
+
+        
+        /// <summary>
+        /// Input: str_data_barcode is data receive from input software
+        /// Output: consider this data is satisfy the condition -> send data out
+        /// </summary>
+        /// <param name="str_data_barcode"></param>
+        void Run_Process_Ouput_System(string str_data_barcode)
+        {
+            //consider input data
+            if (string.IsNullOrEmpty(str_data_barcode))
+            {
+                Console.WriteLine("return");
+                return;
+            }
+
+            //FIX-ME: check key = null
+
+            //consider cast data
+            for (int i = 0; i < config_common_param.Dic_barcode.Count; i++)
+            {
+                var cur_barcode_infor = config_common_param.Dic_barcode.ElementAt(i).Value;
+                
+                //if this string is send -> continue
+                if (cur_barcode_infor.Is_send || cur_barcode_infor.Is_transmit_data)
+                {
+                    Console.WriteLine("continue 1");
+                    continue;
+                }
+
+                //if this string is contain check_fw
+                if(!string.IsNullOrEmpty(cur_barcode_infor.Key_check_fw))
+                {
+                    if (!str_data_barcode.Contains(cur_barcode_infor.Key_check_fw))
+                    {
+                        Console.WriteLine("continue 2");
+                        continue;
+                    }
+                }
+
+                //forward & set flag send = true
+                Transmit_Data(config_common_param.Dic_barcode.ElementAt(i).Key, str_data_barcode);
+
+            }
+            
+        }
+
+        /// <summary>
+        /// consider to transmit barcode & set flag send = true
+        /// </summary>
+        /// <param name="key_barcode"></param>
+        void Transmit_Data(int key_barcode, string barcode)
+        {
+            config_common_param.Dic_barcode[key_barcode].Is_transmit_data = true;
+
+            bool send_data = false;
+            if (config_common_param.Out_soft == output_soft.method_click)
+            {
+                //click and send
+                send_data = Send_Data_By_Click(key_barcode, barcode);
+            }
+            else if (config_common_param.Out_soft == output_soft.method_com)
+            {
+                //open comport and send
+                send_data = Send_Data_By_Comport(key_barcode, barcode);
+            }
+
+            if(send_data)
+            {
+                config_common_param.Dic_barcode[key_barcode].Is_send = true;
+                config_common_param.Dic_barcode[key_barcode].Is_transmit_data = false;
+                number_barcode_processed++;
+            }
+        }
+
+        bool Send_Data_By_Click(int key_barcode, string data)
+        {
+            bool send_result = true;
+            MyDefine.SetForegroundWindow(programHandle);
+            //click
+            foreach (var click_item in config_common_param.Dic_barcode[key_barcode].List_out_click)
+            {
+                ClickOnPointTool.ClickOnPoint(programHandle, click_item);
+                Thread.Sleep(config_common_param.Time_delay);
+            }
+
+            //puttext
+            SendKeys.SendWait("{END}");
+            SendKeys.SendWait($"{data}");
+            return send_result;
+        }
+
+        bool Send_Data_By_Comport(int key_barcode, string data)
+        {
+            bool send_result = false;
+            //open com
+            RS232 rs232_temp  = new RS232(config_common_param.Dic_barcode[key_barcode].Out_com);
+            send_result = rs232_temp.Open();
+            //send data
+            send_result = rs232_temp.SendData(data);
+            //close com
+            send_result = rs232_temp.Close();
+            return send_result;
+        }
+
+
+        bool com_is_open = false;
+        bool tcp_is_connect = false;
+
+        /// <summary>
+        /// Consider: 1. all thread is run
+        ///           2. quanti barcode is enough with target  
+        ///           3. if done process -> reset all param
+        /// </summary>
+        void Thread_HeartBeat()
+        {
+            while(en_th_heartbeat)
+            {
+                Thread.Sleep(1500);
+
+                
+                if (config_common_param.Out_soft == output_soft.method_click)
+                {
+                    //check com
+                    com_is_open = rs232.Get_State();
+                }
+                else if (config_common_param.Out_soft == output_soft.method_com)
+                {
+                    //check tcp
+                    tcp_is_connect = tcp_client.Get_State();
+                }
+
+                
+
+               
+
+                //check thread 1
+
+                //check thread 2
+
+                
+
+                
+
+                //print infor
+                Print_HeartBeat();
+            }
+        }
+
+        private delegate void SafeCallDelegate();
+        void Print_HeartBeat()
+        {
+            if (listBoxHeartBeat.InvokeRequired)
+            {
+                var d = new SafeCallDelegate(Print_HeartBeat);
+                listBoxHeartBeat.Invoke(d);
+            }
+            else
+            {
+                listBoxHeartBeat.Items.Insert(0,$"-------------");
+                if (config_common_param.Out_soft == output_soft.method_click)
+                {
+                    listBoxHeartBeat.Items.Insert(0, $"comport: {com_is_open}");
+                }
+                else if (config_common_param.Out_soft == output_soft.method_com)
+                {
+                    listBoxHeartBeat.Items.Insert(0, $"tcp: {tcp_is_connect}");
+                }
+                listBoxHeartBeat.Items.Insert(0,$"barcode process: {number_barcode_processed}");
+                for (int i = 0; i < config_common_param.Dic_barcode.Count; i++)
+                {
+                    var key = config_common_param.Dic_barcode.ElementAt(i).Key;
+                    listBoxHeartBeat.Items.Insert(0, $"barcode {key}, send status {config_common_param.Dic_barcode[key].Is_send}");
+                }
+
+                //check number code
+                if (number_barcode_processed == config_common_param.Dic_barcode.Count)
+                {
+                    //send all barcode done!
+                    number_barcode_processed = 0;
+                    for (int i = 0; i < config_common_param.Dic_barcode.Count; i++)
+                    {
+                        config_common_param.Dic_barcode.ElementAt(i).Value.Is_send = false;
+                    }
+
+                    listBoxHeartBeat.Items.Insert(0, $"-------Restart Conter------");
+                }
+
+                listBoxHeartBeat.Items.Insert(0,$"-------------");
+            }
+
+            
+        }
+
+        private delegate void SafeCallDelegate2(string text);
+        void Print_BarcodeData(string data)
+        {
+            if (listBoxBarcodeState.InvokeRequired)
+            {
+                var d = new SafeCallDelegate2(Print_BarcodeData);
+                listBoxBarcodeState.Invoke(d, new object[] { data });
+            }
+            else
+            {
+                listBoxBarcodeState.Items.Insert(0, data);
+            }
+
+
+        }
+        #endregion
+
         public THHSoftMiddle()
         {
             InitializeComponent();
             Initial();
             Init_GUI();
+            Init_Thread();
+
         }
 
 
@@ -76,7 +498,7 @@ namespace THHSoftMiddle
         }
         void Initial()
         {
-            //comport
+            /*//comport
             string com_name = txtComName.Text;
             int com_baud = int.Parse(txtComBaud.Text);
             rs232 = new RS232(com_name, com_baud);
@@ -84,7 +506,7 @@ namespace THHSoftMiddle
             //comport
             string ip = txtTcpIP.Text;
             int port = int.Parse(txtTcpPort.Text);
-            tcp_client = new TcpIPClient(ip, port);
+            tcp_client = new TcpIPClient(ip, port);*/
 
 
             //data format
@@ -128,14 +550,23 @@ namespace THHSoftMiddle
 
         void Get_Common_Param()
         {
+            var number_barcode = (int)nbUpdownNumberCode.Value;
             config_common_param.Target_name = txtTargetWindow.Text;
             config_common_param.Target_hwnd = int.Parse(txtTargetHwnd.Text);
             config_common_param.Offset_x = int.Parse(txtOffsetX.Text);
             config_common_param.Offset_y = int.Parse(txtOffsetY.Text);
             config_common_param.Time_delay = int.Parse(txtTimeDelay.Text);
-            config_common_param.Number_barcode = (int)nbUpdownNumberCode.Value;
+            config_common_param.Number_barcode = number_barcode;
             config_common_param.In_soft = (input_soft)cbxInputSoft.SelectedIndex;
             config_common_param.Out_soft = (output_soft)cbxOutputSoft.SelectedIndex;
+
+            for(int i = 1; i < number_barcode; i++)
+            {
+                if(!config_common_param.Dic_barcode.ContainsKey(i))
+                {
+                    config_common_param.Dic_barcode[i] = new Config_Out_Param();
+                }
+            }
         }
         void Get_Config_Format()
         {
@@ -373,6 +804,7 @@ namespace THHSoftMiddle
                     break;
 
                 case "btnSettingInputSoft":
+                    Get_Common_Param();
                     SettingInputSoftware setting_input_dlg = new SettingInputSoftware(
                         config_common_param.In_com,
                         config_common_param.In_tcp
@@ -388,11 +820,15 @@ namespace THHSoftMiddle
                     break;
 
                 case "btnSettingOutput":
-                    var max_barcode = (int)nbUpdownNumberCode.Value;
-                    Dictionary<int, Config_Out_Param> dic_barcode = new Dictionary<int, Config_Out_Param>();
-                    SettingOutputSoftware setting_output_dlg = new SettingOutputSoftware(dic_barcode, max_barcode);
+                    Get_Common_Param();
+                    SettingOutputSoftware setting_output_dlg = new SettingOutputSoftware(config_common_param);
                     if (setting_output_dlg.ShowDialog() == DialogResult.OK)
                     {
+                        config_common_param.Dic_barcode = setting_output_dlg.dic_barcode;
+                        config_common_param.Target_name = setting_output_dlg.programName;
+                        config_common_param.Target_hwnd = (int)setting_output_dlg.programHandle;
+                        txtTargetWindow.Text = config_common_param.Target_name;
+                        txtTargetHwnd.Text = config_common_param.Target_hwnd.ToString();
                         Console.WriteLine("Update output param");
                     }
                     setting_output_dlg.Dispose();
@@ -602,6 +1038,6 @@ namespace THHSoftMiddle
             }
         }
 
-      
+        
     }
 }
