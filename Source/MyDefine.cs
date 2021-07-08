@@ -654,6 +654,7 @@ namespace THHSoftMiddle.Source
     }
     public class Config_Common_Param
     {
+        string char_split;
         string target_name;
         int target_hwnd;
         int offset_x;
@@ -671,6 +672,7 @@ namespace THHSoftMiddle.Source
 
         public Config_Common_Param()
         {
+            Char_split = null;
             Target_name = null;
             Target_hwnd = 0;
             Offset_x = 0;
@@ -699,6 +701,7 @@ namespace THHSoftMiddle.Source
         public Param_COM In_com { get => in_com; set => in_com = value; }
         public Param_TCP In_tcp { get => in_tcp; set => in_tcp = value; }
         public Dictionary<int, Config_Out_Param> Dic_barcode { get => dic_barcode; set => dic_barcode = value; }
+        public string Char_split { get => char_split; set => char_split = value; }
     }
     public class Config_Format_String
     {
@@ -842,6 +845,23 @@ namespace THHSoftMiddle.Source
 
         private static Dictionary<string, IntPtr> dic_programs = null;
         private static List<Windown_Infor> list_window_active = new List<Windown_Infor>();
+
+
+
+        public static IntPtr GetControl(String name_wd)
+        {
+            IntPtr hWnd = IntPtr.Zero;
+            var list_process = Process.GetProcesses();
+            foreach (Process pList in list_process)
+            {
+                if (pList.MainWindowTitle.Contains(name_wd))
+                {
+                    hWnd = pList.MainWindowHandle;
+                    break;
+                }
+            }
+            return hWnd;
+        }
 
         // Return a list of the desktop windows' handles and titles.
         public static void GetDesktopWindowHandlesAndTitles(out Dictionary<string, IntPtr> dic)

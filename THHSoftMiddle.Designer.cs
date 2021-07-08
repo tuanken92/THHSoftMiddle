@@ -35,6 +35,13 @@ namespace THHSoftMiddle
             this.lbDateTime = new System.Windows.Forms.Label();
             this.timerDateTime = new System.Windows.Forms.Timer(this.components);
             this.tabPageDev = new System.Windows.Forms.TabPage();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtChildWindow = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnFindChild = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtMouseX = new System.Windows.Forms.TextBox();
             this.txtMouseY = new System.Windows.Forms.TextBox();
@@ -151,7 +158,10 @@ namespace THHSoftMiddle
             this.btnRun = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.txtSplitChar = new System.Windows.Forms.TextBox();
             this.tabPageDev.SuspendLayout();
+            this.groupBox13.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -213,6 +223,7 @@ namespace THHSoftMiddle
             // tabPageDev
             // 
             this.tabPageDev.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageDev.Controls.Add(this.groupBox13);
             this.tabPageDev.Controls.Add(this.groupBox3);
             this.tabPageDev.Controls.Add(this.groupBox2);
             this.tabPageDev.Controls.Add(this.btnText);
@@ -226,6 +237,73 @@ namespace THHSoftMiddle
             this.tabPageDev.Size = new System.Drawing.Size(492, 405);
             this.tabPageDev.TabIndex = 6;
             this.tabPageDev.Text = "Dev";
+            // 
+            // groupBox13
+            // 
+            this.groupBox13.Controls.Add(this.textBox1);
+            this.groupBox13.Controls.Add(this.txtChildWindow);
+            this.groupBox13.Controls.Add(this.label15);
+            this.groupBox13.Controls.Add(this.label17);
+            this.groupBox13.Controls.Add(this.button1);
+            this.groupBox13.Controls.Add(this.btnFindChild);
+            this.groupBox13.Location = new System.Drawing.Point(239, 281);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(213, 120);
+            this.groupBox13.TabIndex = 6;
+            this.groupBox13.TabStop = false;
+            this.groupBox13.Text = "Find Child Window";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(98, 25);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 3;
+            // 
+            // txtChildWindow
+            // 
+            this.txtChildWindow.Location = new System.Drawing.Point(98, 54);
+            this.txtChildWindow.Name = "txtChildWindow";
+            this.txtChildWindow.Size = new System.Drawing.Size(100, 20);
+            this.txtChildWindow.TabIndex = 3;
+            this.txtChildWindow.Text = "AddReelID";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(15, 29);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(63, 13);
+            this.label15.TabIndex = 0;
+            this.label15.Text = "Class Name";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(15, 58);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(77, 13);
+            this.label17.TabIndex = 0;
+            this.label17.Text = "Window Name";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(18, 87);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(74, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Clear";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // btnFindChild
+            // 
+            this.btnFindChild.Location = new System.Drawing.Point(98, 87);
+            this.btnFindChild.Name = "btnFindChild";
+            this.btnFindChild.Size = new System.Drawing.Size(100, 23);
+            this.btnFindChild.TabIndex = 2;
+            this.btnFindChild.Text = "Find";
+            this.btnFindChild.UseVisualStyleBackColor = true;
+            this.btnFindChild.Click += new System.EventHandler(this.btn_Click_Event);
             // 
             // groupBox3
             // 
@@ -418,7 +496,6 @@ namespace THHSoftMiddle
             this.txtClassName.Name = "txtClassName";
             this.txtClassName.Size = new System.Drawing.Size(100, 20);
             this.txtClassName.TabIndex = 3;
-            this.txtClassName.Text = "TForm1";
             // 
             // txtWindowName
             // 
@@ -426,7 +503,7 @@ namespace THHSoftMiddle
             this.txtWindowName.Name = "txtWindowName";
             this.txtWindowName.Size = new System.Drawing.Size(100, 20);
             this.txtWindowName.TabIndex = 3;
-            this.txtWindowName.Text = "Hercules SETUP utility by HW-group.com";
+            this.txtWindowName.Text = "BartectorXXX";
             // 
             // label1
             // 
@@ -593,9 +670,11 @@ namespace THHSoftMiddle
             this.panel6.Controls.Add(this.btnSaveCommonParam);
             this.panel6.Controls.Add(this.cbxOutputSoft);
             this.panel6.Controls.Add(this.cbxInputSoft);
+            this.panel6.Controls.Add(this.txtSplitChar);
             this.panel6.Controls.Add(this.txtTimeDelay);
             this.panel6.Controls.Add(this.txtTargetHwnd);
             this.panel6.Controls.Add(this.txtOffsetY);
+            this.panel6.Controls.Add(this.label18);
             this.panel6.Controls.Add(this.label20);
             this.panel6.Controls.Add(this.label14);
             this.panel6.Controls.Add(this.txtTargetWindow);
@@ -1413,6 +1492,22 @@ namespace THHSoftMiddle
             this.pictureBoxLogo.TabIndex = 8;
             this.pictureBoxLogo.TabStop = false;
             // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(5, 69);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(75, 13);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Split character";
+            // 
+            // txtSplitChar
+            // 
+            this.txtSplitChar.Location = new System.Drawing.Point(94, 65);
+            this.txtSplitChar.Name = "txtSplitChar";
+            this.txtSplitChar.Size = new System.Drawing.Size(100, 20);
+            this.txtSplitChar.TabIndex = 2;
+            // 
             // THHSoftMiddle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1428,6 +1523,8 @@ namespace THHSoftMiddle
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.THHSoftMiddle_FormClosing);
             this.Load += new System.EventHandler(this.THHSoftMiddle_Load);
             this.tabPageDev.ResumeLayout(false);
+            this.groupBox13.ResumeLayout(false);
+            this.groupBox13.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -1593,6 +1690,15 @@ namespace THHSoftMiddle
         private System.Windows.Forms.ListBox listBoxHeartBeat;
         private System.Windows.Forms.ListBox listBoxBarcodeState;
         private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.GroupBox groupBox13;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtChildWindow;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnFindChild;
+        private System.Windows.Forms.TextBox txtSplitChar;
+        private System.Windows.Forms.Label label18;
     }
 }
 

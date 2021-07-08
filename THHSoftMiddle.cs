@@ -197,19 +197,31 @@ namespace THHSoftMiddle
 
                 if(!string.IsNullOrEmpty(data_barcode_input))
                 {
-                    Print_BarcodeData(data_barcode_input);
+                    Process_Barcode_Data(data_barcode_input);
+
+                    /*Print_BarcodeData(data_barcode_input);
                     data_barcode_input = Run_Process_Format_Data(data_barcode_input);
                     var data = data_barcode_input;
                     data_barcode_input = null;
                     Thread th = new Thread(() => Run_Process_Ouput_System(data));
-                    th.Start();
-                    Console.WriteLine(data);
-                    
+                    th.Start();*/
+                    Console.WriteLine("comport: " + data_barcode_input);
+                    data_barcode_input = null;
+
 
                 }
             }
         }
 
+        void Process_Barcode_Data(String data_barcode)
+        {
+            //Split data
+            var list_barcode = data_barcode.Split(config_common_param.Char_split[0]);
+            foreach(var str_barcode in list_barcode)
+            {
+                Console.WriteLine(str_barcode);
+            }
+        }
         void Read_Data_From_Tcp()
         {
             //splip dat by \r\n or somthing else
@@ -495,6 +507,7 @@ namespace THHSoftMiddle
             nbUpdownNumberCode.Value = config_common_param.Number_barcode;
             cbxInputSoft.SelectedIndex = (int)config_common_param.In_soft;
             cbxOutputSoft.SelectedIndex = (int)config_common_param.Out_soft;
+            txtSplitChar.Text = config_common_param.Char_split;
         }
         void Initial()
         {
@@ -559,6 +572,7 @@ namespace THHSoftMiddle
             config_common_param.Number_barcode = number_barcode;
             config_common_param.In_soft = (input_soft)cbxInputSoft.SelectedIndex;
             config_common_param.Out_soft = (output_soft)cbxOutputSoft.SelectedIndex;
+            config_common_param.Char_split = txtSplitChar.Text;
 
             for(int i = 1; i < number_barcode; i++)
             {
@@ -599,6 +613,8 @@ namespace THHSoftMiddle
             {
                 #region rs232_button
                 case "btnComConnect":
+                    if (rs232 == null)
+                        return;
                     bool com_state = rs232.Get_State();
                     if (!com_state)
                     {
@@ -616,6 +632,8 @@ namespace THHSoftMiddle
                     lbxComDataReceive.Items.Clear();
                     break;
                 case "btnComSend":
+                    if (rs232 == null)
+                        return;
                     rs232.SendData(txtComDataToSend.Text);
                     break;
                 #endregion
@@ -685,8 +703,10 @@ namespace THHSoftMiddle
                     MyDefine.SetForegroundWindow(programHandle);
 
 
-
-                    SendKeys.SendWait(txtMessage.Text);
+                    if(chbxEnter.Checked)
+                        SendKeys.SendWait(txtMessage.Text + "\r");
+                    else
+                        SendKeys.SendWait(txtMessage.Text);
                     Console.WriteLine($"Wrote {txtMessage.Text}");
 
                     break;
@@ -709,7 +729,9 @@ namespace THHSoftMiddle
                         window_name = null;
 
                     Console.WriteLine($"class name = {class_name}, window name = {window_name}");
-                    programHandle = MyDefine.FindWindow(class_name, window_name);
+                    /*programHandle = MyDefine.FindWindow(class_name, window_name);*/
+
+                    programHandle = MyDefine.GetControl(window_name);
 
                     // Verify that Calculator is a running process.
                     if (programHandle == IntPtr.Zero)
@@ -722,6 +744,26 @@ namespace THHSoftMiddle
                         MyDefine.SetForegroundWindow(programHandle);
                     }
 
+                    break;
+                case "btnFindChild":
+                    
+                    var wd_bartector = txtWindowName.Text;
+                    var wd_child = txtChildWindow.Text;
+                    
+                    IntPtr child_window = MyDefine.FindWindowEx(IntPtr.Zero, IntPtr.Zero, null, wd_child);
+
+                    Console.WriteLine($"window: {programHandle} & {child_window}");
+                    // Verify that Calculator is a running process.
+                    if (child_window == IntPtr.Zero)
+                    {
+                        MessageBox.Show($"{wd_child} is not running");
+                    }
+                    else
+                    {
+                        programHandle = child_window;
+                        Console.WriteLine($"{wd_child} is running");
+                        MyDefine.SetForegroundWindow(child_window);
+                    }
                     break;
                 case "btnClear":
                     txtClassName.Text = "";
@@ -1037,7 +1079,5 @@ namespace THHSoftMiddle
                     break;
             }
         }
-
-        
     }
 }

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7C53E722-DF26-471F-8A92-39A763A66A5A}</ProjectGuid>
+    <ProjectGuid>{0DB5868A-19A8-4A2D-A7CC-3B27D9866043}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>THHSoftMiddle</RootNamespace>
     <AssemblyName>THHSoftMiddle</AssemblyName>
