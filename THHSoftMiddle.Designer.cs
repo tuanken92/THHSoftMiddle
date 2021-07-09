@@ -55,6 +55,7 @@ namespace THHSoftMiddle
             this.label3 = new System.Windows.Forms.Label();
             this.btnGoEnd = new System.Windows.Forms.Button();
             this.btnGoHome = new System.Windows.Forms.Button();
+            this.btnWrite2 = new System.Windows.Forms.Button();
             this.btnWrite = new System.Windows.Forms.Button();
             this.btnText = new System.Windows.Forms.Button();
             this.btnCapture = new System.Windows.Forms.Button();
@@ -67,16 +68,7 @@ namespace THHSoftMiddle
             this.btnClear = new System.Windows.Forms.Button();
             this.btnFind = new System.Windows.Forms.Button();
             this.btnTest = new System.Windows.Forms.Button();
-            this.tabPageHelp = new System.Windows.Forms.TabPage();
             this.tabPageSetting = new System.Windows.Forms.TabPage();
-            this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.bsnSelectTargetWindow = new System.Windows.Forms.Button();
-            this.btnFindTargetWindow = new System.Windows.Forms.Button();
-            this.cbxFindTargetWindow = new System.Windows.Forms.ComboBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.txtFindTargetHwnd = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.panel6 = new System.Windows.Forms.Panel();
             this.nbUpdownNumberCode = new System.Windows.Forms.NumericUpDown();
@@ -155,21 +147,20 @@ namespace THHSoftMiddle
             this.tabPageAuto = new System.Windows.Forms.TabPage();
             this.listBoxHeartBeat = new System.Windows.Forms.ListBox();
             this.listBoxBarcodeState = new System.Windows.Forms.ListBox();
+            this.btnHide = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnRun = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
-            this.btnWrite2 = new System.Windows.Forms.Button();
-            this.btnHide = new System.Windows.Forms.Button();
+            this.btnClearLogBarcode = new System.Windows.Forms.Button();
+            this.btnClearLogHeartBeat = new System.Windows.Forms.Button();
             this.tabPageDev.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPageSetting.SuspendLayout();
-            this.groupBox12.SuspendLayout();
-            this.panel5.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nbUpdownNumberCode)).BeginInit();
@@ -438,6 +429,16 @@ namespace THHSoftMiddle
             this.btnGoHome.UseVisualStyleBackColor = true;
             this.btnGoHome.Click += new System.EventHandler(this.btn_Click_Event);
             // 
+            // btnWrite2
+            // 
+            this.btnWrite2.Location = new System.Drawing.Point(119, 90);
+            this.btnWrite2.Name = "btnWrite2";
+            this.btnWrite2.Size = new System.Drawing.Size(75, 23);
+            this.btnWrite2.TabIndex = 2;
+            this.btnWrite2.Text = "Write";
+            this.btnWrite2.UseVisualStyleBackColor = true;
+            this.btnWrite2.Click += new System.EventHandler(this.btn_Click_Event);
+            // 
             // btnWrite
             // 
             this.btnWrite.Location = new System.Drawing.Point(119, 46);
@@ -556,20 +557,9 @@ namespace THHSoftMiddle
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btn_Click_Event);
             // 
-            // tabPageHelp
-            // 
-            this.tabPageHelp.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageHelp.Location = new System.Drawing.Point(4, 22);
-            this.tabPageHelp.Name = "tabPageHelp";
-            this.tabPageHelp.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageHelp.Size = new System.Drawing.Size(492, 405);
-            this.tabPageHelp.TabIndex = 5;
-            this.tabPageHelp.Text = "Help";
-            // 
             // tabPageSetting
             // 
             this.tabPageSetting.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageSetting.Controls.Add(this.groupBox12);
             this.tabPageSetting.Controls.Add(this.groupBox11);
             this.tabPageSetting.Location = new System.Drawing.Point(4, 22);
             this.tabPageSetting.Name = "tabPageSetting";
@@ -577,82 +567,6 @@ namespace THHSoftMiddle
             this.tabPageSetting.Size = new System.Drawing.Size(492, 405);
             this.tabPageSetting.TabIndex = 4;
             this.tabPageSetting.Text = "Setting";
-            // 
-            // groupBox12
-            // 
-            this.groupBox12.Controls.Add(this.panel5);
-            this.groupBox12.Location = new System.Drawing.Point(4, 185);
-            this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(480, 214);
-            this.groupBox12.TabIndex = 3;
-            this.groupBox12.TabStop = false;
-            this.groupBox12.Text = "Setting Condition Forward";
-            // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.bsnSelectTargetWindow);
-            this.panel5.Controls.Add(this.btnFindTargetWindow);
-            this.panel5.Controls.Add(this.cbxFindTargetWindow);
-            this.panel5.Controls.Add(this.label16);
-            this.panel5.Controls.Add(this.txtFindTargetHwnd);
-            this.panel5.Controls.Add(this.label23);
-            this.panel5.Location = new System.Drawing.Point(6, 19);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(468, 189);
-            this.panel5.TabIndex = 2;
-            // 
-            // bsnSelectTargetWindow
-            // 
-            this.bsnSelectTargetWindow.Location = new System.Drawing.Point(407, 10);
-            this.bsnSelectTargetWindow.Name = "bsnSelectTargetWindow";
-            this.bsnSelectTargetWindow.Size = new System.Drawing.Size(47, 23);
-            this.bsnSelectTargetWindow.TabIndex = 2;
-            this.bsnSelectTargetWindow.Text = "Select";
-            this.bsnSelectTargetWindow.UseVisualStyleBackColor = true;
-            this.bsnSelectTargetWindow.Click += new System.EventHandler(this.btn_Click_Event);
-            // 
-            // btnFindTargetWindow
-            // 
-            this.btnFindTargetWindow.Location = new System.Drawing.Point(354, 10);
-            this.btnFindTargetWindow.Name = "btnFindTargetWindow";
-            this.btnFindTargetWindow.Size = new System.Drawing.Size(47, 23);
-            this.btnFindTargetWindow.TabIndex = 2;
-            this.btnFindTargetWindow.Text = "Find";
-            this.btnFindTargetWindow.UseVisualStyleBackColor = true;
-            this.btnFindTargetWindow.Click += new System.EventHandler(this.btn_Click_Event);
-            // 
-            // cbxFindTargetWindow
-            // 
-            this.cbxFindTargetWindow.FormattingEnabled = true;
-            this.cbxFindTargetWindow.Location = new System.Drawing.Point(94, 12);
-            this.cbxFindTargetWindow.Name = "cbxFindTargetWindow";
-            this.cbxFindTargetWindow.Size = new System.Drawing.Size(243, 21);
-            this.cbxFindTargetWindow.TabIndex = 1;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(5, 15);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(80, 13);
-            this.label16.TabIndex = 0;
-            this.label16.Text = "Target Window";
-            // 
-            // txtFindTargetHwnd
-            // 
-            this.txtFindTargetHwnd.Location = new System.Drawing.Point(94, 39);
-            this.txtFindTargetHwnd.Name = "txtFindTargetHwnd";
-            this.txtFindTargetHwnd.Size = new System.Drawing.Size(100, 20);
-            this.txtFindTargetHwnd.TabIndex = 2;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(5, 42);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(42, 13);
-            this.label23.TabIndex = 0;
-            this.label23.Text = "HWND";
             // 
             // groupBox11
             // 
@@ -1431,6 +1345,8 @@ namespace THHSoftMiddle
             this.tabPageAuto.Controls.Add(this.listBoxHeartBeat);
             this.tabPageAuto.Controls.Add(this.listBoxBarcodeState);
             this.tabPageAuto.Controls.Add(this.btnHide);
+            this.tabPageAuto.Controls.Add(this.btnClearLogHeartBeat);
+            this.tabPageAuto.Controls.Add(this.btnClearLogBarcode);
             this.tabPageAuto.Controls.Add(this.btnReset);
             this.tabPageAuto.Controls.Add(this.btnStop);
             this.tabPageAuto.Controls.Add(this.btnRun);
@@ -1444,6 +1360,7 @@ namespace THHSoftMiddle
             // listBoxHeartBeat
             // 
             this.listBoxHeartBeat.FormattingEnabled = true;
+            this.listBoxHeartBeat.HorizontalScrollbar = true;
             this.listBoxHeartBeat.Location = new System.Drawing.Point(6, 184);
             this.listBoxHeartBeat.Name = "listBoxHeartBeat";
             this.listBoxHeartBeat.Size = new System.Drawing.Size(402, 212);
@@ -1452,10 +1369,21 @@ namespace THHSoftMiddle
             // listBoxBarcodeState
             // 
             this.listBoxBarcodeState.FormattingEnabled = true;
+            this.listBoxBarcodeState.HorizontalScrollbar = true;
             this.listBoxBarcodeState.Location = new System.Drawing.Point(6, 5);
             this.listBoxBarcodeState.Name = "listBoxBarcodeState";
             this.listBoxBarcodeState.Size = new System.Drawing.Size(402, 173);
             this.listBoxBarcodeState.TabIndex = 1;
+            // 
+            // btnHide
+            // 
+            this.btnHide.Location = new System.Drawing.Point(413, 373);
+            this.btnHide.Name = "btnHide";
+            this.btnHide.Size = new System.Drawing.Size(75, 23);
+            this.btnHide.TabIndex = 0;
+            this.btnHide.Text = "Hide";
+            this.btnHide.UseVisualStyleBackColor = true;
+            this.btnHide.Click += new System.EventHandler(this.btnClick_MainProcess);
             // 
             // btnReset
             // 
@@ -1493,7 +1421,6 @@ namespace THHSoftMiddle
             this.tabControl.Controls.Add(this.tabPageInput);
             this.tabControl.Controls.Add(this.tabPageDataFormat);
             this.tabControl.Controls.Add(this.tabPageSetting);
-            this.tabControl.Controls.Add(this.tabPageHelp);
             this.tabControl.Controls.Add(this.tabPageDev);
             this.tabControl.Location = new System.Drawing.Point(2, 35);
             this.tabControl.Name = "tabControl";
@@ -1512,25 +1439,25 @@ namespace THHSoftMiddle
             this.pictureBoxLogo.TabIndex = 8;
             this.pictureBoxLogo.TabStop = false;
             // 
-            // btnWrite2
+            // btnClearLogBarcode
             // 
-            this.btnWrite2.Location = new System.Drawing.Point(119, 90);
-            this.btnWrite2.Name = "btnWrite2";
-            this.btnWrite2.Size = new System.Drawing.Size(75, 23);
-            this.btnWrite2.TabIndex = 2;
-            this.btnWrite2.Text = "Write";
-            this.btnWrite2.UseVisualStyleBackColor = true;
-            this.btnWrite2.Click += new System.EventHandler(this.btn_Click_Event);
+            this.btnClearLogBarcode.Location = new System.Drawing.Point(412, 155);
+            this.btnClearLogBarcode.Name = "btnClearLogBarcode";
+            this.btnClearLogBarcode.Size = new System.Drawing.Size(75, 23);
+            this.btnClearLogBarcode.TabIndex = 0;
+            this.btnClearLogBarcode.Text = "Clear";
+            this.btnClearLogBarcode.UseVisualStyleBackColor = true;
+            this.btnClearLogBarcode.Click += new System.EventHandler(this.btnClear_log);
             // 
-            // btnHide
+            // btnClearLogHeartBeat
             // 
-            this.btnHide.Location = new System.Drawing.Point(413, 373);
-            this.btnHide.Name = "btnHide";
-            this.btnHide.Size = new System.Drawing.Size(75, 23);
-            this.btnHide.TabIndex = 0;
-            this.btnHide.Text = "Hide";
-            this.btnHide.UseVisualStyleBackColor = true;
-            this.btnHide.Click += new System.EventHandler(this.btnClick_MainProcess);
+            this.btnClearLogHeartBeat.Location = new System.Drawing.Point(414, 344);
+            this.btnClearLogHeartBeat.Name = "btnClearLogHeartBeat";
+            this.btnClearLogHeartBeat.Size = new System.Drawing.Size(75, 23);
+            this.btnClearLogHeartBeat.TabIndex = 0;
+            this.btnClearLogHeartBeat.Text = "Clear";
+            this.btnClearLogHeartBeat.UseVisualStyleBackColor = true;
+            this.btnClearLogHeartBeat.Click += new System.EventHandler(this.btnClear_log);
             // 
             // THHSoftMiddle
             // 
@@ -1541,6 +1468,7 @@ namespace THHSoftMiddle
             this.Controls.Add(this.lbDateTime);
             this.Controls.Add(this.lbTitle);
             this.Controls.Add(this.tabControl);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "THHSoftMiddle";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "THHSoftMiddle";
@@ -1556,9 +1484,6 @@ namespace THHSoftMiddle
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabPageSetting.ResumeLayout(false);
-            this.groupBox12.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
             this.groupBox11.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
@@ -1623,7 +1548,6 @@ namespace THHSoftMiddle
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnFind;
         private System.Windows.Forms.Button btnTest;
-        private System.Windows.Forms.TabPage tabPageHelp;
         private System.Windows.Forms.TabPage tabPageSetting;
         private System.Windows.Forms.TabPage tabPageDataFormat;
         private System.Windows.Forms.Button btnSaveDataFormat;
@@ -1664,10 +1588,6 @@ namespace THHSoftMiddle
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TabPage tabPageAuto;
         private System.Windows.Forms.TabControl tabControl;
-        private System.Windows.Forms.GroupBox groupBox12;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.ComboBox cbxFindTargetWindow;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.TextBox txtTimeDelay;
@@ -1703,10 +1623,6 @@ namespace THHSoftMiddle
         private System.Windows.Forms.TextBox txtTargetHwnd;
         private System.Windows.Forms.TextBox txtTargetWindow;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button btnFindTargetWindow;
-        private System.Windows.Forms.TextBox txtFindTargetHwnd;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Button bsnSelectTargetWindow;
         private System.Windows.Forms.Button btnSettingInputSoft;
         private System.Windows.Forms.Button btnSettingOutput;
         private System.Windows.Forms.Button btnStop;
@@ -1725,6 +1641,8 @@ namespace THHSoftMiddle
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button btnWrite2;
         private System.Windows.Forms.Button btnHide;
+        private System.Windows.Forms.Button btnClearLogHeartBeat;
+        private System.Windows.Forms.Button btnClearLogBarcode;
     }
 }
 
