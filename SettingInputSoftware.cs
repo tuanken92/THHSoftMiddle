@@ -70,5 +70,10 @@ namespace THHSoftMiddle
         {
             this.Close();
         }
+
+        private void btnGetIP_Click(object sender, EventArgs e)
+        {
+            txtIP.Text = MyDefine.GetLocalIPAddress();
+        }
     }
 }

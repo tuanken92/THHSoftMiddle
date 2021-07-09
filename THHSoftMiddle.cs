@@ -49,6 +49,10 @@ namespace THHSoftMiddle
         Thread th_read_input = null;
         bool en_th_read_input;
 
+
+        bool b_rs232 = false;
+        bool b_tcp = false;
+
         #region main_process
         void Init_Thread()
         {
@@ -86,8 +90,12 @@ namespace THHSoftMiddle
                 case "btnReset":
                     Reset_Program();
                     break;
+                case "btnHide":
+                    this.Hide();
+                    break;
             }
         }
+
 
         void Start_Program()
         {
@@ -104,12 +112,12 @@ namespace THHSoftMiddle
                 if (config_common_param.In_soft == input_soft.method_com)
                 {
                     rs232 = new RS232(config_common_param.In_com.Comport, config_common_param.In_com.Baudrate);
-                    bool b_rs232 = rs232.Open();                    
+                    b_rs232 = rs232.Open();                    
                 }
                 else if(config_common_param.In_soft == input_soft.method_tcp)
                 {
                     tcp_client = new TcpIPClient(config_common_param.In_tcp.Ip, config_common_param.In_tcp.Port);
-                    bool b_tcp = tcp_client.Connect();
+                    b_tcp = tcp_client.Connect();
                 }
 
                 Init_Thread();
@@ -135,11 +143,13 @@ namespace THHSoftMiddle
                 //close connect to input
                 if (config_common_param.In_soft == input_soft.method_com)
                 {
-                    rs232.Close();
+                    if(b_rs232)
+                        rs232.Close();
                 }
                 else if (config_common_param.In_soft == input_soft.method_tcp)
                 {
-                    tcp_client.Disconnect();
+                    if(b_tcp)
+                        tcp_client.Disconnect();
                 }
 
                 en_th_heartbeat = false;
@@ -169,7 +179,7 @@ namespace THHSoftMiddle
         /// <summary>
         /// Input: data from serial port or TCP -> str_data_input
         /// </summary>
-        void Run_Thread_Input()
+        void Run_Thread_Input2()
         {
             //splip dat by \r\n or somthing else
             while(en_th_read_input)
@@ -187,6 +197,11 @@ namespace THHSoftMiddle
                 }
                 else if (config_common_param.In_soft == input_soft.method_tcp)
                 {
+                    if(!tcp_client.Get_State())
+                    {
+                        en_th_read_input = false;
+                        break;
+                    }
                     if (!string.IsNullOrEmpty(tcp_client.data_receive.ToString()))
                     {
                         data_barcode_input = tcp_client.data_receive.ToString();
@@ -197,6 +212,7 @@ namespace THHSoftMiddle
 
                 if(!string.IsNullOrEmpty(data_barcode_input))
                 {
+                    Console.WriteLine("comport: " + data_barcode_input);
                     Process_Barcode_Data(data_barcode_input);
 
                     /*Print_BarcodeData(data_barcode_input);
@@ -205,7 +221,7 @@ namespace THHSoftMiddle
                     data_barcode_input = null;
                     Thread th = new Thread(() => Run_Process_Ouput_System(data));
                     th.Start();*/
-                    Console.WriteLine("comport: " + data_barcode_input);
+                    
                     data_barcode_input = null;
 
 
@@ -213,14 +229,87 @@ namespace THHSoftMiddle
             }
         }
 
+
+        void Run_Thread_Input()
+        {
+            if (config_common_param.In_soft == input_soft.method_com)
+            {
+                while (en_th_read_input && b_rs232)
+                {
+                    Thread.Sleep(100);
+
+                    if (!string.IsNullOrEmpty(rs232.Data_receive))
+                    {
+                        Console.WriteLine("comport: " + rs232.Data_receive);
+                        Process_Barcode_Data(rs232.Data_receive);
+                        rs232.Data_receive = null;
+                    }
+                }
+            } 
+            else if(config_common_param.In_soft == input_soft.method_tcp)
+            {
+                while (en_th_read_input && b_tcp)
+                {
+                    Thread.Sleep(100);
+
+                    if (!string.IsNullOrEmpty(tcp_client.data_receive.ToString()))
+                    {
+                        Console.WriteLine("tcp: " + tcp_client.data_receive.ToString());
+                        Process_Barcode_Data(tcp_client.data_receive.ToString());
+                        tcp_client.data_receive.Clear();
+                    }
+                }
+            }
+     
+        }
+
+
         void Process_Barcode_Data(String data_barcode)
         {
             //Split data
             var list_barcode = data_barcode.Split(config_common_param.Char_split[0]);
+            List<Data_Barcode> list_barcode_IS = new List<Data_Barcode>();
+
             foreach(var str_barcode in list_barcode)
             {
                 Console.WriteLine(str_barcode);
+                list_barcode_IS.Add(new Data_Barcode(str_barcode));
             }
+
+            PushData pushData = new PushData();
+
+            for (int i = 0; i < config_common_param.Dic_barcode.Count; i++)
+            {
+                var cur_barcode_infor = config_common_param.Dic_barcode.ElementAt(i).Value;
+                //Console.WriteLine(cur_barcode_infor.Key_check_fw);
+
+                for(int j  = 0; j < list_barcode_IS.Count; j++)
+                {
+                    if (list_barcode_IS[j].found)
+                        continue;
+                    if(list_barcode_IS[j].data.Contains(cur_barcode_infor.Key_check_fw))
+                    {
+                        pushData.List_data.Add(list_barcode_IS[j].data);
+                        list_barcode_IS[j].found = true;
+                        break;
+                    }
+                }
+ 
+            }
+
+            if(pushData.List_data.Count == config_common_param.Dic_barcode.Count)
+            {
+                MyDefine.SetForegroundWindow(programHandle);
+                bool b = pushData.Push();
+                Console.WriteLine("Push data = " + b);
+            }
+            else
+            {
+                Console.WriteLine("Error!");
+            }
+
+            //release
+            list_barcode_IS.Clear();
         }
         void Read_Data_From_Tcp()
         {
@@ -375,12 +464,12 @@ namespace THHSoftMiddle
                 Thread.Sleep(1500);
 
                 
-                if (config_common_param.Out_soft == output_soft.method_click)
+                if (config_common_param.In_soft == input_soft.method_com)
                 {
                     //check com
                     com_is_open = rs232.Get_State();
                 }
-                else if (config_common_param.Out_soft == output_soft.method_com)
+                else if (config_common_param.In_soft == input_soft.method_tcp)
                 {
                     //check tcp
                     tcp_is_connect = tcp_client.Get_State();
@@ -414,11 +503,11 @@ namespace THHSoftMiddle
             else
             {
                 listBoxHeartBeat.Items.Insert(0,$"-------------");
-                if (config_common_param.Out_soft == output_soft.method_click)
+                if (config_common_param.In_soft == input_soft.method_com)
                 {
                     listBoxHeartBeat.Items.Insert(0, $"comport: {com_is_open}");
                 }
-                else if (config_common_param.Out_soft == output_soft.method_com)
+                else if (config_common_param.In_soft == input_soft.method_com)
                 {
                     listBoxHeartBeat.Items.Insert(0, $"tcp: {tcp_is_connect}");
                 }
@@ -574,8 +663,9 @@ namespace THHSoftMiddle
             config_common_param.Out_soft = (output_soft)cbxOutputSoft.SelectedIndex;
             config_common_param.Char_split = txtSplitChar.Text;
 
-            for(int i = 1; i < number_barcode; i++)
+            for(int i = 1; i < number_barcode + 1; i++)
             {
+                Console.WriteLine(i);
                 if(!config_common_param.Dic_barcode.ContainsKey(i))
                 {
                     config_common_param.Dic_barcode[i] = new Config_Out_Param();
@@ -705,6 +795,42 @@ namespace THHSoftMiddle
 
                     if(chbxEnter.Checked)
                         SendKeys.SendWait(txtMessage.Text + "\r");
+                    else
+                        SendKeys.SendWait(txtMessage.Text);
+                    Console.WriteLine($"Wrote {txtMessage.Text}");
+
+                    break;
+
+                case "btnWrite2":
+                    // Get a handle to the Calculator application. The window class
+                    // and window name were obtained using the Spy++ tool.
+
+
+                    // Verify that Calculator is a running process.
+                    if (programHandle == IntPtr.Zero)
+                    {
+                        MessageBox.Show("Program is not running.");
+                        return;
+                    }
+
+                    // Make Calculator the foreground application and send it
+                    // a set of calculations.
+                    MyDefine.SetForegroundWindow(programHandle);
+
+
+                    if (chbxEnter.Checked)
+                    {
+                        SendKeys.SendWait("tuan1");
+                        SendKeys.SendWait(txtMessage.Text + "\r");
+                        SendKeys.SendWait("tuan2");
+                        SendKeys.SendWait(txtMessage.Text + "\r");
+                        SendKeys.SendWait("tuan3");
+                        SendKeys.SendWait(txtMessage.Text + "\r");
+                        SendKeys.SendWait("tuan4");
+                        SendKeys.SendWait(txtMessage.Text + "\r");
+                        SendKeys.SendWait("tuan5");
+                        SendKeys.SendWait(txtMessage.Text + "\r");
+                    }
                     else
                         SendKeys.SendWait(txtMessage.Text);
                     Console.WriteLine($"Wrote {txtMessage.Text}");
@@ -890,7 +1016,18 @@ namespace THHSoftMiddle
 
         private void THHSoftMiddle_FormClosing(object sender, FormClosingEventArgs e)
         {
-            timerDateTime.Stop();
+            
+            // Display a MsgBox asking the user to save changes or abort.
+            if (MessageBox.Show("Do you want to Close this Application", "THHSoftware",
+               MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                timerDateTime.Stop();
+                Stop_Program();
+            }
         }
 
 

@@ -41,7 +41,7 @@ namespace THHSoftMiddle.Source
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             Data_receive = this.serialPort.ReadExisting();
-            Console.WriteLine($"data rs232 received: {Data_receive}");
+            //Console.WriteLine($"data rs232 received: {Data_receive}");
         }
 
         ~RS232()

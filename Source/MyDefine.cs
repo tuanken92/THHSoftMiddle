@@ -7,6 +7,8 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -402,6 +404,41 @@ namespace THHSoftMiddle.Source
             return data;
         }
 
+    }
+
+    public class Data_Barcode
+    {
+        public String data = null;
+        public bool found = false;
+        public Data_Barcode(String data)
+        {
+            this.data = data;
+            this.found = false;
+        }
+
+    }
+    public class PushData
+    {
+        List<String> list_data;
+
+        public PushData() {
+            list_data = new List<string>();
+        }
+
+
+        public List<string> List_data { get => list_data; set => list_data = value; }
+
+        public bool Push()
+        {
+            foreach(var data in list_data)
+            {
+                //puttext
+                SendKeys.SendWait(data);
+                SendKeys.SendWait("{ENTER}");
+            }
+
+            return true;
+        }
     }
 
     public class DataFormat
@@ -948,6 +985,22 @@ namespace THHSoftMiddle.Source
                     Console.WriteLine("Process: {0}, ID: {1}, Window title: {2}", process.ProcessName, process.Id, process.MainWindowTitle);
                 }
             }
+        }
+
+
+        public static string GetLocalIPAddress()
+        {
+            String str_ip = null;
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    str_ip =  ip.ToString();
+                    break;
+                }
+            }
+            return str_ip;
         }
 
         public static List<string> Scan_Comport()

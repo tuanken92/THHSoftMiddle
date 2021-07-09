@@ -86,9 +86,11 @@ namespace THHSoftMiddle
             this.btnSaveCommonParam = new System.Windows.Forms.Button();
             this.cbxOutputSoft = new System.Windows.Forms.ComboBox();
             this.cbxInputSoft = new System.Windows.Forms.ComboBox();
+            this.txtSplitChar = new System.Windows.Forms.TextBox();
             this.txtTimeDelay = new System.Windows.Forms.TextBox();
             this.txtTargetHwnd = new System.Windows.Forms.TextBox();
             this.txtOffsetY = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.txtTargetWindow = new System.Windows.Forms.TextBox();
@@ -158,8 +160,8 @@ namespace THHSoftMiddle
             this.btnRun = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.txtSplitChar = new System.Windows.Forms.TextBox();
+            this.btnWrite2 = new System.Windows.Forms.Button();
+            this.btnHide = new System.Windows.Forms.Button();
             this.tabPageDev.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -381,10 +383,11 @@ namespace THHSoftMiddle
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.btnGoEnd);
             this.groupBox2.Controls.Add(this.btnGoHome);
+            this.groupBox2.Controls.Add(this.btnWrite2);
             this.groupBox2.Controls.Add(this.btnWrite);
             this.groupBox2.Location = new System.Drawing.Point(138, 18);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 119);
+            this.groupBox2.Size = new System.Drawing.Size(299, 119);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Text";
@@ -762,6 +765,13 @@ namespace THHSoftMiddle
             this.cbxInputSoft.Size = new System.Drawing.Size(100, 21);
             this.cbxInputSoft.TabIndex = 3;
             // 
+            // txtSplitChar
+            // 
+            this.txtSplitChar.Location = new System.Drawing.Point(94, 65);
+            this.txtSplitChar.Name = "txtSplitChar";
+            this.txtSplitChar.Size = new System.Drawing.Size(100, 20);
+            this.txtSplitChar.TabIndex = 2;
+            // 
             // txtTimeDelay
             // 
             this.txtTimeDelay.Location = new System.Drawing.Point(354, 65);
@@ -782,6 +792,15 @@ namespace THHSoftMiddle
             this.txtOffsetY.Name = "txtOffsetY";
             this.txtOffsetY.Size = new System.Drawing.Size(100, 20);
             this.txtOffsetY.TabIndex = 2;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(5, 69);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(75, 13);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Split character";
             // 
             // label20
             // 
@@ -1411,6 +1430,7 @@ namespace THHSoftMiddle
             this.tabPageAuto.BackColor = System.Drawing.SystemColors.Control;
             this.tabPageAuto.Controls.Add(this.listBoxHeartBeat);
             this.tabPageAuto.Controls.Add(this.listBoxBarcodeState);
+            this.tabPageAuto.Controls.Add(this.btnHide);
             this.tabPageAuto.Controls.Add(this.btnReset);
             this.tabPageAuto.Controls.Add(this.btnStop);
             this.tabPageAuto.Controls.Add(this.btnRun);
@@ -1492,21 +1512,25 @@ namespace THHSoftMiddle
             this.pictureBoxLogo.TabIndex = 8;
             this.pictureBoxLogo.TabStop = false;
             // 
-            // label18
+            // btnWrite2
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(5, 69);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(75, 13);
-            this.label18.TabIndex = 0;
-            this.label18.Text = "Split character";
+            this.btnWrite2.Location = new System.Drawing.Point(119, 90);
+            this.btnWrite2.Name = "btnWrite2";
+            this.btnWrite2.Size = new System.Drawing.Size(75, 23);
+            this.btnWrite2.TabIndex = 2;
+            this.btnWrite2.Text = "Write";
+            this.btnWrite2.UseVisualStyleBackColor = true;
+            this.btnWrite2.Click += new System.EventHandler(this.btn_Click_Event);
             // 
-            // txtSplitChar
+            // btnHide
             // 
-            this.txtSplitChar.Location = new System.Drawing.Point(94, 65);
-            this.txtSplitChar.Name = "txtSplitChar";
-            this.txtSplitChar.Size = new System.Drawing.Size(100, 20);
-            this.txtSplitChar.TabIndex = 2;
+            this.btnHide.Location = new System.Drawing.Point(413, 373);
+            this.btnHide.Name = "btnHide";
+            this.btnHide.Size = new System.Drawing.Size(75, 23);
+            this.btnHide.TabIndex = 0;
+            this.btnHide.Text = "Hide";
+            this.btnHide.UseVisualStyleBackColor = true;
+            this.btnHide.Click += new System.EventHandler(this.btnClick_MainProcess);
             // 
             // THHSoftMiddle
             // 
@@ -1699,6 +1723,8 @@ namespace THHSoftMiddle
         private System.Windows.Forms.Button btnFindChild;
         private System.Windows.Forms.TextBox txtSplitChar;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button btnWrite2;
+        private System.Windows.Forms.Button btnHide;
     }
 }
 

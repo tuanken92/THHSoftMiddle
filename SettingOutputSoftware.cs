@@ -200,6 +200,7 @@ namespace THHSoftMiddle
             if (dic_barcode.ContainsKey(key))
             {
                 cur_config = dic_barcode[key];
+                Console.WriteLine("key = " + key);
                 cur_config.Print_Infor();
                 //check condition forward
                 if (string.IsNullOrEmpty(cur_config.Key_check_fw))
@@ -229,6 +230,8 @@ namespace THHSoftMiddle
                 Console.WriteLine("-------xxx------");
                 //check condition forward
                 chbxDirect.Checked = true;
+
+                txtCheckDataForward.Text = "***";
 
                 //Comport + baudrate
                 txtComport.Text = "COM1";
@@ -305,6 +308,7 @@ namespace THHSoftMiddle
             int cur_code = (int)nbUpDownBarcode.Value;
             Get_Param();
             dic_barcode[cur_code] = cur_config;
+            Console.WriteLine("cur_code = " + cur_code);
             cur_config.Print_Infor();
         }
 

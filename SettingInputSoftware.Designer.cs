@@ -180,7 +180,6 @@ namespace THHSoftMiddle
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnCancel);
-            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "SettingInputSoftware";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Setting Input";
