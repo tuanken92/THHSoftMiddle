@@ -51,6 +51,7 @@ namespace THHSoftMiddle
             this.offsetY = config_common_param.Offset_x;
             this.offsetY = config_common_param.Offset_y;
             this.time_delay = config_common_param.Time_delay;
+            this.programName = config_common_param.Target_name;
             
             InitializeComponent();
 
@@ -157,31 +158,31 @@ namespace THHSoftMiddle
         void Init_UI(string target_name)
         {
 
-            //combobox
+            /*//combobox
             MyDefine.GetDesktopWindowHandlesAndTitles(out list_program);
-            Console.WriteLine("------------begin---------------");
+            //Console.WriteLine("------------begin---------------");
             bool is_target_name_exist_in_list = false;
             foreach (var x in list_program)
             {
 
-                Console.WriteLine(x.Name + "\t" + x.Hwnd);
+                //Console.WriteLine(x.Name + "\t" + x.Hwnd);
                 if(x.Name == target_name)
                 {
                     is_target_name_exist_in_list = true;
                 }
             }
 
-            Console.WriteLine("------------end---------------");
+            //Console.WriteLine("------------end---------------");
             //cbbListWindow.DataSource = new BindingSource(dic_programssss, null);
             cbbListWindow.DataSource = new BindingSource(list_program, null);
             cbbListWindow.DisplayMember = "Name";
-            cbbListWindow.ValueMember = "Name";
+            cbbListWindow.ValueMember = "Name";*/
 
             /*if(dic_programssss.ContainsKey(target_name))
                 cbbListWindow.Text = target_name;*/
 
-            if (is_target_name_exist_in_list)
-                cbbListWindow.Text = target_name;
+            /*if (is_target_name_exist_in_list)*/
+            cbbListWindow.Text = target_name;
         }
 
         void Init_GUI()

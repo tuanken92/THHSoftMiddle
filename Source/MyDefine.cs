@@ -554,6 +554,17 @@ namespace THHSoftMiddle.Source
         }
     }
 
+    public enum eListBox
+    {
+        LB_BARCODE = 0,
+        LB_HEARTBEAT
+    }
+    public class ColoredItem
+    {
+        public string Text;
+        public Color Color;
+    };
+
     public class SaveLoad_Parameter
     {
         public static void Save_Parameter(object param)
@@ -837,10 +848,10 @@ namespace THHSoftMiddle.Source
         public static readonly string projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
         public static readonly string workspaceDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
 
-        public static readonly string file_config = String.Format($"{workspaceDirectory}\\Data\\configs\\config_param.json");
-        public static readonly string file_config_format_data = String.Format($"{workspaceDirectory}\\Data\\configs\\format_data.json");
-        public static readonly string file_config_common_param = String.Format($"{workspaceDirectory}\\Data\\configs\\common_param.json");
-        public static readonly string file_config_filter_window = String.Format($"{workspaceDirectory}\\Data\\configs\\filter_window.json");
+        public static readonly string file_config = String.Format($"{workingDirectory}\\Data\\configs\\config_param.json");
+        public static readonly string file_config_format_data = String.Format($"{workingDirectory}\\Data\\configs\\format_data.json");
+        public static readonly string file_config_common_param = String.Format($"{workingDirectory}\\Data\\configs\\common_param.json");
+        public static readonly string file_config_filter_window = String.Format($"{workingDirectory}\\Data\\configs\\filter_window.json");
         public static readonly string path_load_img_database = @"C:\Program Files\Cognex\VisionPro\Images";
         public static readonly string path_load_vpp_file = @"C:\Users\Admin\Desktop\Vpp_file";
         public static readonly string path_save_images = String.Format("{0}\\Images", projectDirectory);
@@ -958,11 +969,11 @@ namespace THHSoftMiddle.Source
                 if (!dic_programs.ContainsKey(title))
                 {
                     dic_programs.Add(title, hWnd);
-                    Console.WriteLine($"add {title} - windown {hWnd}");
+                    //Console.WriteLine($"add {title} - windown {hWnd}");
                 }
                 else
                 {
-                    Console.WriteLine($"keep {title} - windown {hWnd}");
+                    //Console.WriteLine($"keep {title} - windown {hWnd}");
                 }
 
                 list_window_active.Add(new Windown_Infor(title, (int)hWnd));

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -92,6 +93,7 @@ namespace THHSoftMiddle
                     break;
                 case "btnHide":
                     this.Hide();
+                    notifyIcon.Visible = true;
                     break;
             }
         }
@@ -101,23 +103,41 @@ namespace THHSoftMiddle
         {
             if(!is_start_program)
             {
-                is_start_program = true;
+
 
                 //handler program 
-                programHandle = (IntPtr)config_common_param.Target_hwnd;
-                var txt = string.Format("program target = #{0:X}", programHandle);
-                Console.WriteLine(txt);
+                Add_Log(eListBox.LB_HEARTBEAT, String.Format("Try to find window {0}", config_common_param.Target_name), Color.Orange);
+                programHandle = MyDefine.FindWindowEx(IntPtr.Zero, IntPtr.Zero, null, config_common_param.Target_name);
+                if(programHandle == IntPtr.Zero)
+                {
+                    Add_Log(eListBox.LB_HEARTBEAT, String.Format("Not found window {0}", config_common_param.Target_name), Color.Red);
+                    Add_Log(eListBox.LB_HEARTBEAT, String.Format("Can not Start, check window {0}", config_common_param.Target_name), Color.DarkRed);
+                    return;
+                }
+                Add_Log(eListBox.LB_HEARTBEAT, String.Format("Found window {0}, set focus", config_common_param.Target_name));
                 MyDefine.SetForegroundWindow(programHandle);
                 //open connect to input
                 if (config_common_param.In_soft == input_soft.method_com)
                 {
                     rs232 = new RS232(config_common_param.In_com.Comport, config_common_param.In_com.Baudrate);
-                    b_rs232 = rs232.Open();                    
+                    b_rs232 = rs232.Open();
+                    Add_Log(eListBox.LB_HEARTBEAT, String.Format("Open Serial port {0} = {1}", config_common_param.In_com.Comport, b_rs232), Color.Orange);
+                    if(!b_rs232)
+                    {
+                        Add_Log(eListBox.LB_HEARTBEAT, String.Format("Can not Start, check Comport {0}", config_common_param.In_com.Comport), Color.DarkRed);
+                        return;
+                    }
                 }
                 else if(config_common_param.In_soft == input_soft.method_tcp)
                 {
                     tcp_client = new TcpIPClient(config_common_param.In_tcp.Ip, config_common_param.In_tcp.Port);
                     b_tcp = tcp_client.Connect();
+                    Add_Log(eListBox.LB_HEARTBEAT, String.Format("Connect {0}:{1} = {2}", config_common_param.In_tcp.Ip, config_common_param.In_tcp.Port, b_tcp), Color.Orange);
+                    if(!b_tcp)
+                    {
+                        Add_Log(eListBox.LB_HEARTBEAT, String.Format("Can not Start, check Server {0}:{1}", config_common_param.In_tcp.Ip, config_common_param.In_tcp.Port), Color.DarkRed);
+                        return;
+                    }
                 }
 
                 Init_Thread();
@@ -131,6 +151,10 @@ namespace THHSoftMiddle
 
                 //run thread read input
                 en_th_read_input = true;
+
+
+                is_start_program = true;
+                Add_Log(eListBox.LB_HEARTBEAT, String.Format("Program started, waiting data ..."));
             }
 
         }
@@ -161,6 +185,7 @@ namespace THHSoftMiddle
                 th_read_input = null;
 
                 is_start_program = false;
+                Add_Log(eListBox.LB_HEARTBEAT, String.Format("Program stoped"), Color.DarkRed);
             }
         }
 
@@ -202,11 +227,11 @@ namespace THHSoftMiddle
                         en_th_read_input = false;
                         break;
                     }
-                    if (!string.IsNullOrEmpty(tcp_client.data_receive.ToString()))
+                    if (!string.IsNullOrEmpty(tcp_client.Data_receive))
                     {
-                        data_barcode_input = tcp_client.data_receive.ToString();
-                        Console.WriteLine("tcp = {0}", tcp_client.data_receive.ToString());
-                        tcp_client.data_receive.Clear();
+                        data_barcode_input = tcp_client.Data_receive;
+                        Console.WriteLine("tcp = {0}", tcp_client.Data_receive);
+                        tcp_client.Data_receive = null;
                     }
                 }
 
@@ -241,6 +266,7 @@ namespace THHSoftMiddle
                     if (!string.IsNullOrEmpty(rs232.Data_receive))
                     {
                         Console.WriteLine("comport: " + rs232.Data_receive);
+                        Add_Log(eListBox.LB_BARCODE, rs232.Data_receive, Color.Blue);
                         Process_Barcode_Data(rs232.Data_receive);
                         rs232.Data_receive = null;
                     }
@@ -252,11 +278,12 @@ namespace THHSoftMiddle
                 {
                     Thread.Sleep(100);
 
-                    if (!string.IsNullOrEmpty(tcp_client.data_receive.ToString()))
+                    if (!string.IsNullOrEmpty(tcp_client.Data_receive))
                     {
-                        Console.WriteLine("tcp: " + tcp_client.data_receive.ToString());
-                        Process_Barcode_Data(tcp_client.data_receive.ToString());
-                        tcp_client.data_receive.Clear();
+                        Console.WriteLine("tcp: " + tcp_client.Data_receive);
+                        Add_Log(eListBox.LB_BARCODE, tcp_client.Data_receive, Color.Blue);
+                        Process_Barcode_Data(tcp_client.Data_receive);
+                        tcp_client.Data_receive = null;
                     }
                 }
             }
@@ -274,6 +301,7 @@ namespace THHSoftMiddle
             {
                 Console.WriteLine(str_barcode);
                 list_barcode_IS.Add(new Data_Barcode(str_barcode));
+                Add_Log(eListBox.LB_BARCODE, str_barcode);
             }
 
             PushData pushData = new PushData();
@@ -291,6 +319,7 @@ namespace THHSoftMiddle
                     {
                         pushData.List_data.Add(list_barcode_IS[j].data);
                         list_barcode_IS[j].found = true;
+                        //Add_Log(eListBox.LB_BARCODE, list_barcode_IS[j].data);
                         break;
                     }
                 }
@@ -299,27 +328,32 @@ namespace THHSoftMiddle
 
             if(pushData.List_data.Count == config_common_param.Dic_barcode.Count)
             {
+                //check window
+                programHandle = MyDefine.FindWindowEx(IntPtr.Zero, IntPtr.Zero, null, config_common_param.Target_name);
+                if (programHandle == IntPtr.Zero)
+                {
+                    Add_Log(eListBox.LB_HEARTBEAT, String.Format("Not found window {0}", config_common_param.Target_name), Color.Red);
+                    Add_Log(eListBox.LB_BARCODE, String.Format("Stopped Program! Please open \"{0}\"", config_common_param.Target_name), Color.Red);
+                    Stop_Program();
+                    return;
+                }
+
                 MyDefine.SetForegroundWindow(programHandle);
                 bool b = pushData.Push();
                 Console.WriteLine("Push data = " + b);
+                Add_Log(eListBox.LB_BARCODE, String.Format("Push to Bartector = {0}",b), b?Color.Green:Color.DarkRed);
             }
             else
             {
                 Console.WriteLine("Error!");
+                Add_Log(eListBox.LB_BARCODE, "Not enough barcode data", Color.DarkRed);
             }
 
             //release
             list_barcode_IS.Clear();
+            Add_Log(eListBox.LB_BARCODE, "----------------------------------");
         }
-        void Read_Data_From_Tcp()
-        {
-            //splip dat by \r\n or somthing else
-        }
-
-        void Read_Data_From_Comport()
-        {
-            //splip dat by \r\n or somthing else
-        }
+       
 
         /// <summary>
         /// input: str_data_input -> output with formated
@@ -449,8 +483,7 @@ namespace THHSoftMiddle
         }
 
 
-        bool com_is_open = false;
-        bool tcp_is_connect = false;
+
 
         /// <summary>
         /// Consider: 1. all thread is run
@@ -467,25 +500,25 @@ namespace THHSoftMiddle
                 if (config_common_param.In_soft == input_soft.method_com)
                 {
                     //check com
-                    com_is_open = rs232.Get_State();
+                    b_rs232 = rs232.Get_State();
                 }
                 else if (config_common_param.In_soft == input_soft.method_tcp)
                 {
                     //check tcp
-                    tcp_is_connect = tcp_client.Get_State();
+                    b_tcp = tcp_client.Get_State();
                 }
 
+
+
+
+
                 
-
-               
-
-                //check thread 1
 
                 //check thread 2
 
-                
 
-                
+
+
 
                 //print infor
                 Print_HeartBeat();
@@ -502,36 +535,40 @@ namespace THHSoftMiddle
             }
             else
             {
-                listBoxHeartBeat.Items.Insert(0,$"-------------");
+                Add_Log(eListBox.LB_HEARTBEAT, "---------------------", Color.DarkOrange);
                 if (config_common_param.In_soft == input_soft.method_com)
                 {
-                    listBoxHeartBeat.Items.Insert(0, $"comport: {com_is_open}");
+                    b_rs232 = rs232.Get_State();
+                    Add_Log(eListBox.LB_HEARTBEAT, $"Serial status: {b_rs232}", Color.DarkOrange);
                 }
-                else if (config_common_param.In_soft == input_soft.method_com)
+                else if (config_common_param.In_soft == input_soft.method_tcp)
                 {
-                    listBoxHeartBeat.Items.Insert(0, $"tcp: {tcp_is_connect}");
-                }
-                listBoxHeartBeat.Items.Insert(0,$"barcode process: {number_barcode_processed}");
-                for (int i = 0; i < config_common_param.Dic_barcode.Count; i++)
-                {
-                    var key = config_common_param.Dic_barcode.ElementAt(i).Key;
-                    listBoxHeartBeat.Items.Insert(0, $"barcode {key}, send status {config_common_param.Dic_barcode[key].Is_send}");
+                    b_tcp = tcp_client.Get_State();
+                    Add_Log(eListBox.LB_HEARTBEAT, $"Socket status: {b_tcp}", Color.DarkOrange);
                 }
 
-                //check number code
-                if (number_barcode_processed == config_common_param.Dic_barcode.Count)
+                Add_Log(eListBox.LB_HEARTBEAT, $"Thread Read_Input status: {th_read_input.IsAlive}", Color.DarkOrange);
+                Add_Log(eListBox.LB_HEARTBEAT, "---------------------", Color.DarkOrange);
+
+                //stop program
+                if (config_common_param.In_soft == input_soft.method_com)
                 {
-                    //send all barcode done!
-                    number_barcode_processed = 0;
-                    for (int i = 0; i < config_common_param.Dic_barcode.Count; i++)
+                    if(!b_rs232)
                     {
-                        config_common_param.Dic_barcode.ElementAt(i).Value.Is_send = false;
+                        Add_Log(eListBox.LB_BARCODE, $"Check Serial Port: {config_common_param.In_com.Comport}, lost connect", Color.DarkRed);
+                        Stop_Program();
                     }
-
-                    listBoxHeartBeat.Items.Insert(0, $"-------Restart Conter------");
+                }
+                else if (config_common_param.In_soft == input_soft.method_tcp)
+                {
+                    if(!b_tcp)
+                    {
+                        Add_Log(eListBox.LB_BARCODE, $"Check Server: {config_common_param.In_tcp.Ip}:{config_common_param.In_tcp.Port}, lost connect", Color.DarkRed);
+                        Stop_Program();
+                    }
+                    
                 }
 
-                listBoxHeartBeat.Items.Insert(0,$"-------------");
             }
 
             
@@ -597,7 +634,54 @@ namespace THHSoftMiddle
             cbxInputSoft.SelectedIndex = (int)config_common_param.In_soft;
             cbxOutputSoft.SelectedIndex = (int)config_common_param.Out_soft;
             txtSplitChar.Text = config_common_param.Char_split;
+
+
+            //list box
+            //listBoxHeartBeat.BackColor = Color.Beige;
+            listBoxHeartBeat.DrawMode = DrawMode.OwnerDrawFixed;
+            listBoxHeartBeat.DrawItem += ListBoxHeartBeat_DrawItem;
+
+            //listBoxBarcodeState.BackColor = Color.Beige;
+            listBoxBarcodeState.DrawMode = DrawMode.OwnerDrawFixed;
+            listBoxBarcodeState.DrawItem += ListBoxHeartBeat_DrawItem;
+
+
+            notifyIcon.ShowBalloonTip(500);
+
         }
+
+        private void ListBoxHeartBeat_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0)
+                return;
+            var item = ((ListBox)sender).Items[e.Index] as ColoredItem;
+
+            if (item != null)
+            {
+                e.Graphics.DrawString(
+                    item.Text,
+                    e.Font,
+                    new SolidBrush(item.Color),
+                    e.Bounds);
+            }
+
+            /*try
+            {
+                e.DrawBackground();
+                Brush myBrush = Brushes.Green;
+
+                
+                e.Graphics.DrawString(((ListBox)sender).Items[e.Index].ToString(),
+                e.Font, myBrush, e.Bounds, StringFormat.GenericDefault);
+
+                e.DrawFocusRectangle();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }*/
+        }
+
         void Initial()
         {
             /*//comport
@@ -647,7 +731,7 @@ namespace THHSoftMiddle
 
         private void timerDateTime_Tick(object sender, EventArgs e)
         {
-            this.lbDateTime.Text = DateTime.Now.ToString("ddd MM/dd/yyyy\nhh:mm::ss tt");
+            this.lbDateTime.Text = DateTime.Now.ToString("ddd MM/dd/yyyy\nhh:mm:ss tt");
         }
 
         void Get_Common_Param()
@@ -663,7 +747,8 @@ namespace THHSoftMiddle
             config_common_param.Out_soft = (output_soft)cbxOutputSoft.SelectedIndex;
             config_common_param.Char_split = txtSplitChar.Text;
 
-            for(int i = 1; i < number_barcode + 1; i++)
+            
+            for (int i = 1; i < number_barcode + 1; i++)
             {
                 Console.WriteLine(i);
                 if(!config_common_param.Dic_barcode.ContainsKey(i))
@@ -671,6 +756,17 @@ namespace THHSoftMiddle
                     config_common_param.Dic_barcode[i] = new Config_Out_Param();
                 }
             }
+
+            for(int i = number_barcode+1; i < config_common_param.Dic_barcode.Count+1; i++)
+            {
+                Console.WriteLine("need clear" + i);
+                if (config_common_param.Dic_barcode.ContainsKey(i))
+                {
+                    config_common_param.Dic_barcode.Remove(i);
+                    Console.WriteLine("Clear " + i);
+                }
+            }
+            
         }
         void Get_Config_Format()
         {
@@ -993,8 +1089,8 @@ namespace THHSoftMiddle
                     if (setting_output_dlg.ShowDialog() == DialogResult.OK)
                     {
                         config_common_param.Dic_barcode = setting_output_dlg.dic_barcode;
-                        config_common_param.Target_name = setting_output_dlg.programName;
-                        config_common_param.Target_hwnd = (int)setting_output_dlg.programHandle;
+                        //config_common_param.Target_name = setting_output_dlg.programName;
+                        //config_common_param.Target_hwnd = (int)setting_output_dlg.programHandle;
                         txtTargetWindow.Text = config_common_param.Target_name;
                         txtTargetHwnd.Text = config_common_param.Target_hwnd.ToString();
                         Console.WriteLine("Update output param");
@@ -1215,6 +1311,66 @@ namespace THHSoftMiddle
                     config_format_string.Pos_end =  (int)nbUpdownEnd.Value;*/
                     break;
             }
+        }
+
+
+        private delegate void SafeCallDelegate3(eListBox lb, String text, Color? color = null);
+        void Add_Log(eListBox lb, String text, Color? color = null)
+        {
+            if (listBoxBarcodeState.InvokeRequired)
+            {
+                var d = new SafeCallDelegate3(Add_Log);
+                listBoxBarcodeState.Invoke(d, new object[] { lb, text, color });
+            }
+            else
+            {
+
+                text = DateTime.Now.ToString("hh:mm:ss") + ": " + text;
+                //text = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + ":\t" + text;
+                ColoredItem coloredItem = new ColoredItem { Color = color ?? Color.Green, Text = text };
+                if (lb == eListBox.LB_BARCODE)
+                    listBoxBarcodeState.Items.Insert(0, coloredItem);
+                else if (lb == eListBox.LB_HEARTBEAT)
+                    listBoxHeartBeat.Items.Insert(0, coloredItem);
+            }
+
+        }
+
+        private void btnClear_log(object sender, EventArgs e)
+        {
+
+        }
+
+        private void THHSoftMiddle_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                Hide();
+                notifyIcon.Visible = true;
+            }
+        }
+
+        private void notifyIcon_Click(object sender, EventArgs e)
+        {
+            Show();
+            this.WindowState = FormWindowState.Normal;
+            notifyIcon.Visible = false;
+        }
+
+        private void btnClearLogBarcode_Click(object sender, EventArgs e)
+        {
+            listBoxBarcodeState.Items.Clear();
+        }
+
+
+        private void btnClearLogHeartBeat_Click(object sender, EventArgs e)
+        {
+            listBoxHeartBeat.Items.Clear();
+        }
+
+        private void pictureBoxLogo_Click(object sender, EventArgs e)
+        {
+            Process.Start(MyDefine.workingDirectory);
         }
     }
 }
