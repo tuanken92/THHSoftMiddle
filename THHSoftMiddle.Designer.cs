@@ -55,6 +55,7 @@ namespace THHSoftMiddle
             this.label3 = new System.Windows.Forms.Label();
             this.btnGoEnd = new System.Windows.Forms.Button();
             this.btnGoHome = new System.Windows.Forms.Button();
+            this.btnWrite2 = new System.Windows.Forms.Button();
             this.btnWrite = new System.Windows.Forms.Button();
             this.btnText = new System.Windows.Forms.Button();
             this.btnCapture = new System.Windows.Forms.Button();
@@ -155,13 +156,12 @@ namespace THHSoftMiddle
             this.tabPageAuto = new System.Windows.Forms.TabPage();
             this.listBoxHeartBeat = new System.Windows.Forms.ListBox();
             this.listBoxBarcodeState = new System.Windows.Forms.ListBox();
+            this.btnHide = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnRun = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
-            this.btnWrite2 = new System.Windows.Forms.Button();
-            this.btnHide = new System.Windows.Forms.Button();
             this.tabPageDev.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -268,7 +268,7 @@ namespace THHSoftMiddle
             this.txtChildWindow.Name = "txtChildWindow";
             this.txtChildWindow.Size = new System.Drawing.Size(100, 20);
             this.txtChildWindow.TabIndex = 3;
-            this.txtChildWindow.Text = "AddReelID";
+            this.txtChildWindow.Text = "BarTector Login";
             // 
             // label15
             // 
@@ -437,6 +437,16 @@ namespace THHSoftMiddle
             this.btnGoHome.Text = "Home";
             this.btnGoHome.UseVisualStyleBackColor = true;
             this.btnGoHome.Click += new System.EventHandler(this.btn_Click_Event);
+            // 
+            // btnWrite2
+            // 
+            this.btnWrite2.Location = new System.Drawing.Point(119, 90);
+            this.btnWrite2.Name = "btnWrite2";
+            this.btnWrite2.Size = new System.Drawing.Size(75, 23);
+            this.btnWrite2.TabIndex = 2;
+            this.btnWrite2.Text = "Write";
+            this.btnWrite2.UseVisualStyleBackColor = true;
+            this.btnWrite2.Click += new System.EventHandler(this.btn_Click_Event);
             // 
             // btnWrite
             // 
@@ -1457,6 +1467,16 @@ namespace THHSoftMiddle
             this.listBoxBarcodeState.Size = new System.Drawing.Size(402, 173);
             this.listBoxBarcodeState.TabIndex = 1;
             // 
+            // btnHide
+            // 
+            this.btnHide.Location = new System.Drawing.Point(413, 373);
+            this.btnHide.Name = "btnHide";
+            this.btnHide.Size = new System.Drawing.Size(75, 23);
+            this.btnHide.TabIndex = 0;
+            this.btnHide.Text = "Hide";
+            this.btnHide.UseVisualStyleBackColor = true;
+            this.btnHide.Click += new System.EventHandler(this.btnClick_MainProcess);
+            // 
             // btnReset
             // 
             this.btnReset.Location = new System.Drawing.Point(414, 65);
@@ -1511,26 +1531,6 @@ namespace THHSoftMiddle
             this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxLogo.TabIndex = 8;
             this.pictureBoxLogo.TabStop = false;
-            // 
-            // btnWrite2
-            // 
-            this.btnWrite2.Location = new System.Drawing.Point(119, 90);
-            this.btnWrite2.Name = "btnWrite2";
-            this.btnWrite2.Size = new System.Drawing.Size(75, 23);
-            this.btnWrite2.TabIndex = 2;
-            this.btnWrite2.Text = "Write";
-            this.btnWrite2.UseVisualStyleBackColor = true;
-            this.btnWrite2.Click += new System.EventHandler(this.btn_Click_Event);
-            // 
-            // btnHide
-            // 
-            this.btnHide.Location = new System.Drawing.Point(413, 373);
-            this.btnHide.Name = "btnHide";
-            this.btnHide.Size = new System.Drawing.Size(75, 23);
-            this.btnHide.TabIndex = 0;
-            this.btnHide.Text = "Hide";
-            this.btnHide.UseVisualStyleBackColor = true;
-            this.btnHide.Click += new System.EventHandler(this.btnClick_MainProcess);
             // 
             // THHSoftMiddle
             // 
